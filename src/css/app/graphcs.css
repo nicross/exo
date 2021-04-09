@@ -1,0 +1,11 @@
+.a-graphics--fields {
+  max-height: calc(4 * 3.25em + 0.5em);
+}
+.a-graphics--onFields {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+.a-graphics--onFields[aria-hidden] {
+  opacity: 0.25;
+  pointer-events: none;
+}

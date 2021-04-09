@@ -1,0 +1,42 @@
+.a-splash {
+  align-items: center;
+  text-align: center;
+}
+  .a-splash--instruction {
+    animation: a-splash--instruction 1s ease-in-out 0s infinite alternate both;
+    flex: 0 0 auto;
+    padding: 0.5em 0.75em;
+    text-transform: uppercase;
+  }
+  .a-splash--logo {
+    align-items: center;
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: center;
+    letter-spacing: 0;
+  }
+  .a-splash--row {
+    display: flex;
+    font-family: FiraMonoRegular, monospace;
+    justify-content: space-between;
+  }
+  .a-splash--title {
+    font-family: Beuve, sans-serif;
+    font-size: 8em;
+    line-height: 0.875;
+  }
+
+@keyframes a-splash--instruction {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 48em) {
+  .a-splash--title {
+    font-size: 12em;
+  }
+}

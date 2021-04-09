@@ -1,0 +1,38 @@
+.c-toggle {}
+  .c-toggle--button {
+    border: 1px solid #000000;
+    color: #FFFFFF;
+    display: flex;
+    font-size: inherit;
+    transition: all 0.5s ease;
+    transition-property: color;
+  }
+  .c-toggle--button:hover,
+  .c-toggle--button:focus {
+    color: #FFFFFF;
+  }
+  .c-toggle--off,
+  .c-toggle--on {
+    font-size: calc(1em - 2px);
+    line-height: 1;
+    opacity: 0;
+    text-align: center;
+    text-transform: uppercase;
+    transition: all 0.5s ease;
+    transition-property: background-color, opacity;
+    width: 3em;
+  }
+  .c-toggle--button[aria-checked="false"] .c-toggle--off,
+  .c-toggle--button[aria-checked="true"] .c-toggle--on {
+    background-color: #000000;
+    color: #FFFFFF;
+    font-family: RobotoBold;
+    font-weight: 700;
+    opacity: 1;
+  }
+  .c-toggle--button[aria-checked="false"]:hover .c-toggle--off,
+  .c-toggle--button[aria-checked="false"]:focus .c-toggle--off,
+  .c-toggle--button[aria-checked="true"]:hover .c-toggle--on,
+  .c-toggle--button[aria-checked="true"]:focus .c-toggle--on {
+    background-color: #FFFFFF;
+  }

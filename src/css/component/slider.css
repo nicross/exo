@@ -1,0 +1,75 @@
+.c-slider {
+  align-items: center;
+  display: flex;
+}
+  .c-slider--input {
+    flex: 1 0 auto;
+  }
+  .c-slider--input input {
+    -webkit-appearance: none;
+    display: block;
+    cursor: pointer;
+    font-size: inherit;
+    height: 1em;
+    width: 100%;
+  }
+
+  .c-slider--input input::-webkit-slider-runnable-track {
+    border: 1px solid #000000;
+    border-radius: 0;
+    height: 1em;
+    transition: border-color 0.5s ease;
+  }
+  .c-slider--input input:hover::-webkit-slider-runnable-track,
+  .c-slider--input input:focus::-webkit-slider-runnable-track {
+    border-color: #000000;
+  }
+  .c-slider--input input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background-color: #000000;
+    border-radius: 0;
+    cursor: ew-resize;
+    height: 1em;
+    margin-top: -1px;
+    transition: background-color 0.5s ease;
+    width: 1em;
+  }
+  .c-slider--input input:hover::-webkit-slider-thumb,
+  .c-slider--input input:focus::-webkit-slider-thumb {
+    background-color: #000000;
+  }
+
+  .c-slider--input input::-moz-range-progress {
+    display: none;
+  }
+  .c-slider--input input::-moz-range-track {
+    border: 1px solid #000000;
+    border-radius: 0;
+    height: 1em;
+    transition: border-color 0.5s ease;
+  }
+  .c-slider--input input:hover::-moz-range-track,
+  .c-slider--input input:focus::-moz-range-track {
+
+  }
+  .c-slider--input input::-moz-range-thumb {
+    background-color: #000000;
+    border: 0;
+    border-radius: 0;
+    cursor: ew-resize;
+    height: 1em;
+    margin-top: -1px;
+    transition: background-color 0.5s ease;
+    width: 1em;
+  }
+  .c-slider--input input:hover::-moz-range-thumb,
+  .c-slider--input input:focus::-moz-range-thumb {
+    background-color: #000000;
+  }
+
+  .c-slider--value {
+    flex: 0 0 3em;
+    line-height: 1;
+    margin-left: 1em;
+    text-align: right;
+  }
