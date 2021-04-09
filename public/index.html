@@ -10,6 +10,318 @@
     <main class="a-app">
       <canvas class="a-app--overlaySupport"></canvas>
 
+      <div class="a-app--screen a-app--audio">
+        <section class="c-screen a-audio" aria-label="Audio">
+          <h1 class="c-screen--title">Audio</h1>
+          <div class="a-audio--fields c-screen--fields c-screen--scrollable">
+            <div class="c-screen--field">
+              <label class="c-screen--label" for="a-audio--mainVolumeInput">Main Volume</label>
+              <div class="c-slider a-audio--mainVolume">
+                <div class="c-slider--input">
+                  <input id="a-audio--mainVolumeInput" max="10" min="0" step="1" type="range" />
+                </div>
+                <div class="c-slider--value"></div>
+              </div>
+            </div>
+            <div class="c-screen--field">
+              <div class="c-screen--label" id="a-audio--reverbOnLabel">Enable Reverb</div>
+              <div class="c-toggle a-audio--reverbOn">
+                <button class="c-toggle--button" role="switch" aria-checked="false" aria-labeledby="a-audio--reverbOnLabel">
+                  <span class="c-toggle--off">Off</span>
+                  <span class="c-toggle--on">On</span>
+                </button>
+              </div>
+            </div>
+            <div class="c-screen--field">
+              <label class="c-screen--label" for="a-audio--streamerLimitInput">Object Limit</label>
+              <div class="c-slider a-audio--streamerLimit">
+                <div class="c-slider--input">
+                  <input id="a-audio--streamerLimitInput" max="25" min="5" step="1" type="range" />
+                </div>
+                <div class="c-slider--value"></div>
+              </div>
+            </div>
+            <div class="c-screen--field">
+              <label class="c-screen--label" for="a-audio--streamerRadiusInput">Render Distance</label>
+              <div class="c-slider a-audio--streamerRadius">
+                <div class="c-slider--input">
+                  <input id="a-audio--streamerRadiusInput" max="100" min="10" step="10" type="range" />
+                </div>
+                <div class="c-slider--value"></div>
+              </div>
+            </div>
+          </div>
+          <ul class="c-screen--actions">
+            <li class="c-screen--action">
+              <button class="c-menuButton a-audio--back" type="button">Back</button>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="a-app--screen a-app--controls">
+        <section class="c-screen a-controls" aria-label="Controls">
+          <h1 class="c-screen--title">Controls</h1>
+          <div class="c-screen--fields c-screen--scrollable">
+            <div class="c-screen--field">
+              <label class="c-screen--label" for="a-controls--gamepadDeadzoneInput">Gamepad Deadzone</label>
+              <div class="c-slider a-controls--gamepadDeadzone">
+                <div class="c-slider--input">
+                  <input id="a-controls--gamepadDeadzoneInput" max="30" min="0" step="1" type="range" />
+                </div>
+                <div class="c-slider--value"></div>
+              </div>
+            </div>
+            <div class="c-screen--field">
+              <label class="c-screen--label" for="a-controls--gamepadVibrationInput">Gamepad Vibration</label>
+              <div class="c-slider a-controls--gamepadVibration">
+                <div class="c-slider--input">
+                  <input id="a-controls--gamepadVibrationInput" max="10" min="0" step="1" type="range" />
+                </div>
+                <div class="c-slider--value"></div>
+              </div>
+            </div>
+            <div class="c-screen--field">
+              <label class="c-screen--label" for="a-controls--mouseSensitivityInput">Mouse Sensitivity</label>
+              <div class="c-slider a-controls--mouseSensitivity">
+                <div class="c-slider--input">
+                  <input id="a-controls--mouseSensitivityInput" max="10" min="0" step="1" type="range" />
+                </div>
+                <div class="c-slider--value"></div>
+              </div>
+            </div>
+            <div class="c-screen--field">
+              <div class="c-screen--label" id="a-controls--toggleTurboLabel">Push to Toggle Turbo</div>
+              <div class="c-toggle a-controls--toggleTurbo">
+                <button class="c-toggle--button" role="switch" aria-checked="false" aria-labeledby="a-controls--toggleTurboLabel">
+                  <span class="c-toggle--off">Off</span>
+                  <span class="c-toggle--on">On</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <ul class="c-screen--actions">
+            <li class="c-screen--action">
+              <button class="c-menuButton a-controls--back" type="button">Back</button>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="a-app--screen a-app--game">
+        <section class="c-screen a-game" tabindex="-1" aria-label="Game">
+          <canvas class="a-game--canvas"></canvas>
+        </section>
+      </div>
+
+      <div class="a-app--screen a-app--gameMenu">
+        <section class="c-screen a-gameMenu" aria-label="Game Paused">
+          <h1 class="c-screen--title">Game Paused</h1>
+          <ul class="c-screen--actions">
+            <li class="c-screen--action">
+              <button class="c-menuButton a-gameMenu--status" type="button">Status</button>
+            </li>
+            <li class="c-screen--action">
+              <button class="c-menuButton a-gameMenu--misc" type="button">Miscellaneous</button>
+            </li>
+            <li class="c-screen--action">
+              <button class="c-menuButton a-gameMenu--resume" type="button">Resume Game</button>
+            </li>
+            <li class="c-screen--action">
+              <button class="c-menuButton a-gameMenu--mainMenu" type="button">Exit to Main Menu</button>
+            </li>
+            <li class="c-screen--action a-gameMenu--action-quit">
+              <button class="c-menuButton a-gameMenu--quit" type="button">Quit to Desktop</button>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="a-app--screen a-app--graphics">
+        <section class="c-screen a-graphics" aria-label="Graphics">
+          <h1 class="c-screen--title">Graphics</h1>
+          <div class="a-graphics--fields c-screen--fields c-screen--scrollable">
+            <div class="c-screen--field a-graphics--onField">
+              <div class="c-screen--label" id="a-graphics--onLabel">Enable Graphics</div>
+              <div class="c-toggle a-graphics--on">
+                <button class="c-toggle--button" role="switch" aria-checked="false" aria-labeledby="a-graphics--onLabel">
+                  <span class="c-toggle--off">Off</span>
+                  <span class="c-toggle--on">On</span>
+                </button>
+              </div>
+            </div>
+            <div class="a-graphics--onFields">
+              <div class="c-screen--field">
+                <label class="c-screen--label" for="a-graphics--drawDistanceInput">Draw Distance</label>
+                <div class="c-slider a-graphics--drawDistance">
+                  <div class="c-slider--input">
+                    <input id="a-graphics--drawDistanceInput" max="1000" min="50" step="50" type="range" />
+                  </div>
+                  <div class="c-slider--value"></div>
+                </div>
+              </div>
+              <div class="c-screen--field">
+                <label class="c-screen--label" for="a-graphics--fovInput">Field of View</label>
+                <div class="c-slider a-graphics--fov">
+                  <div class="c-slider--input">
+                    <input id="a-graphics--fovInput" max="120" min="60" step="5" type="range" />
+                  </div>
+                  <div class="c-slider--value"></div>
+                </div>
+              </div>
+              <div class="c-screen--field">
+                <label class="c-screen--label" for="a-graphics--motionBlurInput">Motion Blur</label>
+                <div class="c-slider a-graphics--motionBlur">
+                  <div class="c-slider--input">
+                    <input id="a-graphics--motionBlurInput" max="10" min="0" step="1" type="range" />
+                  </div>
+                  <div class="c-slider--value"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ul class="c-screen--actions">
+            <li class="c-screen--action">
+              <button class="c-menuButton a-graphics--back" type="button">Back</button>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="a-app--screen a-app--mainMenu">
+        <section class="c-screen a-mainMenu" aria-label="Main menu">
+          <h1 class="c-screen--title">Main Menu</h1>
+          <ul class="c-screen--actions">
+            <li class="c-screen--action a-mainMenu--action-continue">
+              <button class="c-menuButton a-mainMenu--continue" type="button">Continue</button>
+            </li>
+            <li class="c-screen--action">
+              <button class="c-menuButton a-mainMenu--newGame" type="button">New Game</button>
+            </li>
+            <li class="c-screen--action">
+              <button class="c-menuButton a-mainMenu--misc" type="button">Miscellaneous</button>
+            </li>
+            <li class="c-screen--action a-mainMenu--action-quit">
+              <button class="c-menuButton a-mainMenu--quit" type="button">Quit to Desktop</button>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="a-app--screen a-app--misc">
+        <section class="c-screen a-misc" aria-label="Miscellaneous">
+          <h1 class="c-screen--title">Miscellaneous</h1>
+          <ul class="c-screen--actions">
+            <li class="c-screen--action">
+              <button class="c-menuButton a-misc--stats" type="button">Statistics</button>
+            </li>
+            <li class="c-screen--action">
+              <button class="c-menuButton a-misc--settings" type="button">Settings</button>
+            </li>
+            <li class="c-screen--action">
+              <button class="c-menuButton a-misc--back" type="button">Back</button>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="a-app--screen a-app--settings">
+        <section class="c-screen a-settings" aria-label="Settings">
+          <h1 class="c-screen--title">Settings</h1>
+          <ul class="c-screen--actions">
+            <li class="c-screen--action">
+              <button class="c-menuButton a-settings--audio" type="button">Audio</button>
+            </li>
+            <li class="c-screen--action">
+              <button class="c-menuButton a-settings--controls" type="button">Controls</button>
+            </li>
+            <li class="c-screen--action">
+              <button class="c-menuButton a-settings--graphics" type="button">Graphics</button>
+            </li>
+            <li class="c-screen--action">
+              <button class="c-menuButton a-settings--back" type="button">Back</button>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="a-app--screen a-app--splash">
+        <section class="c-screen a-splash" tabindex="-1">
+          <div class="a-splash--logo">
+            <div class="a-splash--lockup">
+              <div class="a-splash--title">E.X.O.</div>
+              <div class="a-splash--row">
+                <div class="a-splash--version"></div>
+                <div class="a-splash--author">by shiftBacktick</div>
+              </div>
+            </div>
+          </div>
+          <div class="a-splash--instruction">Interact to Begin</div>
+        </section>
+      </div>
+
+      <div class="a-app--screen a-app--stats">
+        <section class="c-screen a-stats" aria-label="Statistics">
+          <h1 class="c-screen--title">Statistics</h1>
+          <div class="a-stats--data c-screen--scrollable">
+            <table class="a-stats--table">
+              <tr tabindex="0">
+                <th>Time Played</th>
+                <td><span class="a-stats--metric-totalTime"></span></td>
+              </tr>
+              <tr tabindex="0">
+                <th>Distance Traveled</th>
+                <td><span class="a-stats--metric-totalDistance">0</span> <abbr aria-label="meters">m</abbr></td>
+              </tr>
+              <tr tabindex="0">
+                <th>Maximum Distance</th>
+                <td><span class="a-stats--metric-maxDistance">0</span> <abbr aria-label="meters">m</abbr></td>
+              </tr>
+              <tr tabindex="0">
+                <th>Maximum Depth</th>
+                <td><span class="a-stats--metric-maxAltitude">0</span> <abbr aria-label="meters">m</abbr></td>
+              </tr>
+            </table>
+          </div>
+          <ul class="c-screen--actions">
+            <li class="c-screen--action">
+              <button class="c-menuButton a-stats--back" type="button">Back</button>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="a-app--screen a-app--status">
+        <section class="c-screen a-status" aria-label="Status">
+          <h1 class="c-screen--title">Status</h1>
+          <div class="a-status--data c-screen--scrollable">
+            <table class="a-status--table">
+              <tr tabindex="0">
+                <th>Coordinates</th>
+                <td><span class="a-status--metric-coordinates"></span></td>
+              </tr>
+              <tr tabindex="0">
+                <th>Heading</th>
+                <td><span class="a-status--metric-heading"></span></td>
+              </tr>
+              <tr tabindex="0">
+                <th>Altitude</th>
+                <td><span class="a-status--metric-altitude">0</span> <abbr aria-label="meters">m</abbr></td>
+              </tr>
+              <tr tabindex="0">
+                <th>Time Elapsed</th>
+                <td><span class="a-status--metric-time"></span></td>
+              </tr>
+            </table>
+          </div>
+          <ul class="c-screen--actions">
+            <li class="c-screen--action">
+              <button class="c-menuButton a-status--back" type="button">Back</button>
+            </li>
+          </ul>
+        </section>
+      </div>
+
       <div class="a-app--access u-screenReader" aria-live="assertive"></div>
     </main>
     <script src="./scripts.min.js"></script>
