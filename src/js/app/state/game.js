@@ -67,14 +67,16 @@ app.state.game.on('before-none-new', () => {
 })
 
 app.state.game.on('enter-paused', () => {
-  engine.audio.ramp.linear(engine.audio.mixer.master.param.gain, engine.const.zeroGain, 0.5)
+  const gain = app.settings.computed.mainVolume * app.settings.computed.pausedVolume
+  engine.audio.ramp.linear(engine.audio.mixer.master.param.gain, gain, 0.5)
 
   app.autosave.disable().trigger()
   engine.loop.pause()
 })
 
 app.state.game.on('enter-running', () => {
-  engine.audio.ramp.linear(engine.audio.mixer.master.param.gain, 1, 0.5)
+  const gain = app.settings.computed.mainVolume
+  engine.audio.ramp.linear(engine.audio.mixer.master.param.gain, gain, 0.5)
 
   app.autosave.enable()
   engine.loop.resume()
