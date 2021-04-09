@@ -3,8 +3,7 @@ app.canvas.surface = (() => {
     context = canvas.getContext('2d'),
     main = app.canvas
 
-  let drawDistance,
-    nodeRadius
+  let nodeRadius
 
   main.on('resize', () => {
     const height = main.height(),
@@ -13,8 +12,7 @@ app.canvas.surface = (() => {
     canvas.height = height
     canvas.width = width
 
-    drawDistance = app.settings.computed.drawDistance ** 0.5
-    nodeRadius = Math.max(1, (width / 1920) * 6)
+    nodeRadius = Math.max(1, (width / 1920) * 8)
 
     clear()
   })
@@ -24,7 +22,8 @@ app.canvas.surface = (() => {
   }
 
   function drawNodes() {
-    const height = main.height(),
+    const drawDistance = app.settings.computed.drawDistance,
+      height = main.height(),
       hfov = main.hfov(),
       position = engine.position.getVector(),
       vfov = main.vfov(),
@@ -71,8 +70,9 @@ app.canvas.surface = (() => {
         })
 
         const distanceRatio = engine.utility.scale(distance, 0, drawDistance, 1, 0)
-        const alpha = distanceRatio ** 0.5,
-          radius = engine.utility.lerpExp(1, nodeRadius, distanceRatio, 12)
+
+        const alpha = distanceRatio,
+          radius = engine.utility.lerpExp(0.5, nodeRadius, distanceRatio, 4)
 
         context.fillStyle = `rgba(0, 0, 0, ${alpha})`
         context.fillRect(screen.x - radius, screen.y - radius, radius * 2, radius * 2)

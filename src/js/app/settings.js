@@ -1,8 +1,8 @@
 app.settings = (() => {
   const settings = {
     drawDistance: {
-      compute: (rawValue) => Math.round(engine.utility.lerp(100, 1000, rawValue)),
-      default: engine.utility.scale(500, 50, 1000, 0, 1),
+      compute: (rawValue) => Math.round(engine.utility.lerp(10, 50, rawValue)),
+      default: engine.utility.scale(25, 10, 50, 0, 1),
     },
     gamepadDeadzone: {
       compute: (rawValue) => engine.utility.lerp(0, 0.3, rawValue),
