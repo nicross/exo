@@ -63,6 +63,9 @@ app.state.screen = engine.utility.machine.create({
       settings: function () {
         this.change('settings')
       },
+      stats: function () {
+        this.change('stats')
+      },
     },
     none: {
       activate: function () {
@@ -129,8 +132,11 @@ app.state.screen.on('exit', (e) => {
 
 app.state.screen.on('enter', (e) => {
   const selectors = {
+    audio: '.a-app--audio',
+    controls: '.a-app--controls',
     game: '.a-app--game',
     gameMenu: '.a-app--gameMenu',
+    graphics: '.a-app--graphics',
     mainMenu: '.a-app--mainMenu',
     misc: '.a-app--misc',
     settings: '.a-app--settings',
