@@ -1,9 +1,10 @@
 const cleancss = require('gulp-clean-css')
 const concat = require('gulp-concat')
 const electron = require('gulp-run-electron')
+const footer = require('gulp-footer')
 const gulp = require('gulp')
-const header = require('gulp-header')
 const gulpif = require('gulp-if')
+const header = require('gulp-header')
 const iife = require('gulp-iife')
 const package = require('./package.json')
 const packager = require('electron-packager')
@@ -32,6 +33,8 @@ gulp.task('build-js', () => {
   ).pipe(
     concat('scripts.min.js')
   ).pipe(
+    footer(`;app.version=()=>'${package.version + (isDebug ? '-debug' : '')}';`)
+  ).pipe(
     gulpif(!isDebug, iife(), header("'use strict';\n\n"))
   ).pipe(
     gulp.dest('public')
@@ -58,6 +61,7 @@ gulp.task('dist-electron', async () => {
       '.gitmodules',
       'assets',
       'dist',
+      'docs',
       'Gulpfile.js',
       'node_modules',
       'package-lock.json',

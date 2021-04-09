@@ -3,6 +3,7 @@ const app = {
     document.querySelector('.a-app').classList.add('a-app-active')
     return this
   },
+  component: {},
   isElectron: () => typeof ElectronApi != 'undefined',
   quit: function () {
     if (this.isElectron()) {
@@ -11,7 +12,8 @@ const app = {
 
     return this
   },
+  screen: {},
+  state: {},
   utility: {},
+  version: () => '0.0.0', // XXX: Replaced via Gulpfile.js
 }
-
-engine.ready(() => app.activate())

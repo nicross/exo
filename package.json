@@ -20,5 +20,8 @@
     "gulp-zip": "^5.1.0",
     "syngen": "^0.1.4",
     "yargs": "^15.4.1"
+  },
+  "dependencies": {
+    "gulp-footer": "^2.0.2"
   }
 }
