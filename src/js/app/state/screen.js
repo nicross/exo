@@ -1,6 +1,16 @@
 app.state.screen = engine.utility.machine.create({
   state: 'none',
   transition: {
+    audio: {
+      back: function () {
+        this.change('settings')
+      },
+    },
+    controls: {
+      back: function () {
+        this.change('settings')
+      },
+    },
     game: {
       pause: function () {
         this.change('gameMenu')
@@ -21,6 +31,11 @@ app.state.screen = engine.utility.machine.create({
       },
       status: function () {
         this.change('status')
+      },
+    },
+    graphics: {
+      back: function () {
+        this.change('settings')
       },
     },
     mainMenu: {
@@ -45,6 +60,9 @@ app.state.screen = engine.utility.machine.create({
           this.change('gameMenu')
         }
       },
+      settings: function () {
+        this.change('settings')
+      },
     },
     none: {
       activate: function () {
@@ -52,8 +70,17 @@ app.state.screen = engine.utility.machine.create({
       },
     },
     settings: {
+      audio: function () {
+        this.change('audio')
+      },
       back: function () {
         this.change('misc')
+      },
+      controls: function () {
+        this.change('controls')
+      },
+      graphics: function () {
+        this.change('graphics')
       },
     },
     stats: {
