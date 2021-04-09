@@ -42,22 +42,6 @@ app.settings = (() => {
       compute: (rawValue) => engine.utility.lerp(10, 100, rawValue),
       default: 0.5,
     },
-    pausedVolume: {
-      compute: (rawValue) => engine.utility.fromDb(engine.utility.lerpLog(engine.const.zeroDb, 0, rawValue, 66666)),
-      default: 0.5,
-      update: () => {
-        if (app.state.screen.is('game')) {
-          return
-        }
-
-        if (app.state.screen.is('splash')) {
-          return
-        }
-
-        const gain = computed.mainVolume * computed.pausedVolume
-        engine.audio.ramp.set(engine.audio.mixer.master.param.gain, gain)
-      },
-    },
     reverbOn: {
       compute: (rawValue) => Boolean(rawValue),
       default: true,

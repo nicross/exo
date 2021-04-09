@@ -67,7 +67,7 @@ app.state.game.on('before-none-new', () => {
 })
 
 app.state.game.on('enter-paused', () => {
-  const gain = app.settings.computed.mainVolume * app.settings.computed.pausedVolume
+  const gain = engine.const.zeroGain
   engine.audio.ramp.linear(engine.audio.mixer.master.param.gain, gain, 0.5)
 
   app.autosave.disable().trigger()
