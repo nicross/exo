@@ -33,7 +33,7 @@ app.canvas.surface = (() => {
     position.x = Math.round(position.x)
     position.y = Math.round(position.y)
 
-    // TODO: Optimize as rectangle ahead
+    // TODO: Optimize as cone ahead
     for (let x = -drawDistance; x < drawDistance; x += 1) {
       for (let y = -drawDistance; y < drawDistance; y += 1) {
         const grid = position.add({x, y}),
@@ -49,8 +49,7 @@ app.canvas.surface = (() => {
           continue
         }
 
-        // TODO: Implement content.system.surface.value(grid.x, grid.y)
-        relative.z = 0 - (position.z + zOffset)
+        relative.z = content.surface.value(grid.x, grid.y) - (position.z + zOffset)
 
         const vangle = Math.atan2(relative.z, relative.x)
 
@@ -81,14 +80,7 @@ app.canvas.surface = (() => {
   }
 
   function shouldDraw() {
-    const {z} = engine.position.getVector()
-
-    const surface = 0 // TODO: implement content.system.surface.current()
-
-    if (z > surface) {
-      return z - surface < drawDistance
-    }
-
+    // TODO: Optimize by returning false when surface isn't visible
     return true
   }
 
