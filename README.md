@@ -53,7 +53,7 @@ gulp dev
 
 ## Credits
 These fonts are free for noncommercial use and not covered by the license of this project:
-- **Beauve** by Axel Lymphos
+- **Beuve** by Axel Lymphos
 - **Fira Mono** by Mozilla
 - **Roboto** by Google
 
