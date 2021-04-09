@@ -2,3 +2,7 @@
   max-width: none;
   padding: 0;
 }
+  .a-game--canvas {
+    height: 100%;
+    width: 100%;
+  }

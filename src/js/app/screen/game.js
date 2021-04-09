@@ -25,7 +25,7 @@ app.screen.game = (() => {
 
     if (access) {
       if (!paused) {
-        content.system.movement.update()
+        //content.system.movement.update()
       }
       return app.access.handle(access)
     }
