@@ -25,18 +25,6 @@ app.settings = (() => {
     mainVolume: {
       compute: (rawValue) => engine.utility.fromDb(engine.utility.lerpLog(engine.const.zeroDb, 0, rawValue, 66666)),
       default: 1,
-      update: () => {
-        if (app.state.screen.is('game')) {
-          return
-        }
-
-        if (app.state.screen.is('splash')) {
-          return
-        }
-
-        const gain = computed.mainVolume * computed.pausedVolume
-        engine.audio.ramp.set(engine.audio.mixer.master.param.gain, gain)
-      },
     },
     mouseSensitivity: {
       compute: (rawValue) => engine.utility.lerp(10, 100, rawValue),
