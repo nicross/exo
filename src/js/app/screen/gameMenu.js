@@ -65,8 +65,6 @@ app.screen.gameMenu = (() => {
   function onEnter() {
     engine.loop.on('frame', onEngineLoopFrame)
     app.utility.focus.setWithin(root)
-
-    root.querySelector('.a-gameMenu--action-fastTravel').hidden = !app.screen.fastTravel.hasOptions()
   }
 
   function onExit() {

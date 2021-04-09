@@ -7,10 +7,6 @@
     transition: all 0.5s ease;
     transition-property: color;
   }
-  .c-toggle--button:hover,
-  .c-toggle--button:focus {
-    color: #FFFFFF;
-  }
   .c-toggle--off,
   .c-toggle--on {
     font-size: calc(1em - 2px);
@@ -29,10 +25,4 @@
     font-family: RobotoBold;
     font-weight: 700;
     opacity: 1;
-  }
-  .c-toggle--button[aria-checked="false"]:hover .c-toggle--off,
-  .c-toggle--button[aria-checked="false"]:focus .c-toggle--off,
-  .c-toggle--button[aria-checked="true"]:hover .c-toggle--on,
-  .c-toggle--button[aria-checked="true"]:focus .c-toggle--on {
-    background-color: #FFFFFF;
   }

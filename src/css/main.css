@@ -14,7 +14,7 @@ html, body {
 }
 
 :focus {
-  outline: 0;
+  outline: 0.125em solid #DD4A9B;
 }
 
 @media (max-width: 20rem) {

@@ -19,11 +19,11 @@
     width: 100%;
   }
   .a-status--table tr {
-    transition: opacity 0.5s ease;
+    transition: opacity 0.25s ease;
   }
   .a-status--table:focus-within tr,
   .a-status--table:hover tr {
-    opacity: 0.5;
+    opacity: 0.333;
   }
   .a-status--table:focus-within tr:focus,
   .a-status--table:hover tr:hover {

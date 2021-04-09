@@ -26,6 +26,15 @@
   }
   .c-screen--field {
     line-height: 1;
+    transition: opacity 0.25s ease;
+  }
+  .c-screen--fields:focus-within .c-screen--field,
+  .c-screen--fields:hover .c-screen--field {
+    opacity: 0.333;
+  }
+  .c-screen--fields:focus-within .c-screen--field:focus-within,
+  .c-screen--fields:hover .c-screen--field:hover {
+    opacity: 1;
   }
   .c-screen--label {
     display: block;
