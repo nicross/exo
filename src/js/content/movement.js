@@ -103,13 +103,10 @@ content.movement = (() => {
     }
 
     if (model.jumpForce && isGrounded) {
-      // TODO: emit jump event
-      return engine.position.setVelocity(
-        engine.position.getVelocity().add({
-          z: model.jumpForce,
-        })
-      )
+      return jump()
     }
+
+    // TODO: Jets
   }
 
   function calculateIntendedModel() {
@@ -178,6 +175,17 @@ content.movement = (() => {
       pitch: Math.acos(backToFront.z / model.depth),
       roll: Math.acos(leftToRight.z / model.width),
     })
+  }
+
+  function jump() {
+    // TODO: jump cooldown
+    // TODO: emit jump event
+
+    engine.position.setVelocity(
+      engine.position.getVelocity().add({
+        z: model.jumpForce,
+      })
+    )
   }
 
   function lerpModel(a, b, value) {
