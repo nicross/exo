@@ -4,6 +4,7 @@ content.movementModel.wheeledFast = {
       angularAcceleration: Math.PI / 2,
       angularDeceleration: Math.PI * 2,
       angularVelocity: Math.PI / 2,
+      jumpForce: 0,
       lateralAcceleration: 10,
       lateralDeceleration: 10,
       lateralVelocity: 20,

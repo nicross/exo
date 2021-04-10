@@ -3,6 +3,7 @@ content.movement = (() => {
     'angularAcceleration',
     'angularDeceleration',
     'angularVelocity',
+    'jumpForce',
     'lateralAcceleration',
     'lateralDeceleration',
     'lateralVelocity',
@@ -11,7 +12,8 @@ content.movement = (() => {
     'yScale',
   ]
 
-  const transitionRate = 1
+  const surfaceGlueThreshold = 1/8,
+    transitionRate = 1
 
   let intendedMode = 0,
     intendedModel = {},
@@ -21,6 +23,11 @@ content.movement = (() => {
     turbo = 0
 
   function applyAngularThrust(rotate) {
+    // TODO: The model might allow some thrusting mid-flight
+    if (!isGrounded()) {
+      return
+    }
+
     // TODO: Should wheeled only rotate when velocity nonzero?
     const {yaw} = engine.position.getAngularVelocityEuler()
 
@@ -44,6 +51,11 @@ content.movement = (() => {
   }
 
   function applyLateralThrust(controls = {}) {
+    // TODO: The model might allow some thrusting mid-flight
+    if (!isGrounded()) {
+      return
+    }
+
     const thrust = engine.utility.vector3d.create({
       x: controls.y * model.xScale,
       y: -controls.x * model.yScale,
@@ -53,13 +65,33 @@ content.movement = (() => {
       ? model.lateralAcceleration
       : model.lateralDeceleration
 
-    engine.position.setVelocity(
-      content.utility.accelerate.vector(
-        engine.position.getVelocity(),
-        thrust,
-        rate
-      )
+    const currentVelocity = engine.position.getVelocity()
+
+    const velocity = content.utility.accelerate.vector(
+      currentVelocity,
+      thrust,
+      rate
     )
+
+    // Preserve z velocity
+    velocity.z = currentVelocity.z
+
+    engine.position.setVelocity(velocity)
+  }
+
+  function applyVerticalThrust(zThrust) {
+    if (!zThrust) {
+      return
+    }
+
+    if (model.jumpForce && isGrounded()) {
+      // TODO: emit jump event
+      return engine.position.setVelocity(
+        engine.position.getVelocity().add({
+          z: model.jumpForce,
+        })
+      )
+    }
   }
 
   function calculateIntendedModel() {
@@ -98,12 +130,20 @@ content.movement = (() => {
     )
   }
 
+  function isGrounded() {
+    const {z} = engine.position.getVector()
+    const surface = content.surface.current()
+    return z - surface <= surfaceGlueThreshold
+  }
+
   function lerpModel(a, b, value) {
     const model = {}
 
     for (const property of modelLerpProperties) {
       model[property] = engine.utility.lerp(a[property], b[property], value)
     }
+
+    // TODO: modelLerpMethods which compose methods and lerp the result
 
     return model
   }
@@ -144,7 +184,7 @@ content.movement = (() => {
     toggleMode: function () {
       intendedMode = intendedMode ? 0 : 1
       intendedModel = calculateIntendedModel()
-      // TODO: emit event
+      // TODO: emit modeSwitch event
       return this
     },
     turbo: () => turbo,
@@ -152,7 +192,7 @@ content.movement = (() => {
       if (Number(controls.turbo) != intendedTurbo) {
         intendedTurbo = Number(controls.turbo)
         intendedModel = calculateIntendedModel()
-        // TODO: emit event
+        // TODO: emit turboSwitch event
       }
 
       if (mode != intendedMode) {
@@ -167,14 +207,13 @@ content.movement = (() => {
         model = calculateModel()
       }
 
-      // TODO: Jumping
-      // TODO: Jump jets
       // TODO: Apply gravity
       // TODO: Collision detection
       // TODO: Glue to surface
 
       applyAngularThrust(controls.rotate)
       applyLateralThrust(controls)
+      applyVerticalThrust(controls.z)
 
       return this
     },
