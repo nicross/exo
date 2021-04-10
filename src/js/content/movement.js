@@ -50,6 +50,19 @@ content.movement = (() => {
     })
   }
 
+  function applyGravity() {
+    if (isGrounded()) {
+      return
+    }
+
+    const delta = engine.loop.delta(),
+      velocity = engine.position.getVelocity()
+
+    velocity.z -= engine.const.gravity * delta
+
+    engine.position.setVelocity(velocity)
+  }
+
   function applyLateralThrust(controls = {}) {
     // TODO: The model might allow some thrusting mid-flight
     if (!isGrounded()) {
@@ -207,13 +220,13 @@ content.movement = (() => {
         model = calculateModel()
       }
 
-      // TODO: Apply gravity
       // TODO: Collision detection
       // TODO: Glue to surface
 
       applyAngularThrust(controls.rotate)
       applyLateralThrust(controls)
       applyVerticalThrust(controls.z)
+      applyGravity()
 
       return this
     },

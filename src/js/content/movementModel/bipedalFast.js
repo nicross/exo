@@ -4,7 +4,7 @@ content.movementModel.bipedalFast = {
       angularAcceleration: Math.PI / 2,
       angularDeceleration: Math.PI * 2,
       angularVelocity: Math.PI / 4,
-      jumpForce: 5,
+      jumpForce: 2,
       lateralAcceleration: 5,
       lateralDeceleration: 10,
       lateralVelocity: 10,
