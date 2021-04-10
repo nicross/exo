@@ -18,13 +18,14 @@ content.movement = (() => {
   let intendedMode = 0,
     intendedModel = {},
     intendedTurbo = 0,
+    isGrounded = false,
     mode = 0,
     model = {},
     turbo = 0
 
   function applyAngularThrust(rotate) {
     // TODO: The model might allow some thrusting mid-flight
-    if (!isGrounded()) {
+    if (!isGrounded) {
       return
     }
 
@@ -51,7 +52,7 @@ content.movement = (() => {
   }
 
   function applyGravity() {
-    if (isGrounded()) {
+    if (isGrounded) {
       return
     }
 
@@ -65,7 +66,7 @@ content.movement = (() => {
 
   function applyLateralThrust(controls = {}) {
     // TODO: The model might allow some thrusting mid-flight
-    if (!isGrounded()) {
+    if (!isGrounded) {
       return
     }
 
@@ -97,7 +98,7 @@ content.movement = (() => {
       return
     }
 
-    if (model.jumpForce && isGrounded()) {
+    if (model.jumpForce && isGrounded) {
       // TODO: emit jump event
       return engine.position.setVelocity(
         engine.position.getVelocity().add({
@@ -127,6 +128,12 @@ content.movement = (() => {
     return {}
   }
 
+  function calculateIsGrounded() {
+    const {z} = engine.position.getVector()
+    const surface = content.surface.current()
+    return z - surface <= surfaceGlueThreshold
+  }
+
   function calculateModel() {
     return lerpModel(
       lerpModel(
@@ -141,12 +148,6 @@ content.movement = (() => {
       ),
       mode
     )
-  }
-
-  function isGrounded() {
-    const {z} = engine.position.getVector()
-    const surface = content.surface.current()
-    return z - surface <= surfaceGlueThreshold
   }
 
   function lerpModel(a, b, value) {
@@ -175,6 +176,8 @@ content.movement = (() => {
       intendedModel = calculateIntendedModel()
       model = {...intendedModel}
 
+      isGrounded = calculateIsGrounded()
+
       return this
     },
     intendedMode: () => intendedMode,
@@ -188,6 +191,7 @@ content.movement = (() => {
       intendedMode = 0
       intendedModel = {}
       intendedTurbo = 0
+      isGrounded = true
       model = {}
       mode = 0
       turbo = 0
@@ -222,6 +226,8 @@ content.movement = (() => {
 
       // TODO: Collision detection
       // TODO: Glue to surface
+
+      isGrounded = calculateIsGrounded()
 
       applyAngularThrust(controls.rotate)
       applyLateralThrust(controls)
