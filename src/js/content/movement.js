@@ -195,10 +195,6 @@ content.movement = (() => {
   }
 
   function detectCollisions() {
-    // TODO: implement
-    // TODO: consider how to handle reflections
-    // TODO: emit collision event
-    return false
     const {z} = engine.position.getVector()
     const surface = content.surface.current()
 
@@ -316,6 +312,7 @@ content.movement = (() => {
 
         if (detectCollisions()) {
           // TODO: Glue to surface on low z velocities
+          // TODO: emit collision event
           glueToSurface()
         } else {
           alignToSlope()
