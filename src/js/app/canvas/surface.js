@@ -28,7 +28,7 @@ app.canvas.surface = (() => {
       position = engine.position.getVector(),
       vfov = main.vfov(),
       width = main.width(),
-      zOffset = 2 // TODO: change player height based on vehicle mode
+      zOffset = engine.utility.lerp(2, 1, content.movement.mode())
 
     position.x = Math.round(position.x)
     position.y = Math.round(position.y)

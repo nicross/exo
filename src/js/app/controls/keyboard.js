@@ -7,6 +7,7 @@ app.controls.keyboard = {
       moveForward = keys.ArrowUp || keys.KeyW || keys.Numpad8,
       strafeLeft = keys.KeyA || keys.Numpad4,
       strafeRight = keys.KeyD || keys.Numpad6,
+      turbo = keys.ShiftLeft || keys.ShiftRight,
       turnLeft = keys.ArrowLeft || keys.KeyQ || keys.Numpad7,
       turnRight = keys.ArrowRight || keys.KeyE || keys.Numpad9
 
@@ -26,6 +27,10 @@ app.controls.keyboard = {
       state.rotate = 1
     } else if (turnRight && !turnLeft) {
       state.rotate = -1
+    }
+
+    if (turbo && !app.settings.computed.toggleTurbo) {
+      state.turbo = true
     }
 
     return state
@@ -64,6 +69,14 @@ app.controls.keyboard = {
 
     if (keys.ArrowUp || keys.KeyW || keys.Numpad8) {
       state.up = true
+    }
+
+    if ((keys.ShiftLeft || keys.ShiftRight) && app.settings.computed.toggleTurbo) {
+      state.turbo = true
+    }
+
+    if (keys.KeyR) {
+      state.mode = true
     }
 
     return state

@@ -1,18 +1,22 @@
 app.controls.gamepad = {
   game: function () {
+    const state = {}
+
     if (engine.input.gamepad.hasAxis(2)) {
-      return {
-        rotate: engine.input.gamepad.getAxis(2, true),
-        x: engine.input.gamepad.getAxis(0),
-        y: engine.input.gamepad.getAxis(1, true),
-      }
+      state.rotate = engine.input.gamepad.getAxis(2, true)
+      state.x = engine.input.gamepad.getAxis(0)
+      state.y = engine.input.gamepad.getAxis(1, true)
+    } else {
+      state.rotate = engine.input.gamepad.getAxis(0, true)
+      state.x = 0
+      state.y = engine.input.gamepad.getAxis(1, true)
     }
 
-    return {
-      rotate: engine.input.gamepad.getAxis(0, true),
-      x: 0,
-      y: engine.input.gamepad.getAxis(1, true),
+    if (engine.input.gamepad.isDigital(10) && !app.settings.computed.toggleTurbo) {
+      state.turbo = true
     }
+
+    return state
   },
   ui: function () {
     const state = {}
@@ -42,6 +46,14 @@ app.controls.gamepad = {
 
     if (engine.input.gamepad.isDigital(15)) {
       x = 1
+    }
+
+    if (engine.input.gamepad.isDigital(10) && app.settings.computed.toggleTurbo) {
+      state.turbo = true
+    }
+
+    if (engine.input.gamepad.isDigital(11)) {
+      state.mode = true
     }
 
     const absX = Math.abs(x),

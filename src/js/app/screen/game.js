@@ -9,8 +9,6 @@ app.screen.game = (() => {
     app.state.screen.on('enter-game', onEnter)
     app.state.screen.on('exit-game', onExit)
 
-    engine.state.on('reset', onEngineStateReset)
-
     return this
   })
 
@@ -25,7 +23,7 @@ app.screen.game = (() => {
 
     if (access) {
       if (!paused) {
-        //content.system.movement.update()
+        content.movement.update()
       }
       return app.access.handle(access)
     }
@@ -39,19 +37,20 @@ app.screen.game = (() => {
     }
 
     const controls = {
-      turbo: app.settings.computed.toggleTurbo ? turboState : game.turbo,
+      turbo: app.settings.computed.toggleTurbo ? turboState : game.turbo || false,
       ...game,
     }
 
-    // TODO: Update movement system with controls
-    //content.system.movement.update(controls)
-  }
+    if (ui.mode) {
+      content.movement.toggleMode()
+    }
 
-  function onEngineStateReset() {
-    turboState = false
+    content.movement.update(controls)
   }
 
   function onEnter() {
+    turboState = Boolean(content.movement.intendedTurbo())
+
     app.utility.focus.set(root)
     engine.loop.on('frame', onFrame)
   }
