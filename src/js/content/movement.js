@@ -17,7 +17,7 @@ content.movement = (() => {
 
   const halfPi = Math.PI / 2,
     glueThreshold = -1/8,
-    groundThreshold = 1/8,
+    groundThreshold = 1/32,
     reflectionRate = 1/2,
     transitionRate = 1
 
@@ -204,15 +204,19 @@ content.movement = (() => {
   }
 
   function glueToSurface() {
+    const velocity = engine.position.getVelocity()
+
     engine.position.setVector({
       ...engine.position.getVector(),
       z: content.surface.current(),
     })
 
-    engine.position.setVelocity({
-      ...engine.position.getVelocity(),
-      z: 0,
-    })
+    if (velocity.z < 0) {
+      engine.position.setVelocity({
+        ...velocity,
+        z: 0,
+      })
+    }
   }
 
   function jump() {
