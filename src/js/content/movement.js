@@ -16,7 +16,9 @@ content.movement = (() => {
   ]
 
   const halfPi = Math.PI / 2,
-    surfaceGlueThreshold = 1/8,
+    glueThreshold = -1/8,
+    groundThreshold = 1/8,
+    reflectionRate = 1/2,
     transitionRate = 1
 
   let intendedMode = 0,
@@ -149,7 +151,7 @@ content.movement = (() => {
   function calculateIsGrounded() {
     const {z} = engine.position.getVector()
     const surface = content.surface.current()
-    return z - surface <= surfaceGlueThreshold
+    return z - surface <= groundThreshold
   }
 
   function calculateModel() {
@@ -236,6 +238,18 @@ content.movement = (() => {
     return model
   }
 
+  function reflect() {
+    // TODO: actual reflections via slope
+    const velocity = engine.position.getVelocity()
+
+    glueToSurface()
+
+    engine.position.setVelocity({
+      ...velocity,
+      z: reflectionRate * -velocity.z,
+    })
+  }
+
   return {
     export: () => ({
       mode: intendedMode,
@@ -311,9 +325,12 @@ content.movement = (() => {
         slope = calculateSlope()
 
         if (detectCollisions()) {
-          // TODO: Glue to surface on low z velocities
           // TODO: emit collision event
-          glueToSurface()
+          if (engine.position.getVelocity().z < glueThreshold) {
+            reflect()
+          } else {
+            glueToSurface()
+          }
         } else {
           alignToSlope()
         }
