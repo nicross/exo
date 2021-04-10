@@ -28,6 +28,21 @@ content.movement = (() => {
     turbo = 0,
     slope
 
+  function alignToSlope() {
+    if (!isGrounded) {
+      return
+    }
+
+    // TODO: Optimize with quaternions
+
+    const {yaw} = engine.position.getEuler()
+
+    engine.position.setEuler({
+      ...slope,
+      yaw,
+    })
+  }
+
   function applyAngularThrust(rotate) {
     // TODO: The model might allow some thrusting mid-flight
     if (!isGrounded) {
@@ -57,6 +72,7 @@ content.movement = (() => {
   }
 
   function applyGravity() {
+    // TODO: The model might pull E.X.O. down a slope
     if (isGrounded) {
       return
     }
@@ -178,6 +194,13 @@ content.movement = (() => {
     })
   }
 
+  function detectCollisions() {
+    // TODO: implement
+    // TODO: consider how to handle reflections
+    // TODO: emit collision event
+    return false
+  }
+
   function jump() {
     // TODO: jump cooldown
     // TODO: emit jump event
@@ -265,9 +288,6 @@ content.movement = (() => {
         model = calculateModel()
       }
 
-      // TODO: Collision detection
-      // TODO: Glue to surface / match slope
-
       isGrounded = calculateIsGrounded()
 
       applyAngularThrust(controls.rotate)
@@ -277,6 +297,12 @@ content.movement = (() => {
 
       if (isGrounded) {
         slope = calculateSlope()
+
+        if (!detectCollisions()) {
+          alignToSlope()
+        }
+
+        // TODO: Glue to surface on low z velocities
       }
 
       return this
