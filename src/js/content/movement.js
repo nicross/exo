@@ -187,11 +187,11 @@ content.movement = (() => {
     left.z = content.surface.value(left.x, left.y)
     right.z = content.surface.value(right.x, right.y)
 
-    const frontToBack = back.subtract(front),
+    const backToFront = front.subtract(back),
       leftToRight = right.subtract(left)
 
     return engine.utility.euler.create({
-      pitch: Math.acos(frontToBack.z / model.depth) - halfPi,
+      pitch: Math.acos(backToFront.z / model.depth) - halfPi,
       roll: Math.acos(leftToRight.z / model.width) - halfPi,
     })
   }
@@ -244,6 +244,7 @@ content.movement = (() => {
 
   function reflect() {
     // TODO: actual reflections via slope
+    // TODO: emit reflect event
     const velocity = engine.position.getVelocity()
 
     glueToSurface()
@@ -329,7 +330,6 @@ content.movement = (() => {
         slope = calculateSlope()
 
         if (detectCollisions()) {
-          // TODO: emit collision event
           if (engine.position.getVelocity().z < glueThreshold) {
             reflect()
           } else {
