@@ -23,12 +23,9 @@ app.canvas.surface = (() => {
 
   function drawNodes() {
     const drawDistance = app.settings.computed.drawDistance,
-      height = main.height(),
       hfov = main.hfov(),
       position = engine.position.getVector(),
-      vfov = main.vfov(),
-      width = main.width(),
-      zOffset = content.movement.model().height
+      vfov = main.vfov()
 
     position.x = Math.round(position.x)
     position.y = Math.round(position.y)
@@ -36,8 +33,8 @@ app.canvas.surface = (() => {
     // TODO: Optimize as cone ahead
     for (let x = -drawDistance; x < drawDistance; x += 1) {
       for (let y = -drawDistance; y < drawDistance; y += 1) {
-        const grid = position.add({x, y}),
-          relative = main.toRelative(grid)
+        const grid = position.add({x, y})
+        let relative = main.toRelative(grid)
 
         const hangle = Math.atan2(relative.y, relative.x)
 
@@ -49,7 +46,7 @@ app.canvas.surface = (() => {
           continue
         }
 
-        relative.z = content.surface.value(grid.x, grid.y) - (position.z + zOffset)
+        grid.z = content.surface.value(grid.x, grid.y)
 
         const vangle = Math.atan2(relative.z, relative.x)
 
@@ -63,11 +60,8 @@ app.canvas.surface = (() => {
           continue
         }
 
-        const screen = engine.utility.vector2d.create({
-          x: (width / 2) - (width * hangle / hfov),
-          y: (height / 2) - (height * vangle / vfov),
-        })
-
+        // TODO: Optimize to avoid so many calls to Math.atan2()
+        const screen = main.toScreenFromGlobal(grid)
         const distanceRatio = engine.utility.scale(distance, 0, drawDistance, 1, 0)
 
         const alpha = distanceRatio,

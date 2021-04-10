@@ -2,6 +2,8 @@ app.canvas = (() => {
   const pubsub = engine.utility.pubsub.create()
 
   let aspect,
+    cameraQuaternion,
+    cameraVector,
     context,
     height,
     hfov,
@@ -18,6 +20,14 @@ app.canvas = (() => {
     app.state.screen.on('enter-game', onEnterGame)
     app.state.screen.on('exit-game', onExitGame)
   })
+
+  function cacheValues() {
+    cameraVector = engine.position.getVector().add(
+      engine.position.getQuaternion().up().scale(content.movement.model().height)
+    )
+
+    cameraQuaternion = engine.position.getQuaternion().conjugate()
+  }
 
   function clear() {
     context.clearRect(0, 0, width, height)
@@ -41,6 +51,8 @@ app.canvas = (() => {
       return
     }
 
+    cacheValues()
+
     clear()
     draw()
   }
@@ -60,13 +72,15 @@ app.canvas = (() => {
 
   return engine.utility.pubsub.decorate({
     aspect: () => aspect,
+    cameraQuaternion: () => cameraQuaternion,
+    cameraVector: () => cameraVector,
     context: () => context,
     height: () => height,
     hfov: () => hfov,
     toRelative: (vector) => {
       return vector
-        .subtract(engine.position.getVector())
-        .rotateQuaternion(engine.position.getQuaternion().conjugate())
+        .subtract(cameraVector)
+        .rotateQuaternion(cameraQuaternion)
     },
     toScreenFromGlobal: function (vector) {
       return this.toScreenFromRelative(
