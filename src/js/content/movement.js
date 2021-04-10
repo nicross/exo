@@ -24,7 +24,8 @@ content.movement = (() => {
     isGrounded = false,
     mode = 0,
     model = {},
-    turbo = 0
+    turbo = 0,
+    slope
 
   function applyAngularThrust(rotate) {
     // TODO: The model might allow some thrusting mid-flight
@@ -153,6 +154,32 @@ content.movement = (() => {
     )
   }
 
+  function calculateSlope() {
+    const position = engine.position.getVector(),
+      quaternion = engine.position.getQuaternion()
+
+    const depth = engine.utility.vector3d.create({x: model.depth / 2}).rotateQuaternion(quaternion),
+      width = engine.utility.vector3d.create({y: model.width / 2}).rotateQuaternion(quaternion)
+
+    const back = position.subtract(depth),
+      front = position.add(depth),
+      left = position.subtract(width),
+      right = position.add(width)
+
+    back.z = content.surface.value(back.x, back.y)
+    front.z = content.surface.value(front.x, front.y)
+    left.z = content.surface.value(left.x, left.y)
+    right.z = content.surface.value(right.x, right.y)
+
+    const backToFront = front.subtract(back),
+      leftToRight = right.subtract(left)
+
+    return engine.utility.euler.create({
+      pitch: Math.acos(backToFront.z / model.depth),
+      roll: Math.acos(leftToRight.z / model.width),
+    })
+  }
+
   function lerpModel(a, b, value) {
     const model = {}
 
@@ -180,6 +207,7 @@ content.movement = (() => {
       model = {...intendedModel}
 
       isGrounded = calculateIsGrounded()
+      slope = calculateSlope()
 
       return this
     },
@@ -197,10 +225,11 @@ content.movement = (() => {
       isGrounded = true
       model = {}
       mode = 0
+      slope = undefined
       turbo = 0
       return this
     },
-    thrust: () => thrust,
+    slope: () => slope,
     toggleMode: function () {
       intendedMode = intendedMode ? 0 : 1
       intendedModel = calculateIntendedModel()
@@ -228,7 +257,7 @@ content.movement = (() => {
       }
 
       // TODO: Collision detection
-      // TODO: Glue to surface
+      // TODO: Glue to surface / match slope
 
       isGrounded = calculateIsGrounded()
 
@@ -236,6 +265,10 @@ content.movement = (() => {
       applyLateralThrust(controls)
       applyVerticalThrust(controls.z)
       applyGravity()
+
+      if (isGrounded) {
+        slope = calculateSlope()
+      }
 
       return this
     },
