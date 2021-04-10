@@ -26,7 +26,15 @@ app.canvas = (() => {
       engine.position.getQuaternion().up().scale(content.movement.model().height)
     )
 
-    cameraQuaternion = engine.position.getQuaternion().conjugate()
+    // TODO: optimize with quaternions
+    const euler = engine.position.getEuler()
+
+    // TODO: this is always level with surface, possibly add some head bob
+    cameraQuaternion = engine.utility.quaternion.fromEuler({
+      pitch: 0,
+      roll: 0,
+      yaw: -euler.yaw,
+    })
   }
 
   function clear() {
