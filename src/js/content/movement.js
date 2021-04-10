@@ -199,6 +199,22 @@ content.movement = (() => {
     // TODO: consider how to handle reflections
     // TODO: emit collision event
     return false
+    const {z} = engine.position.getVector()
+    const surface = content.surface.current()
+
+    return z < surface
+  }
+
+  function glueToSurface() {
+    engine.position.setVector({
+      ...engine.position.getVector(),
+      z: content.surface.current(),
+    })
+
+    engine.position.setVelocity({
+      ...engine.position.getVelocity(),
+      z: 0,
+    })
   }
 
   function jump() {
@@ -298,11 +314,12 @@ content.movement = (() => {
       if (isGrounded) {
         slope = calculateSlope()
 
-        if (!detectCollisions()) {
+        if (detectCollisions()) {
+          // TODO: Glue to surface on low z velocities
+          glueToSurface()
+        } else {
           alignToSlope()
         }
-
-        // TODO: Glue to surface on low z velocities
       }
 
       return this
