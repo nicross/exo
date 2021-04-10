@@ -3,7 +3,8 @@ app.controls.keyboard = {
     const keys = engine.input.keyboard.get(),
       state = {}
 
-    const moveBackward = keys.ArrowDown || keys.KeyS || keys.Numpad5,
+    const jump = keys.Numpad0 || keys.Space,
+      moveBackward = keys.ArrowDown || keys.KeyS || keys.Numpad5,
       moveForward = keys.ArrowUp || keys.KeyW || keys.Numpad8,
       strafeLeft = keys.KeyA || keys.Numpad4,
       strafeRight = keys.KeyD || keys.Numpad6,
@@ -27,6 +28,10 @@ app.controls.keyboard = {
       state.rotate = 1
     } else if (turnRight && !turnLeft) {
       state.rotate = -1
+    }
+
+    if (jump) {
+      state.z = 1
     }
 
     if (turbo && !app.settings.computed.toggleTurbo) {

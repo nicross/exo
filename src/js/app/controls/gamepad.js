@@ -12,6 +12,10 @@ app.controls.gamepad = {
       state.y = engine.input.gamepad.getAxis(1, true)
     }
 
+    if (engine.input.gamepad.isDigital(5)) {
+      state.z = 1
+    }
+
     if (engine.input.gamepad.isDigital(10) && !app.settings.computed.toggleTurbo) {
       state.turbo = true
     }
