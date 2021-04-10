@@ -15,7 +15,8 @@ content.movement = (() => {
     'yScale',
   ]
 
-  const surfaceGlueThreshold = 1/8,
+  const halfPi = Math.PI / 2,
+    surfaceGlueThreshold = 1/8,
     transitionRate = 1
 
   let intendedMode = 0,
@@ -168,12 +169,12 @@ content.movement = (() => {
     left.z = content.surface.value(left.x, left.y)
     right.z = content.surface.value(right.x, right.y)
 
-    const backToFront = front.subtract(back),
+    const frontToBack = back.subtract(front),
       leftToRight = right.subtract(left)
 
     return engine.utility.euler.create({
-      pitch: Math.acos(backToFront.z / model.depth),
-      roll: Math.acos(leftToRight.z / model.width),
+      pitch: Math.acos(frontToBack.z / model.depth) - halfPi,
+      roll: Math.acos(leftToRight.z / model.width) - halfPi,
     })
   }
 
