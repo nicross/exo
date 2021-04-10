@@ -34,34 +34,41 @@ app.canvas.surface = (() => {
     for (let x = -drawDistance; x < drawDistance; x += 1) {
       for (let y = -drawDistance; y < drawDistance; y += 1) {
         const grid = position.add({x, y})
-        let relative = main.toRelative(grid)
 
+        // Optimization: only draw within draw distance
+        if (engine.utility.distance(position, grid) > drawDistance) {
+          continue
+        }
+
+        // Optimization: only draw if visible horizontally
+        let relative = main.toRelative(grid)
         const hangle = Math.atan2(relative.y, relative.x)
 
         if (Math.abs(hangle) > hfov / 2) {
           continue
         }
 
-        if (relative.distance() > drawDistance) {
-          continue
-        }
-
+        // Calculate true position
         grid.z = content.surface.value(grid.x, grid.y)
+        relative = main.toRelative(grid)
 
+        // Optimization: only draw if visible vertically
         const vangle = Math.atan2(relative.z, relative.x)
 
         if (Math.abs(vangle) > vfov / 2) {
           continue
         }
 
+        // Calculate true distance
         const distance = relative.distance()
 
+        // Optimization: again, only draw within draw distance
         if (distance > drawDistance) {
           continue
         }
 
-        // TODO: Optimize to avoid so many calls to Math.atan2()
-        const screen = main.toScreenFromGlobal(grid)
+        // Convert to screen space and draw
+        const screen = main.toScreenFromRelative(relative)
         const distanceRatio = engine.utility.scale(distance, 0, drawDistance, 1, 0)
 
         const alpha = distanceRatio,
