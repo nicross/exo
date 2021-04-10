@@ -1,4 +1,16 @@
 content.movement = (() => {
+  const modelLerpProperties = [
+    'angularAcceleration',
+    'angularDeceleration',
+    'angularVelocity',
+    'lateralAcceleration',
+    'lateralDeceleration',
+    'lateralVelocity',
+    'rotateScale',
+    'xScale',
+    'yScale',
+  ]
+
   const transitionRate = 1
 
   let intendedMode = 0,
@@ -87,17 +99,13 @@ content.movement = (() => {
   }
 
   function lerpModel(a, b, value) {
-    return {
-      angularAcceleration: engine.utility.lerp(a.angularAcceleration, b.angularAcceleration, value),
-      angularDeceleration: engine.utility.lerp(a.angularDeceleration, b.angularDeceleration, value),
-      angularVelocity: engine.utility.lerp(a.angularVelocity, b.angularVelocity, value),
-      lateralAcceleration: engine.utility.lerp(a.lateralAcceleration, b.lateralAcceleration, value),
-      lateralDeceleration: engine.utility.lerp(a.lateralDeceleration, b.lateralDeceleration, value),
-      lateralVelocity: engine.utility.lerp(a.lateralVelocity, b.lateralVelocity, value),
-      rotateScale: engine.utility.lerp(a.rotateScale, b.rotateScale, value),
-      xScale: engine.utility.lerp(a.xScale, b.xScale, value),
-      yScale: engine.utility.lerp(a.yScale, b.yScale, value),
+    const model = {}
+
+    for (const property of modelLerpProperties) {
+      model[property] = engine.utility.lerp(a[property], b[property], value)
     }
+
+    return model
   }
 
   return {
