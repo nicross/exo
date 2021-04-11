@@ -80,7 +80,7 @@ app.controls.keyboard = {
       state.turbo = true
     }
 
-    if (keys.KeyR) {
+    if (keys.KeyR || keys.KeyV) {
       state.mode = true
     }
 
