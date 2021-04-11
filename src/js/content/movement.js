@@ -17,7 +17,7 @@ content.movement = (() => {
 
   const halfPi = Math.PI / 2,
     glueThreshold = -1/8,
-    groundThreshold = 1/32,
+    groundThreshold = 1/128,
     reflectionRate = 1/2,
     transitionRate = 1
 
@@ -98,20 +98,17 @@ content.movement = (() => {
       y: -controls.x * model.yScale,
     }).scale(model.lateralVelocity).rotateQuaternion(engine.position.getQuaternion())
 
+    // TODO: rework so rate isn't influenced by gravity
     const rate = thrust.distance() > engine.position.getVelocity().distance()
       ? model.lateralAcceleration
       : model.lateralDeceleration
 
-    const currentVelocity = engine.position.getVelocity()
-
+    // TODO: rework so this preserves gravity on steep slopes
     const velocity = content.utility.accelerate.vector(
-      currentVelocity,
+      engine.position.getVelocity(),
       thrust,
       rate
     )
-
-    // Preserve z velocity
-    velocity.z = currentVelocity.z
 
     engine.position.setVelocity(velocity)
   }
@@ -196,27 +193,18 @@ content.movement = (() => {
     })
   }
 
-  function detectCollisions() {
-    const {z} = engine.position.getVector()
-    const surface = content.surface.current()
-
-    return z < surface
-  }
-
   function glueToSurface() {
-    const velocity = engine.position.getVelocity()
+    const position = engine.position.getVector(),
+      surface = content.surface.current()
+
+    if (position.z > surface) {
+      return
+    }
 
     engine.position.setVector({
-      ...engine.position.getVector(),
-      z: content.surface.current(),
+      ...position,
+      z: surface,
     })
-
-    if (velocity.z < 0) {
-      engine.position.setVelocity({
-        ...velocity,
-        z: 0,
-      })
-    }
   }
 
   function jump() {
@@ -245,14 +233,6 @@ content.movement = (() => {
   function reflect() {
     // TODO: actual reflections via slope
     // TODO: emit reflect event
-    const velocity = engine.position.getVelocity()
-
-    glueToSurface()
-
-    engine.position.setVelocity({
-      ...velocity,
-      z: reflectionRate * -velocity.z,
-    })
   }
 
   return {
@@ -321,24 +301,31 @@ content.movement = (() => {
 
       isGrounded = calculateIsGrounded()
 
+      if (isGrounded) {
+        slope = calculateSlope()
+        alignToSlope()
+      }
+
       applyAngularThrust(controls.rotate)
       applyLateralThrust(controls)
       applyVerticalThrust(controls.z)
       applyGravity()
 
-      if (isGrounded) {
-        slope = calculateSlope()
+      // Disable reflections until they're figured out
+      glueToSurface()
 
-        if (detectCollisions()) {
-          if (engine.position.getVelocity().z < glueThreshold) {
-            reflect()
-          } else {
-            glueToSurface()
-          }
+      /*
+      if (isGrounded) {
+        const zVelocity = engine.position.getVelocity().z
+
+        // TODO: if z velocity is less than glue threshold - thrust due to slope!
+        if (zVelocity < glueThreshold) {
+          reflect()
         } else {
-          alignToSlope()
+          glueToSurface()
         }
       }
+      */
 
       return this
     },
