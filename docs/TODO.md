@@ -1,6 +1,5 @@
 # TODO
 ## v0.3.0
-- Stress system
 - Outline vehicle sounds
 
 ## Planned features
