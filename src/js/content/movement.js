@@ -346,6 +346,8 @@ content.movement = (() => {
         // TODO: emit turboSwitch event
       }
 
+      const shouldRecalculateModel = mode != intendedMode || turbo != intendedTurbo
+
       if (mode != intendedMode) {
         mode = content.utility.accelerate.value(mode, intendedMode, transitionRate)
       }
@@ -354,7 +356,7 @@ content.movement = (() => {
         turbo = content.utility.accelerate.value(turbo, intendedTurbo, transitionRate)
       }
 
-      if (mode != intendedMode || turbo != intendedTurbo) {
+      if (shouldRecalculateModel) {
         model = calculateModel()
       }
 
