@@ -29,7 +29,7 @@ app.canvas = (() => {
     // TODO: optimize with quaternions
     const euler = engine.position.getEuler()
 
-    // TODO: this is always level with surface, possibly add some head bob
+    // TODO: this is always level with horizon, possibly add some head bob
     cameraQuaternion = engine.utility.quaternion.fromEuler({
       pitch: 0,
       roll: 0,
@@ -42,7 +42,7 @@ app.canvas = (() => {
   }
 
   function draw() {
-    app.canvas.surface.draw()
+    app.canvas.terrain.draw()
   }
 
   function onEnterGame() {

@@ -1,4 +1,4 @@
-app.canvas.surface = (() => {
+app.canvas.terrain = (() => {
   const canvas = document.createElement('canvas'),
     context = canvas.getContext('2d'),
     main = app.canvas
@@ -49,7 +49,7 @@ app.canvas.surface = (() => {
         }
 
         // Calculate true position
-        grid.z = content.surface.value(grid.x, grid.y)
+        grid.z = content.terrain.value(grid.x, grid.y)
         relative = main.toRelative(grid)
 
         // Optimization: only draw if visible vertically
@@ -81,7 +81,7 @@ app.canvas.surface = (() => {
   }
 
   function shouldDraw() {
-    // TODO: Optimize by returning false when surface isn't visible
+    // TODO: Optimize by returning false when terrain isn't visible
     return true
   }
 
