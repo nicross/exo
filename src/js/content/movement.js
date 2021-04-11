@@ -26,6 +26,7 @@ content.movement = (() => {
     intendedModel = {},
     intendedTurbo = 0,
     isGrounded = false,
+    jumpCooldown = true,
     mode = 0,
     model = {},
     turbo = 0,
@@ -124,11 +125,17 @@ content.movement = (() => {
 
   function applyVerticalThrust(zThrust) {
     if (!zThrust) {
+      jumpCooldown = false
       return
     }
 
     if (model.jumpForce && isGrounded) {
+      jumpCooldown = true
       return jump()
+    }
+
+    if (jumpCooldown) {
+      return
     }
 
     // TODO: Jets
@@ -217,14 +224,19 @@ content.movement = (() => {
   }
 
   function jump() {
-    // TODO: jump cooldown
     // TODO: emit jump event
+    const velocity = engine.position.getVelocity()
 
-    engine.position.setVelocity(
-      engine.position.getVelocity().add({
-        z: model.jumpForce,
-      })
-    )
+    engine.position.setVelocity({
+      ...velocity,
+      z: model.jumpForce,
+    })
+
+    glueToSurface()
+    isGrounded = false
+    gravity = 0
+
+    console.log('jump')
   }
 
   function lerpModel(a, b, value) {
@@ -290,6 +302,7 @@ content.movement = (() => {
       intendedModel = {}
       intendedTurbo = 0
       isGrounded = true
+      jumpCooldown = false
       model = {}
       mode = 0
       slope = undefined
@@ -334,7 +347,6 @@ content.movement = (() => {
       applyLateralThrust(controls)
       applyVerticalThrust(controls.z)
 
-      // TODO: occasionally this has unexpected results
       if (isGrounded) {
         if (gravity < glueThreshold) {
           reflect()
