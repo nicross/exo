@@ -1,6 +1,6 @@
 content.stress = (() => {
   const acceleration = 1/60,
-    deceleration = 1/360,
+    deceleration = 1/120,
     maxBpm = 180,
     minBpm = 60,
     stableLevel = 0.5
