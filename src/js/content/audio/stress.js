@@ -1,19 +1,21 @@
 content.audio.stress = (() => {
   const bus = content.audio.bus(),
-    context = engine.audio.context()
+    context = engine.audio.context(),
+    pulseF1 = engine.utility.midiToFrequency(22),
+    pulseF2 = engine.utility.midiToFrequency(24)
 
   let breathFormant,
     breathTimer,
     pulseTimer
 
-  bus.gain.value = engine.utility.fromDb(-6)
+  bus.gain.value = engine.utility.fromDb(-3)
 
   function breath() {
     const level = content.stress.level(),
       now = engine.audio.time()
 
-    const duration = engine.utility.lerpRandom([4, 3], [1, 0.5], level ** 2),
-      gain = engine.utility.fromDb(engine.utility.lerpRandom([-7, -6], [-4, -3], level)),
+    const duration = engine.utility.lerpRandom([4, 3], [1, 0.5], level),
+      gain = engine.utility.fromDb(engine.utility.lerpRandom([-6, -5], [-4, -3], level)),
       nextFormant = chooseFormant()
 
     const synth = engine.audio.synth.createBuffer({
@@ -63,8 +65,29 @@ content.audio.stress = (() => {
       level = content.stress.level(),
       now = engine.audio.time()
 
-    // TODO: create synth
-    console.log('pulse')
+    const gain = engine.utility.fromDb(engine.utility.lerpRandom([-6, -5], [-4, -3]), level),
+      rampDuration = 1/32,
+      s1Duration = duration / 3,
+      s1Gain = engine.utility.humanizeDb(gain / 1.5, -12),
+      s2Duration = duration / 2,
+      s2Gain = engine.utility.humanizeDb(gain, -12)
+
+    const endTime = now + s1Duration + s2Duration
+
+    const synth = engine.audio.synth.createSimple().connect(bus)
+
+    synth.param.gain.setValueAtTime(engine.const.zeroGain, now)
+    synth.param.gain.linearRampToValueAtTime(s1Gain, now + rampDuration)
+    synth.param.gain.linearRampToValueAtTime(engine.const.zeroGain, now + s1Duration - rampDuration)
+    synth.param.gain.linearRampToValueAtTime(s2Gain, now + s1Duration)
+    synth.param.gain.linearRampToValueAtTime(engine.const.zeroGain, endTime)
+
+    synth.param.frequency.setValueAtTime(pulseF1, now)
+    synth.param.frequency.setValueAtTime(pulseF1, now + s1Duration - rampDuration)
+    synth.param.frequency.exponentialRampToValueAtTime(pulseF2, now + s1Duration)
+    synth.param.frequency.exponentialRampToValueAtTime(pulseF1, endTime)
+
+    synth.stop(endTime)
 
     // Timer
     const next = now + duration
