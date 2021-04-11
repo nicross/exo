@@ -36,7 +36,8 @@ content.movement = (() => {
     mode = 0,
     model = {},
     turbo = 0,
-    slope
+    slope = engine.utility.euler.create(),
+    thrust = engine.utility.vector3d.create()
 
   function alignToSlope() {
     if (!isGrounded) {
@@ -109,7 +110,7 @@ content.movement = (() => {
       return
     }
 
-    const thrust = engine.utility.vector3d.create({
+    thrust = engine.utility.vector3d.create({
       x: controls.y * model.xScale,
       y: -controls.x * model.yScale,
     }).scale(model.lateralVelocity).rotateQuaternion(engine.position.getQuaternion())
@@ -321,7 +322,7 @@ content.movement = (() => {
     isSlow: () => intendedTurbo == 0,
     isWheeled: () => intendedMode == 1,
     jetDelta: () => jetDelta,
-    jetRatio: () => jetDelta / model.jetCapacity,
+    jetProgress: () => jetDelta / model.jetCapacity,
     jumpCooldown: () => jumpCooldown,
     mode: () => mode,
     model: () => ({...model}),
@@ -335,7 +336,8 @@ content.movement = (() => {
       jumpCooldown = false
       model = {}
       mode = 0
-      slope = undefined
+      slope = engine.utility.euler.create()
+      thrust = engine.utility.vector3d.create()
       turbo = 0
       return this
     },
@@ -348,6 +350,7 @@ content.movement = (() => {
       pubsub.emit('mode-' + intendedModel.id)
       return this
     },
+    thrust: () => thrust,
     turbo: () => turbo,
     update: function (controls = {}) {
       if (Number(controls.turbo) != intendedTurbo) {
