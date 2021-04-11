@@ -18,7 +18,7 @@ content.movement = (() => {
   const halfPi = Math.PI / 2,
     glueThreshold = -1/8,
     groundThreshold = 1/128,
-    reflectionRate = 1/2,
+    reflectionRate = 3/4,
     transitionRate = 1
 
   let gravity = 0,
@@ -240,8 +240,16 @@ content.movement = (() => {
   }
 
   function reflect() {
-    // TODO: actual reflections via slope
     // TODO: emit reflect event
+
+    const perpendicular = slope.up(),
+      velocity = engine.position.getVelocity()
+
+    const reflection = perpendicular.scale(
+      reflectionRate * -2 * velocity.dotProduct(perpendicular)
+    ).add(velocity)
+
+    engine.position.setVelocity(reflection)
   }
 
   return {
@@ -270,6 +278,7 @@ content.movement = (() => {
     intendedModel: () => ({...intendedModel}),
     intendedTurbo: () => intendedTurbo,
     isBipedal: () => intendedMode == 0,
+    isGrounded: () => isGrounded,
     isWheeled: () => intendedMode == 1,
     mode: () => mode,
     model: () => ({...model}),
@@ -322,23 +331,17 @@ content.movement = (() => {
       applyAngularThrust(controls.rotate)
       applyLateralThrust(controls)
       applyVerticalThrust(controls.z)
-      applyGravity()
 
-      // Disable reflections until they're figured out
-      glueToSurface()
-
-      /*
+      // TODO: occasionally this has unexpected results
       if (isGrounded) {
-        const zVelocity = engine.position.getVelocity().z
-
-        // TODO: if z velocity is less than glue threshold - thrust due to slope!
-        if (zVelocity < glueThreshold) {
+        if (gravity < glueThreshold) {
           reflect()
         } else {
           glueToSurface()
         }
       }
-      */
+
+      applyGravity()
 
       return this
     },
