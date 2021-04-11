@@ -41,9 +41,6 @@
   - Motors
   - Terrain
   - Ice creaks
-  - Wind
-  - Heartbeat
-  - Breathing
 - Haptic feedback
   - Collisions
   - Terrain
