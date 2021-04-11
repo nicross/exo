@@ -18,7 +18,7 @@ content.movement = (() => {
   const halfPi = Math.PI / 2,
     glueThreshold = -1/8,
     groundThreshold = 1/128,
-    reflectionRate = 3/4,
+    reflectionRate = 1/2,
     transitionRate = 1
 
   let gravity = 0,
@@ -241,13 +241,15 @@ content.movement = (() => {
 
   function reflect() {
     // TODO: emit reflect event
+    // TODO: use slope.up(), understand why it always bounces to left
 
-    const perpendicular = slope.up(),
+    const perpendicular = engine.utility.vector3d.unitZ(),
       velocity = engine.position.getVelocity()
 
-    const reflection = perpendicular.scale(
-      reflectionRate * -2 * velocity.dotProduct(perpendicular)
-    ).add(velocity)
+    const reflection = perpendicular
+      .scale(-2 * velocity.dotProduct(perpendicular))
+      .add(velocity)
+      .scale(reflectionRate)
 
     engine.position.setVelocity(reflection)
   }
