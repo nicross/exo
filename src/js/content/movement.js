@@ -31,6 +31,7 @@ content.movement = (() => {
     intendedModel = {},
     intendedTurbo = 0,
     isGrounded = false,
+    isJetActive,
     jetDelta = 0,
     jumpCooldown = true,
     mode = 0,
@@ -137,6 +138,7 @@ content.movement = (() => {
     const delta = engine.loop.delta()
 
     if (!zThrust) {
+      isJetActive = false
       jetDelta = Math.max(jetDelta - delta, 0)
       jumpCooldown = false
       return
@@ -148,10 +150,13 @@ content.movement = (() => {
     }
 
     if (jumpCooldown || jetDelta >= model.jetCapacity) {
+      isJetActive = false
       return
     }
 
     jets()
+
+    isJetActive = true
     jetDelta += delta
   }
 
@@ -322,6 +327,7 @@ content.movement = (() => {
     isBipedal: () => intendedMode == 0,
     isFast: () => intendedTurbo == 1,
     isGrounded: () => isGrounded,
+    isJetActive: () => isJetActive,
     isSlow: () => intendedTurbo == 0,
     isWheeled: () => intendedMode == 1,
     jetDelta: () => jetDelta,
