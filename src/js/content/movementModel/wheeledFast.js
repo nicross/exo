@@ -13,11 +13,12 @@ content.movementModel.wheeledFast = {
       lateralAcceleration: 10,
       lateralDeceleration: 10,
       lateralVelocity: 20,
-      reference: this,
       rotateScale: 1,
       width: 2,
       xScale: 1,
       yScale: 0,
     }
   },
+  id: 'wheeledFast',
+  type: 'wheeled',
 }

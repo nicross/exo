@@ -13,11 +13,12 @@ content.movementModel.bipedalFast = {
       lateralAcceleration: 5,
       lateralDeceleration: 10,
       lateralVelocity: 10,
-      reference: this,
       rotateScale: 1,
       width: 1,
       xScale: 1,
       yScale: 0.5,
     }
   },
+  id: 'bipedalFast',
+  type: 'bipedal',
 }

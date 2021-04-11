@@ -13,11 +13,12 @@ content.movementModel.wheeledSlow = {
       lateralAcceleration: 5,
       lateralDeceleration: 10,
       lateralVelocity: 10,
-      reference: this,
       rotateScale: 1,
       width: 2,
       xScale: 1,
       yScale: 0,
     }
   },
+  id: 'wheeledSlow',
+  type: 'wheeled',
 }

@@ -150,23 +150,24 @@ content.movement = (() => {
   }
 
   function calculateIntendedModel() {
+    let nextModel = content.movementModel.null
+
     if (intendedMode == 0 && intendedTurbo == 0) {
-      return content.movementModel.bipedalSlow.calculate()
+      nextModel = content.movementModel.bipedalSlow
+    } else if (intendedMode == 0 && intendedTurbo == 1) {
+      nextModel = content.movementModel.bipedalFast
+    } else if (intendedMode == 1 && intendedTurbo == 0) {
+      nextModel = content.movementModel.wheeledSlow
+    } else if (intendedMode == 1 && intendedTurbo == 1) {
+      nextModel = content.movementModel.wheeledFast
     }
 
-    if (intendedMode == 0 && intendedTurbo == 1) {
-      return content.movementModel.bipedalFast.calculate()
+    return {
+      ...nextModel.calculate(),
+      id: nextModel.id,
+      reference: nextModel,
+      type: nextModel.type,
     }
-
-    if (intendedMode == 1 && intendedTurbo == 0) {
-      return content.movementModel.wheeledSlow.calculate()
-    }
-
-    if (intendedMode == 1 && intendedTurbo == 1) {
-      return content.movementModel.wheeledFast.calculate()
-    }
-
-    return {}
   }
 
   function calculateIsGrounded() {
