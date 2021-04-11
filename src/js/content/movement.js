@@ -1,4 +1,6 @@
 content.movement = (() => {
+  const pubsub = engine.utility.pubsub.create()
+
   const modelLerpProperties = [
     'angularAcceleration',
     'angularDeceleration',
@@ -242,7 +244,6 @@ content.movement = (() => {
   }
 
   function jump() {
-    // TODO: emit jump event
     const velocity = engine.position.getVelocity()
 
     engine.position.setVelocity({
@@ -253,6 +254,8 @@ content.movement = (() => {
     glueToSurface()
     isGrounded = false
     gravity = 0
+
+    pubsub.emit('jump')
   }
 
   function lerpModel(a, b, value) {
@@ -268,7 +271,6 @@ content.movement = (() => {
   }
 
   function reflect() {
-    // TODO: emit reflect event
     // TODO: use slope.up(), understand why it always bounces to left
 
     const perpendicular = engine.utility.vector3d.unitZ(),
@@ -279,10 +281,13 @@ content.movement = (() => {
       .add(velocity)
       .scale(reflectionRate)
 
+    // Emit collision event before setting velocity so true velocity is accessible
+    emit('collision')
+
     engine.position.setVelocity(reflection)
   }
 
-  return {
+  return engine.utility.pubsub.decorate({
     export: () => ({
       jetDelta,
       mode: intendedMode,
@@ -311,7 +316,9 @@ content.movement = (() => {
     intendedModel: () => ({...intendedModel}),
     intendedTurbo: () => intendedTurbo,
     isBipedal: () => intendedMode == 0,
+    isFast: () => intendedTurbo == 1,
     isGrounded: () => isGrounded,
+    isSlow: () => intendedTurbo == 0,
     isWheeled: () => intendedMode == 1,
     jetDelta: () => jetDelta,
     jetRatio: () => jetDelta / model.jetCapacity,
@@ -336,7 +343,9 @@ content.movement = (() => {
     toggleMode: function () {
       intendedMode = intendedMode ? 0 : 1
       intendedModel = calculateIntendedModel()
-      // TODO: emit modeSwitch event
+      pubsub.emit('mode')
+      pubsub.emit('mode-' + intendedModel.type)
+      pubsub.emit('mode-' + intendedModel.id)
       return this
     },
     turbo: () => turbo,
@@ -344,7 +353,9 @@ content.movement = (() => {
       if (Number(controls.turbo) != intendedTurbo) {
         intendedTurbo = Number(controls.turbo)
         intendedModel = calculateIntendedModel()
-        // TODO: emit turboSwitch event
+        pubsub.emit('turbo')
+        pubsub.emit('turbo-' + intendedModel.type)
+        pubsub.emit('turbo-' + intendedModel.id)
       }
 
       const shouldRecalculateModel = mode != intendedMode || turbo != intendedTurbo
@@ -384,7 +395,7 @@ content.movement = (() => {
 
       return this
     },
-  }
+  }, pubsub)
 })()
 
 engine.state.on('export', (data = {}) => data.movement = content.movement.export())
