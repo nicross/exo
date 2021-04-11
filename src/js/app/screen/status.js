@@ -71,7 +71,7 @@ app.screen.status = (() => {
     const {x, y, z} = engine.position.getVector()
 
     const coordinates = {x, y},
-      time = 0, // TODO: Implement content.system.time.time(),
+      time = content.time.value(),
       yaw = engine.position.getEuler().yaw
 
     root.querySelector('.a-status--metric-altitude').innerHTML = app.utility.format.number(z)
