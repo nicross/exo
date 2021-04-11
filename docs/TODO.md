@@ -3,3 +3,49 @@
 - Movement events
 - Stress system
 - Outline vehicle sounds
+
+## Planned features
+- Terrain generation
+  - Biome generator
+    - Plains
+    - Mountains
+    - Oceans
+  - Crater generation
+- Materials
+  - Define materials
+  - Spawning
+  - Inventory system
+  - Inventory screen
+  - Statistics
+  - Audio cues
+- Crafting
+  - Define technology tree
+  - Crafting screen
+  - Applying upgrades to movement models
+- Notification system
+  - ARIA-live region
+  - Simple visual
+  - Event subscribers
+    - Material full
+    - Inventory collected
+    - Upgrades ready to craft
+- Scanning system
+  - Raycasting
+  - Pause time on scan
+  - Audio cues
+- Soundtrack
+  - Ambient synths
+  - Spatial frequency selection
+  - Particles indicating heading and velocity
+- Audio cues
+  - Collisions
+  - Footsteps
+  - Motors
+  - Terrain
+  - Ice creaks
+  - Wind
+  - Heartbeat
+  - Breathing
+- Haptic feedback
+  - Collisions
+  - Terrain
