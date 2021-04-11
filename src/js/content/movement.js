@@ -35,6 +35,7 @@ content.movement = (() => {
     jumpCooldown = true,
     mode = 0,
     model = {},
+    normalThrust = engine.utility.vector3d.create(),
     turbo = 0,
     slope = engine.utility.euler.create(),
     thrust = engine.utility.vector3d.create()
@@ -110,10 +111,12 @@ content.movement = (() => {
       return
     }
 
-    thrust = engine.utility.vector3d.create({
+    normalThrust = engine.utility.vector3d.create({
       x: controls.y * model.xScale,
       y: -controls.x * model.yScale,
-    }).scale(model.lateralVelocity).rotateQuaternion(engine.position.getQuaternion())
+    })
+
+    thrust = normalThrust.scale(model.lateralVelocity).rotateQuaternion(engine.position.getQuaternion())
 
     // TODO: rework so rate isn't influenced by gravity
     const rate = thrust.distance() > engine.position.getVelocity().distance()
@@ -326,6 +329,7 @@ content.movement = (() => {
     jumpCooldown: () => jumpCooldown,
     mode: () => mode,
     model: () => ({...model}),
+    normalThrust: () => normalThrust,
     reset: function () {
       gravity = 0
       intendedMode = 0
@@ -336,6 +340,7 @@ content.movement = (() => {
       jumpCooldown = false
       model = {}
       mode = 0
+      normalThrust = engine.utility.vector3d.create()
       slope = engine.utility.euler.create()
       thrust = engine.utility.vector3d.create()
       turbo = 0
