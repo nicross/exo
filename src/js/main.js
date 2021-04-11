@@ -1,4 +1,4 @@
 engine.ready(() => {
-  engine.loop.start()
+  engine.loop.start().pause()
   app.activate()
 })
