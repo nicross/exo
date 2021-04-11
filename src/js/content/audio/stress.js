@@ -2,29 +2,59 @@ content.audio.stress = (() => {
   const bus = content.audio.bus(),
     context = engine.audio.context()
 
-  let breathExhale = false,
+  let breathFormant,
     breathTimer,
     pulseTimer
+
+  bus.gain.value = engine.utility.fromDb(-6)
 
   function breath() {
     const level = content.stress.level(),
       now = engine.audio.time()
 
-    const duration = engine.utility.lerpRandom([2.5, 1.5], [1, 0.5], level)
+    const duration = engine.utility.lerpRandom([4, 3], [1, 0.5], level ** 2),
+      gain = engine.utility.fromDb(engine.utility.lerpRandom([-7, -6], [-4, -3], level)),
+      nextFormant = chooseFormant()
 
-    // TODO: create synth
-    console.log(breathExhale ? 'exhale' : 'inhale')
+    const synth = engine.audio.synth.createBuffer({
+      buffer: engine.audio.buffer.noise.pink(),
+    }).chainAssign('talkbox', engine.audio.effect.createTalkbox({
+      dry: 0,
+      format0: engine.audio.formant.create(breathFormant),
+      formant1: engine.audio.formant.create(nextFormant),
+      mix: 0,
+      wet: 1,
+    })).connect(bus)
+
+    synth.param.talkbox.mix.setValueAtTime(0, now)
+    synth.param.talkbox.mix.linearRampToValueAtTime(0, now + duration)
+
+    synth.param.gain.setValueAtTime(engine.const.zeroGain, now)
+    synth.param.gain.linearRampToValueAtTime(gain, now + duration/2)
+    synth.param.gain.linearRampToValueAtTime(engine.const.zeroGain, now + duration)
+
+    synth.stop(now + duration)
 
     // Timer
-    const next = now + duration
+    const delay = engine.utility.lerpRandom([1, 0.5], [0.125, 0], level),
+      next = now + duration + delay
 
     breathTimer = context.createConstantSource()
     breathTimer.onended = breath
     breathTimer.start()
     breathTimer.stop(next)
 
-    // Switch next breath type
-    breathExhale = !breathExhale
+    breathFormant = nextFormant
+  }
+
+  function chooseFormant() {
+    return engine.utility.choose([
+      engine.audio.formant.a,
+      engine.audio.formant.e,
+      engine.audio.formant.i,
+      engine.audio.formant.o,
+      engine.audio.formant.u,
+    ], Math.random())()
   }
 
   function pulse() {
@@ -70,7 +100,7 @@ content.audio.stress = (() => {
         pulseTimer = null
       }
 
-      breathExhale = false
+      breathFormant = chooseFormant()
 
       return this
     },
