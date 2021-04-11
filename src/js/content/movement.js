@@ -283,7 +283,7 @@ content.movement = (() => {
       .scale(reflectionRate)
 
     // Emit collision event before setting velocity so true velocity is accessible
-    emit('collision')
+    pubsub.emit('collision')
 
     engine.position.setVelocity(reflection)
   }
