@@ -1,4 +1,4 @@
-content.surface = (() => {
+content.terrain = (() => {
   let current
 
   function cacheCurrent() {
@@ -36,6 +36,6 @@ content.surface = (() => {
   }
 })()
 
-engine.loop.on('frame', () => content.surface.update())
-engine.state.on('import', () => content.surface.import())
-engine.state.on('reset', () => content.surface.reset())
+engine.loop.on('frame', () => content.terrain.update())
+engine.state.on('import', () => content.terrain.import())
+engine.state.on('reset', () => content.terrain.reset())

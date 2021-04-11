@@ -171,8 +171,8 @@ content.movement = (() => {
 
   function calculateIsGrounded() {
     const {z} = engine.position.getVector()
-    const surface = content.surface.current()
-    return z - surface <= groundThreshold
+    const terrain = content.terrain.current()
+    return z - terrain <= groundThreshold
   }
 
   function calculateModel() {
@@ -203,10 +203,10 @@ content.movement = (() => {
       left = position.subtract(width),
       right = position.add(width)
 
-    back.z = content.surface.value(back.x, back.y)
-    front.z = content.surface.value(front.x, front.y)
-    left.z = content.surface.value(left.x, left.y)
-    right.z = content.surface.value(right.x, right.y)
+    back.z = content.terrain.value(back.x, back.y)
+    front.z = content.terrain.value(front.x, front.y)
+    left.z = content.terrain.value(left.x, left.y)
+    right.z = content.terrain.value(right.x, right.y)
 
     const backToFront = front.subtract(back),
       leftToRight = right.subtract(left)
@@ -219,15 +219,15 @@ content.movement = (() => {
 
   function glueToSurface() {
     const position = engine.position.getVector(),
-      surface = content.surface.current()
+      terrain = content.terrain.current()
 
-    if (position.z > surface) {
+    if (position.z > terrain) {
       return
     }
 
     engine.position.setVector({
       ...position,
-      z: surface,
+      z: terrain,
     })
   }
 
