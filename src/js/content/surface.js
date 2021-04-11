@@ -7,7 +7,7 @@ content.surface = (() => {
   }
 
   function getValue(x, y) {
-    return 0
+    return Math.cos(y / 10) * 4
   }
 
   return {
