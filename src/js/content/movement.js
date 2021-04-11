@@ -21,7 +21,8 @@ content.movement = (() => {
     reflectionRate = 1/2,
     transitionRate = 1
 
-  let intendedMode = 0,
+  let gravity = 0,
+    intendedMode = 0,
     intendedModel = {},
     intendedTurbo = 0,
     isGrounded = false,
@@ -74,15 +75,23 @@ content.movement = (() => {
   }
 
   function applyGravity() {
-    // TODO: The model might pull E.X.O. down a slope
     if (isGrounded) {
+      // Reset gravity due to z-velocity
+      gravity = 0
       return
     }
 
-    const delta = engine.loop.delta(),
+    const deltaGravity = engine.const.gravity * engine.loop.delta(),
       velocity = engine.position.getVelocity()
 
-    velocity.z -= engine.const.gravity * delta
+    // Only track when gravity results in negative z-velocity
+    if (velocity.z <= 0) {
+      gravity -= deltaGravity
+    } else if (velocity.z < deltaGravity) {
+      gravity -= deltaGravity - velocity.z
+    }
+
+    velocity.z -= deltaGravity
 
     engine.position.setVelocity(velocity)
   }
@@ -239,7 +248,10 @@ content.movement = (() => {
     export: () => ({
       mode: intendedMode,
     }),
+    gravity: () => gravity,
     import: function (data = {}) {
+      gravity = 0
+
       intendedMode = data.mode || 0
       intendedTurbo = 0
 
@@ -262,6 +274,7 @@ content.movement = (() => {
     mode: () => mode,
     model: () => ({...model}),
     reset: function () {
+      gravity = 0
       intendedMode = 0
       intendedModel = {}
       intendedTurbo = 0
