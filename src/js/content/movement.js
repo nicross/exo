@@ -5,6 +5,9 @@ content.movement = (() => {
     'angularVelocity',
     'depth',
     'height',
+    'jetAcceleration',
+    'jetCapacity',
+    'jetVelocity',
     'jumpForce',
     'lateralAcceleration',
     'lateralDeceleration',
@@ -26,6 +29,7 @@ content.movement = (() => {
     intendedModel = {},
     intendedTurbo = 0,
     isGrounded = false,
+    jetDelta = 0,
     jumpCooldown = true,
     mode = 0,
     model = {},
@@ -77,7 +81,7 @@ content.movement = (() => {
 
   function applyGravity() {
     if (isGrounded) {
-      // Reset gravity due to z-velocity
+      // Reset z-velocity due to gravity
       gravity = 0
       return
     }
@@ -124,7 +128,10 @@ content.movement = (() => {
   }
 
   function applyVerticalThrust(zThrust) {
+    const delta = engine.loop.delta()
+
     if (!zThrust) {
+      jetDelta = Math.max(jetDelta - delta, 0)
       jumpCooldown = false
       return
     }
@@ -134,11 +141,12 @@ content.movement = (() => {
       return jump()
     }
 
-    if (jumpCooldown) {
+    if (jumpCooldown || jetDelta >= model.jetCapacity) {
       return
     }
 
-    // TODO: Jets
+    jets()
+    jetDelta += delta
   }
 
   function calculateIntendedModel() {
@@ -223,6 +231,15 @@ content.movement = (() => {
     })
   }
 
+  function jets() {
+    const velocity = engine.position.getVelocity()
+
+    engine.position.setVelocity({
+      ...velocity,
+      z: content.utility.accelerate.value(velocity.z, model.jetVelocity, model.jetAcceleration),
+    })
+  }
+
   function jump() {
     // TODO: emit jump event
     const velocity = engine.position.getVelocity()
@@ -235,8 +252,6 @@ content.movement = (() => {
     glueToSurface()
     isGrounded = false
     gravity = 0
-
-    console.log('jump')
   }
 
   function lerpModel(a, b, value) {
@@ -268,6 +283,7 @@ content.movement = (() => {
 
   return {
     export: () => ({
+      jetDelta,
       mode: intendedMode,
     }),
     gravity: () => gravity,
@@ -276,6 +292,8 @@ content.movement = (() => {
 
       intendedMode = data.mode || 0
       intendedTurbo = 0
+
+      jetDelta = data.jetDelta || 0
 
       mode = intendedMode
       turbo = intendedTurbo
@@ -294,6 +312,9 @@ content.movement = (() => {
     isBipedal: () => intendedMode == 0,
     isGrounded: () => isGrounded,
     isWheeled: () => intendedMode == 1,
+    jetDelta: () => jetDelta,
+    jetRatio: () => jetDelta / model.jetCapacity,
+    jumpCooldown: () => jumpCooldown,
     mode: () => mode,
     model: () => ({...model}),
     reset: function () {
@@ -302,6 +323,7 @@ content.movement = (() => {
       intendedModel = {}
       intendedTurbo = 0
       isGrounded = true
+      jetDelta = 0
       jumpCooldown = false
       model = {}
       mode = 0
