@@ -18,7 +18,7 @@ content.prop.material.base = engine.prop.base.invent({
   collect: function () {
     this.isCollected = true
     engine.audio.ramp.exponential(this.output.gain, engine.const.zeroGain, 1/4)
-    // TODO: Report back to material system
+    content.
     return this
   },
   configureSynth: () => {},
