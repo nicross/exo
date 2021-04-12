@@ -34,7 +34,7 @@ content.audio.wind = (() => {
       .rotateQuaternion(engine.position.getQuaternion().conjugate())
 
     const wind = engine.utility.vector3d.create({x: -1})
-      .scale(content.wind.value() / 16)
+      .scale(content.wind.value() / 8)
       .rotateQuaternion(engine.position.getQuaternion())
 
     return movement.add(wind)
@@ -45,7 +45,7 @@ content.audio.wind = (() => {
     const strength = engine.utility.clamp(vector.distance(), 0, 1)
 
     const frequency = engine.utility.lerpExp(minFrequency, maxFrequency, strength, 2),
-      gain = engine.utility.fromDb(engine.utility.lerp(0, -3, strength))
+      gain = engine.utility.fromDb(engine.utility.lerp(0, -9, strength))
 
     engine.audio.ramp.set(synth.filter.frequency, frequency)
     engine.audio.ramp.set(synth.param.gain, gain)
