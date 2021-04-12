@@ -28,9 +28,10 @@ content.stress = (() => {
     update: function () {
       const isBipedal = content.movement.isBipedal(),
         isFast = content.movement.isFast(),
+        isGrounded = content.movement.isGrounded(),
         thrust = content.movement.normalThrust().distance()
 
-      if (isBipedal && thrust > engine.const.zero) {
+      if (isBipedal && isGrounded && thrust > engine.const.zero) {
         if (isFast) {
           level = content.utility.accelerate.value(level, 1, acceleration * thrust)
         } else if (level > stableLevel) {
