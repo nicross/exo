@@ -1,7 +1,4 @@
 # TODO
-## v0.3.0
-- Outline vehicle sounds
-
 ## Planned features
 - Terrain generation
   - Biome generator
