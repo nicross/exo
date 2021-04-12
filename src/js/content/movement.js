@@ -21,9 +21,8 @@ content.movement = (() => {
   ]
 
   const halfPi = Math.PI / 2,
-    glueThreshold = -1/8,
-    groundThreshold = 1/128,
-    reflectionRate = 1/2,
+    groundThreshold = 1/64,
+    reflectionRate = 3/4,
     transitionRate = 1
 
   let gravity = 0,
@@ -398,7 +397,7 @@ content.movement = (() => {
       applyVerticalThrust(controls.z)
 
       if (isGrounded) {
-        if (gravity < glueThreshold) {
+        if (gravity < -engine.const.gravity) {
           reflect()
         } else {
           glueToSurface()
