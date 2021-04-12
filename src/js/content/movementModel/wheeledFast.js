@@ -11,7 +11,7 @@ content.movementModel.wheeledFast = {
       jetVelocity: 5,
       jumpForce: 0,
       lateralAcceleration: 10,
-      lateralDeceleration: 10,
+      lateralDeceleration: 5,
       lateralVelocity: 20,
       rotateScale: 1,
       width: 2,

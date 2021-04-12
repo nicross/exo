@@ -11,7 +11,7 @@ content.movementModel.wheeledSlow = {
       jetVelocity: 5,
       jumpForce: 0,
       lateralAcceleration: 5,
-      lateralDeceleration: 10,
+      lateralDeceleration: 5,
       lateralVelocity: 10,
       rotateScale: 1,
       width: 2,
