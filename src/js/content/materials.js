@@ -20,5 +20,25 @@ content.materials = (() => {
       // data.collected
       return this
     },
+    reset: function () {
+      // TODO: clear collected, tokens, and chunks
+      return this
+    },
+    update: function () {
+      // TODO: generate new chunks as needed
+      return this
+    },
   }, pubsub)
 })()
+
+engine.loop.on('frame', ({paused}) => {
+  if (paused) {
+    return
+  }
+
+  content.materials.update()
+})
+
+engine.state.on('export', (data = {}) => data.materials = content.materials.export())
+engine.state.on('import', ({materials}) => content.materials.import(materials))
+engine.state.on('reset', () => content.materials.reset())

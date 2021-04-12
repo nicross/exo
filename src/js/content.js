@@ -1,5 +1,7 @@
 const content  = {
   movementModel: {},
-  prop: {},
+  prop: {
+    material: {},
+  },
   utility: {},
 }
