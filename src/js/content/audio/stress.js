@@ -1,5 +1,5 @@
 content.audio.stress = (() => {
-  const bus = content.audio.bus(),
+  const bus = content.audio.createBus(),
     context = engine.audio.context(),
     pulseF1 = engine.utility.midiToFrequency(22),
     pulseF2 = engine.utility.midiToFrequency(24)
