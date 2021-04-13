@@ -118,6 +118,17 @@ content.movement = (() => {
 
     thrust = normalThrust.scale(model.lateralVelocity).rotateQuaternion(engine.position.getQuaternion())
 
+    // TODO: taper velocities at higher slopes
+    //const slopeYaw = engine.utility.normalizeAngle(Math.atan2(-slope.roll, -slope.pitch))
+    //const thrustYaw = engine.utility.normalizeAngle(Math.atan2(normalThrust.y, normalThrust.x))
+    // find difference
+    //engine.utility.radiansToDegrees(Math.abs(engine.utility.normalizeAngleSigned(slopeYaw - thrustYaw)))
+    // map [0, 180] -> [0, 1], multiply thrust by this factor more at steeper heights
+    // 1 - ((1 - amount) * engine.utility.scale(...)) ???
+    // this prevents moving up steep slopes gradually
+    // TODO: similar in gravity module, pull down steep slopes
+    // TODO: if slope is too great, reflect??
+
     const rate = thrust.distance() > (engine.position.getVelocity().distance() - gravity)
       ? model.lateralAcceleration
       : model.lateralDeceleration
@@ -291,8 +302,8 @@ content.movement = (() => {
       .add(velocity)
       .scale(reflectionRate)
 
-    // Emit collision event before setting velocity so true velocity is accessible
-    pubsub.emit('collision')
+    // Emit event before setting velocity so true velocity is accessible
+    pubsub.emit('reflect')
 
     engine.position.setVelocity(reflection)
   }
