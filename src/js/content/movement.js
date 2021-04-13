@@ -118,8 +118,7 @@ content.movement = (() => {
 
     thrust = normalThrust.scale(model.lateralVelocity).rotateQuaternion(engine.position.getQuaternion())
 
-    // TODO: rework so rate isn't influenced by gravity
-    const rate = thrust.distance() > engine.position.getVelocity().distance()
+    const rate = thrust.distance() > (engine.position.getVelocity().distance() - gravity)
       ? model.lateralAcceleration
       : model.lateralDeceleration
 
