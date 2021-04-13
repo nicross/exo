@@ -15,7 +15,6 @@ content.audio.jump = (() => {
 
     const now = engine.audio.time()
 
-    // ramp parameters
     synth.filter.frequency.setValueAtTime(frequency / 2, now + attack)
     synth.filter.frequency.exponentialRampToValueAtTime(frequency, now + duration)
 
