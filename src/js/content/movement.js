@@ -222,6 +222,9 @@ content.movement = (() => {
     const backToFront = front.subtract(back),
       leftToRight = right.subtract(left)
 
+    backToFront.z = engine.utility.clamp(backToFront.z, 0, 1)
+    leftToRight.z = engine.utility.clamp(leftToRight.z, 0, 1)
+
     return engine.utility.euler.create({
       pitch: Math.acos(backToFront.z / model.depth) - halfPi,
       roll: Math.acos(leftToRight.z / model.width) - halfPi,
