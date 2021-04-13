@@ -36,9 +36,10 @@ content.movement = (() => {
     mode = 0,
     model = {},
     normalThrust = engine.utility.vector3d.create(),
-    turbo = 0,
     slope = engine.utility.euler.create(),
-    thrust = engine.utility.vector3d.create()
+    slopeNormal = 0,
+    thrust = engine.utility.vector3d.create(),
+    turbo = 0
 
   function alignToSlope() {
     if (!isGrounded) {
@@ -49,6 +50,7 @@ content.movement = (() => {
 
     const {yaw} = engine.position.getEuler()
 
+    // TODO: look into camera issues caused by this, especially steep slopes
     engine.position.setEuler({
       ...slope,
       yaw,
@@ -118,25 +120,33 @@ content.movement = (() => {
 
     thrust = normalThrust.scale(model.lateralVelocity).rotateQuaternion(engine.position.getQuaternion())
 
-    // TODO: taper velocities at higher slopes
-    //const slopeYaw = engine.utility.normalizeAngle(Math.atan2(-slope.roll, -slope.pitch))
-    //const thrustYaw = engine.utility.normalizeAngle(Math.atan2(normalThrust.y, normalThrust.x))
-    // find difference
-    //engine.utility.radiansToDegrees(Math.abs(engine.utility.normalizeAngleSigned(slopeYaw - thrustYaw)))
-    // map [0, 180] -> [0, 1], multiply thrust by this factor more at steeper heights
-    // 1 - ((1 - amount) * engine.utility.scale(...)) ???
-    // this prevents moving up steep slopes gradually
-    // TODO: similar in gravity module, pull down steep slopes
-    // TODO: if slope is too great, reflect??
+    // Adjust thrust based on slope
+    const slopeAngle = engine.utility.normalizeAngle(Math.atan2(-slope.roll, -slope.pitch)),
+      thrustAngle = engine.utility.normalizeAngle(Math.atan2(normalThrust.y, normalThrust.x))
 
-    const rate = thrust.distance() > (engine.position.getVelocity().distance() - gravity)
+    // TODO: expose for sound design (angle of thrust relative to slope)
+    const deltaAngle = Math.abs(engine.utility.normalizeAngleSigned(slopeAngle - thrustAngle))
+
+    const deltaAngleFactor = deltaAngle > Math.PI/4
+      ? 1
+      : (deltaAngle / (Math.PI/4)) ** 4
+
+    // TODO: slopeFactor inclines a function of model?
+    const slopeFactor = slopeNormal < 0.25
+      ? 1
+      : engine.utility.clamp(engine.utility.scale(slopeNormal, 0.25, 0.5, 1, 0), 0, 1) ** 4
+
+    const scaleFactor = engine.utility.lerp(slopeFactor, 1, deltaAngleFactor)
+    const appliedThrust = thrust.scale(scaleFactor)
+
+    // Accelerate to next velocity
+    const rate = appliedThrust.distance() > (engine.position.getVelocity().distance() - gravity)
       ? model.lateralAcceleration
       : model.lateralDeceleration
 
-    // TODO: rework so this preserves gravity on steep slopes
     const velocity = content.utility.accelerate.vector(
       engine.position.getVelocity(),
-      thrust,
+      appliedThrust,
       rate
     )
 
@@ -167,6 +177,11 @@ content.movement = (() => {
 
     isJetActive = true
     jetDelta += delta
+  }
+
+  function cacheSlope() {
+    slope = calculateSlope()
+    slopeNormal = calculateSlopeNormal()
   }
 
   function calculateIntendedModel() {
@@ -239,6 +254,15 @@ content.movement = (() => {
       pitch: Math.acos(backToFront.z / model.depth) - halfPi,
       roll: Math.acos(leftToRight.z / model.width) - halfPi,
     })
+  }
+
+  function calculateSlopeNormal() {
+    const distance = engine.utility.distance({
+      x: slope.pitch,
+      y: slope.yaw,
+    })
+
+    return engine.utility.clamp(distance / (Math.PI / 2), 0, 1)
   }
 
   function glueToSurface() {
@@ -329,7 +353,10 @@ content.movement = (() => {
       model = {...intendedModel}
 
       isGrounded = calculateIsGrounded()
-      slope = calculateSlope()
+
+      if (isGrounded) {
+        cacheSlope()
+      }
 
       return this
     },
@@ -360,11 +387,13 @@ content.movement = (() => {
       mode = 0
       normalThrust = engine.utility.vector3d.create()
       slope = engine.utility.euler.create()
+      slopeNormal = 0
       thrust = engine.utility.vector3d.create()
       turbo = 0
       return this
     },
     slope: () => slope,
+    slopeNormal: () => slopeNormal,
     toggleMode: function () {
       intendedMode = intendedMode ? 0 : 1
       intendedModel = calculateIntendedModel()
@@ -401,9 +430,11 @@ content.movement = (() => {
       isGrounded = calculateIsGrounded()
 
       if (isGrounded) {
-        slope = calculateSlope()
+        cacheSlope()
         alignToSlope()
       }
+
+      // TODO: collision detection and reflection, e.g. flying headfirst into a mountain
 
       applyAngularThrust(controls.rotate)
       applyLateralThrust(controls)
