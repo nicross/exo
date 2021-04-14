@@ -22,7 +22,7 @@ content.movement = (() => {
 
   const halfPi = Math.PI / 2,
     groundThreshold = 1/64,
-    reflectionRate = 3/4,
+    reflectionRate = 1/2,
     transitionRate = 1
 
   let gravity = 0,
@@ -85,6 +85,8 @@ content.movement = (() => {
   }
 
   function applyGravity() {
+    // TODO: apply slippage on steep slopes when wheeled
+
     if (isGrounded) {
       // Reset z-velocity due to gravity
       gravity = 0
