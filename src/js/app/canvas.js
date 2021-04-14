@@ -22,19 +22,21 @@ app.canvas = (() => {
   })
 
   function cacheValues() {
+    // TODO: allow user to disable head bob entirely (no roll or yaw)
+    // engine.position.getVector().add({z: content.movement.model().height})
+    // and build quaternion from player yaw (see blame for this commit)
+
     cameraVector = engine.position.getVector().add(
       engine.position.getQuaternion().up().scale(content.movement.model().height)
     )
 
-    // TODO: optimize with quaternions
-    const euler = engine.position.getEuler()
+    const bobAcceleration = 1 / (engine.performance.fps() / 8)
 
-    // TODO: this is always level with horizon, possibly add some head bob
-    cameraQuaternion = engine.utility.quaternion.fromEuler({
-      pitch: 0,
-      roll: 0,
-      yaw: -euler.yaw,
-    })
+    cameraQuaternion = cameraQuaternion
+      ? cameraQuaternion.lerpTo(engine.position.getQuaternion().conjugate(), bobAcceleration)
+      : engine.position.getQuaternion().conjugate()
+
+    // TODO: mouse vertical look?
   }
 
   function clear() {

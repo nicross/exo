@@ -46,11 +46,10 @@ content.movement = (() => {
       return
     }
 
-    // TODO: Optimize with quaternions
+    // TODO: fix the random 180s and optimize, with quaternions and/or matrices
+    // the bug typically happens on steep slopes
 
     const {yaw} = engine.position.getEuler()
-
-    // TODO: look into camera issues caused by this, especially steep slopes
     engine.position.setEuler({
       ...slope,
       yaw,
