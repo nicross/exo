@@ -24,6 +24,7 @@ content.terrain = (() => {
     // TODO: use noise fields to resolve the current biome
     // TODO: blend commands based on biome percentages
     // TODO: mix in value from the crater module
+    command = plateau
 
     return command(x, y) + sauce(x, y)
   }
