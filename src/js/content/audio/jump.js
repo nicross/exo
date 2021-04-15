@@ -7,10 +7,10 @@ content.audio.jump = (() => {
     const duration = engine.utility.random.float(1/3, 2/3)
 
     const attack = duration / 4,
-      frequency = engine.utility.random.float(750, 1250)
+      frequency = engine.utility.random.float(1500, 2000)
 
     const synth = engine.audio.synth.createBuffer({
-      buffer: engine.audio.buffer.noise.white(),
+      buffer: engine.audio.buffer.noise.pink(),
     }).filtered().connect(bus)
 
     const now = engine.audio.time()
