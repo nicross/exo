@@ -4,11 +4,13 @@
   - Passing through terrain while jets enabled
   - Many jumps in a row
   - Reflections happen many times per second
-  - Some reflections kill velocity
+- Terrain
+  - Occasional seams between biomes
+  - Polar not implemented
+  - Waves are inconsistent
 
 ## Planned features
 - Terrain generation
-  - Biome mixer
   - Crater generation
 - Materials
   - Define materials
@@ -37,9 +39,6 @@
   - Spatial frequency selection
   - Particles indicating heading and velocity
 - Audio cues
-  - Collisions
-  - Footsteps
-  - Motors
   - Terrain
   - Ice creaks
 - Haptic feedback
