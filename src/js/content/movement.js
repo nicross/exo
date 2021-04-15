@@ -41,21 +41,6 @@ content.movement = (() => {
     thrust = engine.utility.vector3d.create(),
     turbo = 0
 
-  function alignToSlope() {
-    if (!isGrounded) {
-      return
-    }
-
-    // TODO: fix the random 180s and optimize, with quaternions and/or matrices
-    // the bug typically happens on steep slopes
-
-    const {yaw} = engine.position.getEuler()
-    engine.position.setEuler({
-      ...slope,
-      yaw,
-    })
-  }
-
   function applyAngularThrust(rotate) {
     // TODO: The model might allow some thrusting mid-flight
     if (!isGrounded) {
@@ -119,7 +104,13 @@ content.movement = (() => {
       y: -controls.x * model.yScale,
     })
 
-    thrust = normalThrust.scale(model.lateralVelocity).rotateQuaternion(engine.position.getQuaternion())
+    thrust = normalThrust.scale(model.lateralVelocity).rotateQuaternion(
+      engine.utility.quaternion.fromEuler({
+        pitch: slope.pitch,
+        roll: slope.roll,
+        yaw: engine.position.getEuler().yaw,
+      })
+    )
 
     // Adjust thrust based on slope
     const slopeAngle = engine.utility.normalizeAngle(Math.atan2(-slope.roll, -slope.pitch)),
@@ -432,7 +423,6 @@ content.movement = (() => {
 
       if (isGrounded) {
         cacheSlope()
-        alignToSlope()
       }
 
       // TODO: collision detection and reflection, e.g. flying headfirst into a mountain
