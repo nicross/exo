@@ -14,7 +14,7 @@ content.movementModel.bipedalSlow = {
       lateralDeceleration: 10,
       lateralVelocity: 2.5,
       rotateScale: 1,
-      strideLength: 1,
+      strideLength: 2,
       width: 1,
       xScale: 1,
       yScale: 1,
