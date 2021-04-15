@@ -257,18 +257,26 @@ content.movement = (() => {
     return engine.utility.clamp(distance / (Math.PI / 2), 0, 1)
   }
 
-  function glueToSurface() {
+  function glue() {
     const position = engine.position.getVector(),
-      terrain = content.terrain.current()
-
-    if (position.z > terrain) {
-      return
-    }
+      terrain = content.terrain.current(),
+      velocity = engine.position.getVelocity()
 
     engine.position.setVector({
       ...position,
       z: terrain,
     })
+
+    engine.position.setVelocity(
+      slope.forward().normalize().scale(
+        velocity.distance()
+      ).rotateQuaternion(
+        engine.utility.vector3d.create({
+          x: velocity.x,
+          y: velocity.y,
+        }).quaternion()
+      )
+    )
   }
 
   function jets() {
@@ -288,7 +296,6 @@ content.movement = (() => {
       z: model.jumpForce,
     })
 
-    glueToSurface()
     isGrounded = false
     gravity = 0
 
@@ -319,6 +326,12 @@ content.movement = (() => {
     pubsub.emit('reflect')
 
     engine.position.setVelocity(reflection)
+  }
+
+  function shouldGlue() {
+    // TODO: allow reflections off walls, compare surface normal to velocity, glue when nearly perpendicular
+    // TODO: glue on low velocity distance
+    return gravity > -engine.const.gravity
   }
 
   return engine.utility.pubsub.decorate({
@@ -420,22 +433,17 @@ content.movement = (() => {
 
       if (isGrounded) {
         cacheSlope()
-      }
+        applyAngularThrust(controls.rotate)
+        applyLateralThrust(controls)
 
-      // TODO: collision detection and reflection, e.g. flying headfirst into a mountain
-
-      applyAngularThrust(controls.rotate)
-      applyLateralThrust(controls)
-      applyVerticalThrust(controls.z)
-
-      if (isGrounded) {
-        if (gravity < -engine.const.gravity) {
-          reflect()
+        if (shouldGlue()) {
+          glue()
         } else {
-          glueToSurface()
+          reflect()
         }
       }
 
+      applyVerticalThrust(controls.z)
       applyGravity()
 
       return this
