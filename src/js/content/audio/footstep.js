@@ -14,7 +14,7 @@ content.audio.footstep = (() => {
   highpass.frequency.value = 80
   highpass.type = 'highpass'
 
-  bus.gain.value = engine.utility.fromDb(-6)
+  bus.gain.value = engine.utility.fromDb(-3)
   content.utility.ephemeralNoise.manage(textureField)
 
   function getTexture() {
@@ -53,7 +53,8 @@ content.audio.footstep = (() => {
   function trigger() {
     const binaural = engine.audio.binaural.create({
       x: 0.25,
-      y: (isLeft ? 1 : -1) * 0.25,
+      y: (isLeft ? 1 : -1) * 0.5,
+      z: -1,
     }).to(highpass)
 
     triggerPiston(binaural)
