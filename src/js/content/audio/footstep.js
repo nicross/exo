@@ -106,8 +106,8 @@ content.audio.footstep = (() => {
       lastStep = engine.utility.vector3d.create()
       return this
     },
-    update: function () {
-      if (!content.movement.isBipedal() || !content.movement.isGrounded()) {
+    update: function (force = false) {
+      if (!content.movement.isBipedal() || !(force || content.movement.isGrounded())) {
         return this
       }
 
@@ -123,6 +123,10 @@ content.audio.footstep = (() => {
     },
   }
 })()
+
+engine.ready(() => {
+  content.movement.on('jump', () => content.audio.footstep.update(true))
+})
 
 engine.loop.on('frame', ({paused}) => {
   if (paused) {
