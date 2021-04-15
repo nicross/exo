@@ -1,12 +1,28 @@
 content.terrain = (() => {
-  const noiseField = engine.utility.createPerlinWithOctaves(engine.utility.perlin2d, 'terrain', 2),
+  const biomeXField = engine.utility.perlin2d.create('terrain', 'biomeX'),
+    biomeYField = engine.utility.perlin2d.create('terrain', 'biomeY'),
+    biomeScale = 10000,
+    noiseField = engine.utility.createPerlinWithOctaves(engine.utility.perlin2d, 'terrain', 2),
     sauceField = engine.utility.perlin2d.create('terrain', 'sauce')
 
   // TODO: generalized noise fields: exponent and scale
 
+  const biomes = [
+    {x: 1/5, y: 1/3, name: 'flat', command: flat}, {x: 1/5, y: 2/3, name: 'waves', command: waves},
+    {x: 2/5, y: 1/3, name: 'plains', command: plains}, {x: 2/5, y: 2/3, name: 'rolling', command: rolling},
+    {x: 3/5, y: 1/3, name: 'rough', command: rough}, {x: 3/5, y: 2/3, name: 'polar', command: polar},
+    {x: 4/5, y: 1/3, name: 'mountains', command: mountains}, {x: 4/5, y: 2/3, name: 'plateau', command: plateau},
+  ]
+
+  const biomeCache = engine.utility.octree.create()
+
   let current
 
-  content.utility.ephemeralNoise.manage(noiseField).manage(sauceField)
+  content.utility.ephemeralNoise
+    .manage(biomeXField)
+    .manage(biomeYField)
+    .manage(noiseField)
+    .manage(sauceField)
 
   function cacheCurrent() {
     const position = engine.position.getVector()
@@ -17,16 +33,60 @@ content.terrain = (() => {
     return noiseField.value(x / 100, y / 100) * 2
   }
 
+  function generateBiome(x, y) {
+    x = biomeXField.value(x, y)
+    y = biomeYField.value(x, y)
+
+    for (const biome of biomes) {
+      biome.distance = engine.utility.distance2({x, y}, {x: biome.x, y: biome.y})
+    }
+
+    const closest = biomes.sort((a, b) => {
+      return b.distance - a.distance
+    }).slice(6)
+
+    let sum = closest.reduce((sum, biome) => {
+      return sum + biome.distance
+    }, 0)
+
+    for (const biome of closest) {
+      biome.percent = 1 - (biome.distance / sum)
+    }
+
+    return (x, y) => {
+      let value = 0
+
+      for (const biome of closest) {
+        value += biome.percent * biome.command(x, y)
+      }
+
+      return value
+    }
+  }
+
+  function getBiome(x, y) {
+    x = Math.round(x)
+    y = Math.round(y)
+
+    x /= biomeScale
+    y /= biomeScale
+    y += 0.5
+
+    let result = biomeCache.find({x, y}, 1/biomeScale)
+
+    if (result) {
+      return result
+    }
+
+    result = generateBiome(x, y)
+    biomeCache.insert(result)
+
+    return result
+  }
+
   function getValue(x, y) {
-    let command = () => 0
-
-    // TODO: turn each biome into a command - can we just sample the same field?
-    // TODO: use noise fields to resolve the current biome
-    // TODO: blend commands based on biome percentages
-    // TODO: mix in value from the crater module
-    command = plateau
-
-    return command(x, y) + sauce(x, y)
+    const biome = getBiome(x, y)
+    return biome(x, y) + sauce(x, y)
   }
 
   function mountains(x, y) {
@@ -76,12 +136,12 @@ content.terrain = (() => {
   }
 
   function sauce(x, y) {
-    return sauceField.value(x / 5, y / 5) / 4
+    return sauceField.value(x / 4, y / 4) / 8
   }
 
   function smooth(value) {
     // generalized logistic function
-    return 1 / (1 + (Math.E ** (-25 * (value - 0.5))))
+    return 1 / (1 + (Math.E ** (-20 * (value - 0.5))))
   }
 
   function waves(x, y) {
