@@ -24,10 +24,16 @@ content.audio.footstep = (() => {
 
   function shouldStep() {
     // TODO: footstep on complete stop
-    // TODO: prevent footstep on import / glue
 
-    const distance = engine.position.getVector().distance(lastStep),
-      strideLength = content.movement.model().strideLength
+    const distance = engine.utility.distance({
+      ...lastStep,
+      z: 0,
+    }, {
+      ...engine.position.getVector(),
+      z: 0,
+    })
+
+    const strideLength = content.movement.model().strideLength
 
     if (distance >= strideLength) {
       return true
