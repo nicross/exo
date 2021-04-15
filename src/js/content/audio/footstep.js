@@ -1,5 +1,7 @@
 content.audio.footstep = (() => {
   const bus = content.audio.createBus(),
+    context = engine.audio.context(),
+    highpass = context.createBiquadFilter(),
     pistonRoot = engine.utility.midiToFrequency(31),
     textureField = engine.utility.createPerlinWithOctaves(engine.utility.perlin2d, ['footstep', 'texture'], 4),
     textureScale = 100
@@ -8,8 +10,11 @@ content.audio.footstep = (() => {
     lastAngle = 0,
     lastStep = engine.utility.vector3d.create()
 
-  bus.gain.value = engine.utility.fromDb(-6)
+  highpass.connect(bus)
+  highpass.frequency.value = 80
+  highpass.type = 'highpass'
 
+  bus.gain.value = engine.utility.fromDb(-6)
   content.utility.ephemeralNoise.manage(textureField)
 
   function getTexture() {
@@ -49,7 +54,7 @@ content.audio.footstep = (() => {
     const binaural = engine.audio.binaural.create({
       x: 0.25,
       y: (isLeft ? 1 : -1) * 0.25,
-    }).to(bus)
+    }).to(highpass)
 
     triggerPiston(binaural)
       .then(() => triggerCrunch(binaural))
@@ -64,7 +69,34 @@ content.audio.footstep = (() => {
     const strength = engine.utility.clamp(velocity / 10, 0, 1)
 
     // TODO: synth
-    console.log('crunch', strength, texture)
+    const duration = engine.utility.random.float(1/3, 1/2)
+
+    const attack = duration / 4,
+      color = (strength ** 0.5) * texture,
+      depth = engine.utility.lerp(0, 0.5, texture),
+      frequency = engine.utility.lerp(400, 1200, color),
+      gain = engine.utility.lerpExp(1, 0.125, color, 0.5)
+
+    const synth = engine.audio.synth.createAmBuffer({
+      buffer: engine.audio.buffer.noise.white(),
+      carrierGain: 1,
+      modDepth: 0,
+      modFrequency: engine.utility.lerp(4, 20, texture),
+    }).filtered()
+
+    const now = engine.audio.time()
+
+    synth.filter.frequency.setValueAtTime(frequency / 2, now + attack)
+    synth.filter.frequency.exponentialRampToValueAtTime(frequency, now + duration)
+
+    synth.param.gain.exponentialRampToValueAtTime(gain, now + attack)
+    synth.param.gain.linearRampToValueAtTime(engine.const.zeroGain, now + duration)
+
+    synth.param.carrierGain.linearRampToValueAtTime(1 - depth, now + duration)
+    synth.param.mod.depth.linearRampToValueAtTime(depth, now + duration)
+
+    binaural.from(synth)
+    synth.stop(now + duration)
 
     return engine.utility.timing.promise(250)
   }
@@ -86,7 +118,7 @@ content.audio.footstep = (() => {
 
     const detune = engine.utility.lerp(500, 1200, strength),
       duration = engine.utility.lerp(1/2, 1/4, strength),
-      gain = engine.utility.fromDb(engine.utility.lerp(-6, -3, strength)),
+      gain = engine.utility.fromDb(engine.utility.lerp(-3, 0, strength)),
       now = engine.audio.time()
 
     synth.param.detune.linearRampToValueAtTime(detune, now + duration)
