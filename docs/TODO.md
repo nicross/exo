@@ -1,10 +1,7 @@
 # TODO
 ## Planned features
 - Terrain generation
-  - Biome generator
-    - Plains
-    - Mountains
-    - Oceans
+  - Biome mixer
   - Crater generation
 - Materials
   - Define materials
