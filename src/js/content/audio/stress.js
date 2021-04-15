@@ -29,7 +29,7 @@ content.audio.stress = (() => {
     })).connect(bus)
 
     synth.param.talkbox.mix.setValueAtTime(0, now)
-    synth.param.talkbox.mix.linearRampToValueAtTime(0, now + duration)
+    synth.param.talkbox.mix.linearRampToValueAtTime(1, now + duration)
 
     synth.param.gain.setValueAtTime(engine.const.zeroGain, now)
     synth.param.gain.linearRampToValueAtTime(gain, now + duration/2)
