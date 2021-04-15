@@ -105,13 +105,7 @@ content.movement = (() => {
       y: -controls.x * model.yScale,
     })
 
-    thrust = normalThrust.scale(model.lateralVelocity).rotateQuaternion(
-      engine.utility.quaternion.fromEuler({
-        pitch: slope.pitch,
-        roll: slope.roll,
-        yaw: engine.position.getEuler().yaw,
-      })
-    )
+    thrust = normalThrust.scale(model.lateralVelocity)
 
     // Adjust thrust based on slope
     const slopeAngle = engine.utility.normalizeAngle(Math.atan2(-slope.roll, -slope.pitch)),
@@ -130,7 +124,14 @@ content.movement = (() => {
       : engine.utility.clamp(engine.utility.scale(slopeNormal, 0.25, 0.5, 1, 0), 0, 1) ** 4
 
     const scaleFactor = engine.utility.lerp(slopeFactor, 1, deltaAngleFactor)
-    const appliedThrust = thrust.scale(scaleFactor)
+
+    const appliedThrust = thrust.scale(scaleFactor).rotateQuaternion(
+      engine.utility.quaternion.fromEuler({
+        pitch: slope.pitch,
+        roll: slope.roll,
+        yaw: engine.position.getEuler().yaw,
+      })
+    )
 
     // Accelerate to next velocity
     const rate = appliedThrust.distance() > (engine.position.getVelocity().distance() - gravity)
