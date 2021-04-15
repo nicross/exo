@@ -15,7 +15,7 @@ content.audio.stress = (() => {
       now = engine.audio.time()
 
     const duration = engine.utility.lerpRandom([4, 3], [1, 0.5], level),
-      gain = engine.utility.fromDb(engine.utility.lerpRandom([-6, -5], [-4, -3], level)),
+      gain = engine.utility.fromDb(engine.utility.lerpRandom([-9, -8], [-7, -6], level)),
       nextFormant = chooseFormant()
 
     const synth = engine.audio.synth.createBuffer({
