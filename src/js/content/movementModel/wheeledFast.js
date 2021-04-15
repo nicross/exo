@@ -14,6 +14,7 @@ content.movementModel.wheeledFast = {
       lateralDeceleration: 5,
       lateralVelocity: 20,
       rotateScale: 1,
+      strideLength: engine.const.maxSafeFloat,
       width: 2,
       xScale: 1,
       yScale: 0,

@@ -14,6 +14,7 @@ content.movementModel.bipedalFast = {
       lateralDeceleration: 10,
       lateralVelocity: 10,
       rotateScale: 1,
+      strideLength: 10/3,
       width: 1,
       xScale: 1,
       yScale: 0.5,

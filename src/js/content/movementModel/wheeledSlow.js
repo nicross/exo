@@ -14,6 +14,7 @@ content.movementModel.wheeledSlow = {
       lateralDeceleration: 5,
       lateralVelocity: 10,
       rotateScale: 1,
+      strideLength: engine.const.maxSafeFloat,
       width: 2,
       xScale: 1,
       yScale: 0,

@@ -15,6 +15,7 @@ content.movement = (() => {
     'lateralDeceleration',
     'lateralVelocity',
     'rotateScale',
+    'strideLength',
     'width',
     'xScale',
     'yScale',
