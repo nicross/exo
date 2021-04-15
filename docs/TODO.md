@@ -1,4 +1,11 @@
 # TODO
+## Issues
+- Movement
+  - Passing through terrain while jets enabled
+  - Many jumps in a row
+  - Reflections happen many times per second
+  - Some reflections kill velocity
+
 ## Planned features
 - Terrain generation
   - Biome mixer
