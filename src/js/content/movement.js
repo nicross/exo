@@ -223,8 +223,8 @@ content.movement = (() => {
     const position = engine.position.getVector(),
       quaternion = engine.position.getQuaternion()
 
-    const depth = engine.utility.vector3d.create({x: model.depth / 2}).rotateQuaternion(quaternion),
-      width = engine.utility.vector3d.create({y: model.width / 2}).rotateQuaternion(quaternion)
+    const depth = quaternion.forward().scale(model.depth / 2),
+      width = quaternion.right().scale(model.width / 2)
 
     const back = position.subtract(depth),
       front = position.add(depth),
@@ -237,14 +237,14 @@ content.movement = (() => {
     right.z = content.terrain.value(right.x, right.y)
 
     const backToFront = front.subtract(back),
-      leftToRight = right.subtract(left)
+      rightToLeft = left.subtract(right)
 
     backToFront.z = engine.utility.clamp(backToFront.z, -1, 1)
-    leftToRight.z = engine.utility.clamp(leftToRight.z, -1, 1)
+    rightToLeft.z = engine.utility.clamp(rightToLeft.z, -1, 1)
 
     return engine.utility.euler.create({
       pitch: Math.acos(backToFront.z / model.depth) - halfPi,
-      roll: Math.acos(leftToRight.z / model.width) - halfPi,
+      roll: Math.acos(rightToLeft.z / model.width) - halfPi,
     })
   }
 
@@ -308,14 +308,11 @@ content.movement = (() => {
   }
 
   function reflect() {
-    // TODO: use slope.up(), understand why it always bounces to left
-
-    const perpendicular = engine.utility.vector3d.unitZ(),
+    const normal = slope.up(),
       velocity = engine.position.getVelocity()
 
-    const reflection = perpendicular
-      .scale(-2 * velocity.dotProduct(perpendicular))
-      .add(velocity)
+    const reflection = velocity
+      .subtract(normal.scale(2 * velocity.dotProduct(normal)))
       .scale(reflectionRate)
 
     // Emit event before setting velocity so true velocity is accessible
