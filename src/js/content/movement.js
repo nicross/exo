@@ -22,7 +22,7 @@ content.movement = (() => {
   ]
 
   const halfPi = Math.PI / 2,
-    groundThreshold = 1/64,
+    groundThreshold = 1/32,
     reflectionRate = 1/2,
     transitionRate = 1
 
@@ -261,19 +261,12 @@ content.movement = (() => {
     return engine.utility.clamp(distance / (Math.PI / 2), 0, 1)
   }
 
-  function glue() {
-    const position = engine.position.getVector(),
-      terrain = content.terrain.current(),
-      velocity = engine.position.getVelocity()
-
-    engine.position.setVector({
-      ...position,
-      z: terrain,
-    })
+  function glueVelocity() {
+    const velocity = engine.position.getVelocity()
 
     engine.position.setVelocity(
       slope.forward().normalize().scale(
-        velocity.distance()
+        Math.max(velocity.distance() - Math.abs(gravity), 0)
       ).rotateQuaternion(
         engine.utility.vector3d.create({
           x: velocity.x,
@@ -281,6 +274,16 @@ content.movement = (() => {
         }).quaternion()
       )
     )
+  }
+
+  function glueZ() {
+    const position = engine.position.getVector(),
+      terrain = content.terrain.current()
+
+    engine.position.setVector({
+      ...position,
+      z: terrain,
+    })
   }
 
   function jets() {
@@ -301,6 +304,7 @@ content.movement = (() => {
     })
 
     pubsub.emit('jump')
+    console.log('jump')
   }
 
   function lerpModel(a, b, value) {
@@ -446,6 +450,10 @@ content.movement = (() => {
 
       isGrounded = calculateIsGrounded()
 
+      if (isGrounded) {
+        glueZ()
+      }
+
       applyVerticalThrust(controls.z)
       applyGravity()
 
@@ -455,9 +463,10 @@ content.movement = (() => {
         applyLateralThrust(controls)
 
         if (shouldGlue()) {
-          glue()
+          glueVelocity()
         } else {
           reflect()
+          console.log('reflect')
         }
       }
 
