@@ -157,6 +157,7 @@ content.movement = (() => {
 
     if (model.jumpForce && isGrounded) {
       jumpCooldown = true
+      isGrounded = false
       return jump()
     }
 
@@ -167,6 +168,7 @@ content.movement = (() => {
 
     jets()
 
+    isGrounded = false
     isJetActive = true
     jetDelta += delta
   }
@@ -296,9 +298,6 @@ content.movement = (() => {
       z: model.jumpForce,
     })
 
-    isGrounded = false
-    gravity = 0
-
     pubsub.emit('jump')
   }
 
@@ -329,9 +328,23 @@ content.movement = (() => {
   }
 
   function shouldGlue() {
-    // TODO: allow reflections off walls, compare surface normal to velocity, glue when nearly perpendicular
-    // TODO: glue on low velocity distance
-    return gravity > -engine.const.gravity
+    if (jumpCooldown || isJetActive) {
+      return false
+    }
+
+    const velocity = engine.position.getVelocity()
+    const distance = velocity.distance()
+
+    // Glue on low velocities
+    if (distance < 1) {
+      return true
+    }
+
+    // Glue on low angles
+    const dot = velocity.dotProduct(slope.up())
+    const theta = Math.acos(dot / distance)
+
+    return engine.utility.between(theta, Math.PI/2*8/9, Math.PI/2*10/9)
   }
 
   return engine.utility.pubsub.decorate({
@@ -431,6 +444,9 @@ content.movement = (() => {
 
       isGrounded = calculateIsGrounded()
 
+      applyVerticalThrust(controls.z)
+      applyGravity()
+
       if (isGrounded) {
         cacheSlope()
         applyAngularThrust(controls.rotate)
@@ -442,9 +458,6 @@ content.movement = (() => {
           reflect()
         }
       }
-
-      applyVerticalThrust(controls.z)
-      applyGravity()
 
       return this
     },
