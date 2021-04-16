@@ -8,15 +8,24 @@
   - Waves are inconsistent
 
 ## Planned features
-- Terrain generation
-  - Crater generation
+- Haptic feedback
+  - Collisions
+  - Terrain
 - Materials
   - Define materials
   - Spawning
+  - Audio cues
   - Inventory system
   - Inventory screen
   - Statistics
+- Scanning system
+  - Raycasting
+  - Pause time on scan
   - Audio cues
+- Soundtrack
+  - Ambient synths
+  - Spatial frequency selection
+  - Particles indicating heading and velocity
 - Crafting
   - Define technology tree
   - Crafting screen
@@ -28,17 +37,8 @@
     - Material full
     - Inventory collected
     - Upgrades ready to craft
-- Scanning system
-  - Raycasting
-  - Pause time on scan
-  - Audio cues
-- Soundtrack
-  - Ambient synths
-  - Spatial frequency selection
-  - Particles indicating heading and velocity
 - Audio cues
-  - Terrain
+  - Mode switching
   - Ice creaks
-- Haptic feedback
-  - Collisions
-  - Terrain
+- Terrain generation
+  - Crater generation
