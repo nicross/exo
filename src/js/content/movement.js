@@ -111,19 +111,15 @@ content.movement = (() => {
     const slopeAngle = engine.utility.normalizeAngle(Math.atan2(-slope.roll, -slope.pitch)),
       thrustAngle = engine.utility.normalizeAngle(Math.atan2(normalThrust.y, normalThrust.x))
 
-    // TODO: expose for sound design (angle of thrust relative to slope)
-    const deltaAngle = Math.abs(engine.utility.normalizeAngleSigned(slopeAngle - thrustAngle))
-
-    const deltaAngleFactor = deltaAngle > Math.PI/4
-      ? 1
-      : (deltaAngle / (Math.PI/4)) ** 4
+    const deltaAngle = Math.abs(engine.utility.normalizeAngleSigned(slopeAngle - thrustAngle)),
+      deltaAngleFactor = Math.abs(Math.sin(deltaAngle / 2)) ** 4
 
     // TODO: slopeFactor inclines a function of model?
-    const slopeFactor = slopeNormal < 0.25
+    const slopeFactor = slopeNormal < 0.5
       ? 1
-      : engine.utility.clamp(engine.utility.scale(slopeNormal, 0.25, 0.5, 1, 0), 0, 1) ** 4
+      : engine.utility.clamp(engine.utility.scale(slopeNormal, 0.5, 1, 1, 0), 0, 1)
 
-    const scaleFactor = engine.utility.lerp(slopeFactor, 1, deltaAngleFactor)
+    const scaleFactor = engine.utility.lerp(1, slopeFactor, deltaAngleFactor)
 
     const appliedThrust = thrust.scale(scaleFactor).rotateQuaternion(
       engine.utility.quaternion.fromEuler({
