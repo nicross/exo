@@ -1,11 +1,13 @@
 content.terrain = (() => {
-  const biomeXField = engine.utility.perlin2d.create('terrain', 'biomeX'),
+  const amplitudeField = engine.utility.perlin2d.create('terrain', 'amplitude'),
+    amplitudeScale = 1000,
+    biomeXField = engine.utility.perlin2d.create('terrain', 'biomeX'),
     biomeYField = engine.utility.perlin2d.create('terrain', 'biomeY'),
     biomeScale = 10000,
+    exponentField = engine.utility.perlin2d.create('terrain', 'exponent'),
+    exponentScale = 1000,
     noiseField = engine.utility.createPerlinWithOctaves(engine.utility.perlin2d, 'terrain', 2),
     sauceField = engine.utility.perlin2d.create('terrain', 'sauce')
-
-  const amplitudeField = engine.utility.perlin2d.create('terrain', 'amplitude')
 
   const biomes = [
     {x: 1/5, y: 1/3, name: 'flat', command: flat}, {x: 1/5, y: 2/3, name: 'waves', command: waves},
@@ -20,8 +22,10 @@ content.terrain = (() => {
   let current
 
   content.utility.ephemeralNoise
+    .manage(amplitudeField)
     .manage(biomeXField)
     .manage(biomeYField)
+    .manage(exponentField)
     .manage(noiseField)
     .manage(sauceField)
 
@@ -30,8 +34,10 @@ content.terrain = (() => {
     current = getValue(position.x, position.y)
   }
 
-  function flat({x, y}) {
-    return noiseField.value(x / 100, y / 100) * 2
+  function flat({amplitude, x, y}) {
+    const noise = noiseField.value(x / 100, y / 100)
+    amplitude = engine.utility.lerp(0, 2, amplitude)
+    return amplitude * noise
   }
 
   function getWeightedBiomes(x, y) {
@@ -98,14 +104,22 @@ content.terrain = (() => {
   }
 
   function generateValue(x, y) {
-    const biome = getBiome(x, y)
+    const amplitude = getAmplitude(x, y),
+      biome = getBiome(x, y),
+      exponent = getExponent(x, y)
 
     const options = {
+      amplitude,
+      exponent,
       x,
       y,
     }
 
     return biome(options) + sauce(options)
+  }
+
+  function getAmplitude(x, y) {
+    return exponentField.value(x / amplitudeScale, y / amplitudeScale)
   }
 
   function getBiome(x, y) {
@@ -127,6 +141,10 @@ content.terrain = (() => {
     biomeCache.insert(result)
 
     return result.value
+  }
+
+  function getExponent(x, y) {
+    return exponentField.value(x / exponentScale, y / exponentScale)
   }
 
   function getValue(x, y) {
@@ -153,14 +171,14 @@ content.terrain = (() => {
     return result.value
   }
 
-  function mountains({x, y}) {
-    // TODO: Adjust amplitude and exponent by noise fields
-    return (noiseField.value(x / 1000, y / 1000) ** (1/3)) * 2000
+  function mountains({amplitude, exponent, x, y}) {
+    const noise = noiseField.value(x / 1000, y / 1000)
+    amplitude = engine.utility.lerp(500, 2000, amplitude)
+    exponent = engine.utility.lerp(1/4, 1, exponent)
+    return amplitude * (noise ** exponent)
   }
 
-  function polar({x, y}) {
-    // TODO: Adjust amplitude and exponent by noise fields
-
+  function polar({amplitude, exponent, x, y}) {
     // TODO: repeat in a grid somehow,basically to create pockets of radial symmetry that fade out from their center
     /*
     const xi = Math.floor(x / 1000) * 1000,
@@ -169,19 +187,27 @@ content.terrain = (() => {
     const blend = engine.utility.distance({x, y}, {x: xi, y: xi})
     */
 
-    return (noiseField.value(engine.utility.distance({x, y}) / 100, Math.abs(x + y) / 100) ** 8) * 1000
+    const noise = noiseField.value(engine.utility.distance({x, y}) / 100, Math.abs(x + y) / 100)
+    amplitude = engine.utility.lerp(500, 1000, amplitude)
+    exponent = engine.utility.lerp(5, 10, exponent)
+    return amplitude * (noise ** exponent)
   }
 
-  function plains({x, y}) {
-    // TODO: Adjust amplitude by noise field
-    return noiseField.value(x / 100, y / 100) * 5
+  function plains({amplitude, x, y}) {
+    const noise = noiseField.value(x / 75, y / 75)
+    amplitude = engine.utility.lerp(5, 10, amplitude)
+    return amplitude * noise
   }
 
-  function plateau({x, y}) {
-    // TODO: Adjust stairHeight, amplitude, and exponent by noise fields
-    const amplitude = 500,
-      stairHeight = 2,
-      value = (noiseField.value(x / 1000, y / 1000) ** 0.5) * amplitude
+  function plateau({amplitude, exponent, x, y}) {
+    // TODO: Adjust stairHeight by noise fields
+    const noise = noiseField.value(x / 1000, y / 1000),
+      stairHeight = 2
+
+    amplitude = engine.utility.lerp(250, 750, amplitude)
+    exponent = engine.utility.lerp(1/4, 1, exponent)
+
+    const value = amplitude * (noise ** exponent)
 
     const v0 = Math.floor(value / stairHeight) * stairHeight,
       delta = smooth((value - v0) / stairHeight) * stairHeight
@@ -189,18 +215,25 @@ content.terrain = (() => {
     return v0 + delta
   }
 
-  function rolling({x, y}) {
-    // TODO: Adjust amplitude by noise field
-    return noiseField.value(x / 50, y / 50) * 10
+  function rolling({amplitude, exponent, x, y}) {
+    const noise = noiseField.value(x / 100, y / 100)
+    amplitude = engine.utility.lerp(12.5, 50, amplitude)
+    exponent = engine.utility.lerp(0.75, 1.25, exponent)
+    return amplitude * (noise ** exponent)
   }
 
-  function rough({x, y}) {
-    // TODO: Adjust amplitude and exponent by noise fields
-    return (noiseField.value(x / 50, y / 50) ** 10) * 500
+  function rough({amplitude, exponent, x, y}) {
+    const noise = noiseField.value(x / 50, y / 50)
+    amplitude = engine.utility.lerp(250, 500, amplitude)
+    exponent = engine.utility.lerp(5, 10, exponent)
+    return amplitude * (noise ** exponent)
   }
 
   function sauce({x, y}) {
-    return sauceField.value(x / 2, y / 2) / 32
+    const amplitude = 1/32,
+      noise = sauceField.value(x / 2, y / 2)
+
+    return amplitude * noise
   }
 
   function smooth(value) {
