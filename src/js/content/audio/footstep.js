@@ -139,6 +139,9 @@ content.audio.footstep = (() => {
       lastStep = engine.position.getVector()
       return this
     },
+    onJump: function () {
+      return this.update(true)
+    },
     reset: function () {
       isLeft = false
       lastAngle = 0
@@ -164,7 +167,7 @@ content.audio.footstep = (() => {
 })()
 
 engine.ready(() => {
-  content.movement.on('jump', () => content.audio.footstep.update(true))
+  content.movement.on('jump', () => content.audio.footstep.onJump())
 })
 
 engine.loop.on('frame', ({paused}) => {
