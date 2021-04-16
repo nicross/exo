@@ -10,7 +10,7 @@ content.audio.actuator = (() => {
   function calculateIntent() {
     // TODO: while turning
 
-    if (!content.movement.isGrounded()) {
+    if (!content.movement.isGroundedEnough()) {
       return 0
     }
 

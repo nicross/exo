@@ -57,7 +57,7 @@ content.audio.tires = (() => {
       return false
     }
 
-    if (!content.movement.isGrounded() || !content.movement.isWheeled()) {
+    if (!content.movement.isGroundedEnough() || !content.movement.isWheeled()) {
       return false
     }
 

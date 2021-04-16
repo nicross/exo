@@ -30,6 +30,7 @@ content.movement = (() => {
     intendedModel = {},
     intendedTurbo = 0,
     isGrounded = false,
+    isGroundedEnough = false,
     isJetActive = false,
     isJumpActive = false,
     isJumpCooldown = false,
@@ -384,6 +385,7 @@ content.movement = (() => {
       const terrain = content.terrain.current()
 
       isGrounded = z <= terrain
+      isGroundedEnough = isGrounded
 
       if (isGrounded) {
         cacheSlope()
@@ -397,6 +399,7 @@ content.movement = (() => {
     isBipedal: () => intendedMode == 0,
     isFast: () => intendedTurbo == 1,
     isGrounded: () => isGrounded,
+    isGroundedEnough: () => isGroundedEnough,
     isJetActive: () => isJetActive,
     isSlow: () => intendedTurbo == 0,
     isWheeled: () => intendedMode == 1,
@@ -411,6 +414,7 @@ content.movement = (() => {
       intendedModel = {}
       intendedTurbo = 0
       isGrounded = true
+      isGroundedEnough = true
       isJetActive = false
       isJumpActive = false
       isJumpCooldown = false
@@ -476,9 +480,9 @@ content.movement = (() => {
       applyVerticalThrust(controls.z)
       applyGravity()
 
-      const hasLeeway = z <= terrain + groundLeeway && !isJetActive && !isJumpCooldown
+      isGroundedEnough = z <= terrain + groundLeeway && !isJetActive && !isJumpCooldown
 
-      if (hasLeeway) {
+      if (isGroundedEnough) {
         cacheSlope()
         applyAngularThrust(controls.rotate)
         applyLateralThrust(controls)

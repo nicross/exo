@@ -149,7 +149,7 @@ content.audio.footstep = (() => {
       return this
     },
     update: function (force = false) {
-      if (!content.movement.isBipedal() || !(force || content.movement.isGrounded())) {
+      if (!content.movement.isBipedal() || !(force || content.movement.isGroundedEnough())) {
         return this
       }
 
