@@ -5,7 +5,7 @@ content.terrain = (() => {
     noiseField = engine.utility.createPerlinWithOctaves(engine.utility.perlin2d, 'terrain', 2),
     sauceField = engine.utility.perlin2d.create('terrain', 'sauce')
 
-  // TODO: generalized noise fields: exponent and scale
+  const amplitudeField = engine.utility.perlin2d.create('terrain', 'amplitude')
 
   const biomes = [
     {x: 1/5, y: 1/3, name: 'flat', command: flat}, {x: 1/5, y: 2/3, name: 'waves', command: waves},
@@ -29,7 +29,7 @@ content.terrain = (() => {
     current = getValue(position.x, position.y)
   }
 
-  function flat(x, y) {
+  function flat({x, y}) {
     return noiseField.value(x / 100, y / 100) * 2
   }
 
@@ -53,11 +53,11 @@ content.terrain = (() => {
       biome.percent = 1 - (biome.distance / sum)
     }
 
-    return (x, y) => {
+    return (...args) => {
       let value = 0
 
       for (const biome of closest) {
-        value += biome.percent * biome.command(x, y)
+        value += biome.percent * biome.command(...args)
       }
 
       return value
@@ -85,20 +85,22 @@ content.terrain = (() => {
   }
 
   function getValue(x, y) {
-    // TODO: fix terrain issues
-    // XXX: dead code ahead
-    return plateau(x,y)
-
     const biome = getBiome(x, y)
-    return biome(x, y) + sauce(x, y)
+
+    const options = {
+      x,
+      y,
+    }
+
+    return biome(options) + sauce(options)
   }
 
-  function mountains(x, y) {
+  function mountains({x, y}) {
     // TODO: Adjust amplitude and exponent by noise fields
     return (noiseField.value(x / 1000, y / 1000) ** (1/3)) * 2000
   }
 
-  function polar(x, y) {
+  function polar({x, y}) {
     // TODO: Adjust amplitude and exponent by noise fields
 
     // TODO: repeat in a grid somehow,basically to create pockets of radial symmetry that fade out from their center
@@ -112,12 +114,12 @@ content.terrain = (() => {
     return (noiseField.value(engine.utility.distance({x, y}) / 100, Math.abs(x + y) / 100) ** 8) * 1000
   }
 
-  function plains(x, y) {
+  function plains({x, y}) {
     // TODO: Adjust amplitude by noise field
     return noiseField.value(x / 100, y / 100) * 5
   }
 
-  function plateau(x, y) {
+  function plateau({x, y}) {
     // TODO: Adjust stairHeight, amplitude, and exponent by noise fields
     const amplitude = 500,
       stairHeight = 2,
@@ -129,17 +131,17 @@ content.terrain = (() => {
     return v0 + delta
   }
 
-  function rolling(x, y) {
+  function rolling({x, y}) {
     // TODO: Adjust amplitude by noise field
     return noiseField.value(x / 50, y / 50) * 10
   }
 
-  function rough(x, y) {
+  function rough({x, y}) {
     // TODO: Adjust amplitude and exponent by noise fields
     return (noiseField.value(x / 50, y / 50) ** 10) * 500
   }
 
-  function sauce(x, y) {
+  function sauce({x, y}) {
     return sauceField.value(x / 4, y / 4) / 8
   }
 
@@ -148,7 +150,7 @@ content.terrain = (() => {
     return 1 / (1 + (Math.E ** (-20 * (value - 0.5))))
   }
 
-  function waves(x, y) {
+  function waves({x, y}) {
     // TODO: Adjust scale and exponent by noise fields
     return (engine.utility.scale(Math.sin(x * Math.PI / engine.utility.lerp(25, 75, Math.abs(Math.sin(y * Math.PI / 1000)))), -1, 1, 0, 1) ** 2) * 10
   }
@@ -179,6 +181,13 @@ content.terrain = (() => {
   }
 })()
 
-engine.loop.on('frame', () => content.terrain.update())
+engine.loop.on('frame', ({paused}) => {
+  if (paused) {
+    return
+  }
+
+  content.terrain.update()
+})
+
 engine.state.on('import', () => content.terrain.import())
 engine.state.on('reset', () => content.terrain.reset())
