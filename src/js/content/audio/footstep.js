@@ -67,8 +67,7 @@ content.audio.footstep = (() => {
     const texture = getTexture(),
       velocity = engine.position.getVelocity().distance()
 
-    // XXX: strength is ratio to hardcoded maximum velocity
-    const strength = engine.utility.clamp(velocity / 10, 0, 1)
+    const strength = engine.utility.clamp(velocity / content.const.maxBipedalVelocity, 0, 1)
 
     // TODO: synth
     const duration = engine.utility.random.float(1/3, 1/2)

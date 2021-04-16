@@ -76,8 +76,7 @@ content.audio.tires = (() => {
   }
 
   function toStrength(vector) {
-    // XXX: strength is ratio of hardcoded maximum velocity
-    return engine.utility.clamp(vector.distance() / 20, 0, 1)
+    return engine.utility.clamp(vector.distance() / content.const.maxWheeledVelocity, 0, 1)
   }
 
   return engine.utility.pubsub.decorate({
