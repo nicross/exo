@@ -41,7 +41,7 @@ content.audio.tires = (() => {
     synth.stop(now + duration)
     setTimeout(() => binaural.destroy(), duration * 1000)
 
-    pubsub.emit('grain')
+    pubsub.emit('grain', strength)
     throttle = performance.now()
   }
 

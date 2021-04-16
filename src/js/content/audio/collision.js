@@ -1,12 +1,12 @@
 content.audio.collision = (() => {
-  const bus = content.audio.createBus()
+  const bus = content.audio.createBus(),
+    pubsub = engine.utility.pubsub.create()
 
   function play() {
     const velocity = engine.position.getVelocity()
 
-    // XXX: strength is ratio to hardcoded maximum velocity
     const distance = velocity.distance() || engine.const.zero,
-      strength = engine.utility.clamp(distance / 20, 0, 1)
+      strength = engine.utility.clamp(distance / content.const.maxWheeledVelocity, 0, 1)
 
     const synth = engine.audio.synth.createBuffer({
       buffer: engine.audio.buffer.noise.pink(),
@@ -29,16 +29,18 @@ content.audio.collision = (() => {
     synth.param.gain.exponentialRampToValueAtTime(1, now + 1/32)
     synth.param.gain.exponentialRampToValueAtTime(engine.const.zeroGain, now + duration)
 
+    pubsub.emit('trigger', strength)
+
     synth.stop(now + duration)
     setTimeout(() => binaural.destroy(), duration * 1000)
   }
 
-  return {
+  return engine.utility.pubsub.decorate({
     trigger: function () {
       play()
       return this
     },
-  }
+  }, pubsub)
 })()
 
 engine.ready(() => {

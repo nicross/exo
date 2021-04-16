@@ -3,6 +3,7 @@ content.audio.footstep = (() => {
     context = engine.audio.context(),
     highpass = context.createBiquadFilter(),
     pistonRoot = engine.utility.midiToFrequency(31),
+    pubsub = engine.utility.pubsub.create(),
     textureField = engine.utility.createPerlinWithOctaves(engine.utility.perlin2d, ['footstep', 'texture'], 4),
     textureScale = 100
 
@@ -99,6 +100,8 @@ content.audio.footstep = (() => {
     binaural.from(synth)
     synth.stop(now + duration)
 
+    pubsub.emit('crunch', strength)
+
     return engine.utility.timing.promise(250)
   }
 
@@ -132,7 +135,7 @@ content.audio.footstep = (() => {
     return engine.utility.timing.promise(duration / 2)
   }
 
-  return {
+  return engine.utility.pubsub.decorate({
     import: function () {
       isLeft = Math.random() > 0.5
       lastAngle = engine.position.getEuler().yaw
@@ -169,7 +172,7 @@ content.audio.footstep = (() => {
 
       return this
     },
-  }
+  }, pubsub)
 })()
 
 engine.ready(() => {
