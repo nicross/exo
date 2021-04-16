@@ -6,7 +6,7 @@ content.audio.jets = (() => {
     firstBurnTimeout,
     synth
 
-  bus.gain.value = engine.utility.fromDb(-9)
+  bus.gain.value = engine.utility.fromDb(-12)
 
   function calculateParameters(delta = content.movement.jetDelta()) {
     const model = content.movement.model(),
@@ -16,7 +16,7 @@ content.audio.jets = (() => {
 
     return {
       carrierGain: 1 - modDepth,
-      filterFrequency: engine.utility.lerpExp(1000, 50, progress, 8),
+      filterFrequency: engine.utility.lerpExp(500, 50, progress, 2),
       filterQ: engine.utility.lerp(0.01, 1, progress),
       gain: engine.utility.fromDb(engine.utility.lerp(0, -3, progress)),
       modDepth,
