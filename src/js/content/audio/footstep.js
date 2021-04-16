@@ -47,7 +47,7 @@ content.audio.footstep = (() => {
     const angle = engine.position.getEuler().yaw,
       difference = angle - lastAngle
 
-    return !engine.utility.between(difference, -Math.PI/2, Math.PI/2)
+    return !engine.utility.between(difference, -Math.PI/3, Math.PI/3)
   }
 
   function trigger() {
