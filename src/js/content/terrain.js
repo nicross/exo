@@ -14,7 +14,8 @@ content.terrain = (() => {
     {x: 4/5, y: 1/3, name: 'mountains', command: mountains}, {x: 4/5, y: 2/3, name: 'plateau', command: plateau},
   ]
 
-  const biomeCache = engine.utility.octree.create()
+  const biomeCache = engine.utility.quadtree.create(),
+    cache = engine.utility.quadtree.create()
 
   let current
 
@@ -78,6 +79,11 @@ content.terrain = (() => {
   }
 
   function generateBiome(x, y) {
+    x /= biomeScale
+    y /= biomeScale
+    x += 0.5
+    y += 0.5
+
     const weighted = getWeightedBiomes(x, y)
 
     return (...args) => {
@@ -91,27 +97,7 @@ content.terrain = (() => {
     }
   }
 
-  function getBiome(x, y) {
-    x = Math.round(x)
-    y = Math.round(y)
-
-    x /= biomeScale
-    y /= biomeScale
-    y += 0.5
-
-    let result = biomeCache.find({x, y}, 1/biomeScale)
-
-    if (result) {
-      return result
-    }
-
-    result = generateBiome(x, y)
-    biomeCache.insert(result)
-
-    return result
-  }
-
-  function getValue(x, y) {
+  function generateValue(x, y) {
     const biome = getBiome(x, y)
 
     const options = {
@@ -120,6 +106,51 @@ content.terrain = (() => {
     }
 
     return biome(options) + sauce(options)
+  }
+
+  function getBiome(x, y) {
+    x = Math.round(x)
+    y = Math.round(y)
+
+    let result = biomeCache.find({x, y}, engine.const.zero)
+
+    if (result && result.value) {
+      return result.value
+    }
+
+    result = {
+      value: generateBiome(x, y),
+      x,
+      y,
+    }
+
+    biomeCache.insert(result)
+
+    return result.value
+  }
+
+  function getValue(x, y) {
+    const shouldCache = x % 1 == 0 && y % 1 == 0
+
+    let result = shouldCache
+      ? cache.find({x, y}, engine.const.zero)
+      : undefined
+
+    if (result && result.value) {
+      return result.value
+    }
+
+    result = {
+      value: generateValue(x, y),
+      x,
+      y,
+    }
+
+    if (shouldCache) {
+      cache.insert(result)
+    }
+
+    return result.value
   }
 
   function mountains({x, y}) {
@@ -191,7 +222,9 @@ content.terrain = (() => {
       return current
     },
     debug: (position = engine.position.getVector()) => ({
+      biomeCache,
       biomes: getWeightedBiomes(position.x, position.y),
+      cache,
       value: getValue(position.x, position.y),
     }),
     import: function () {
@@ -200,6 +233,7 @@ content.terrain = (() => {
     },
     reset: function () {
       biomeCache.clear()
+      cache.clear()
       current = undefined
       return this
     },
