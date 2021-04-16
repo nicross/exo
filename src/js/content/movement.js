@@ -21,7 +21,8 @@ content.movement = (() => {
     'yScale',
   ]
 
-  const reflectionRate = 1/2,
+  const groundLeeway = 1/16,
+    reflectionRate = 1/2,
     transitionRate = 1
 
   let gravity = 0,
@@ -43,10 +44,6 @@ content.movement = (() => {
 
   function applyAngularThrust(rotate) {
     // TODO: The model might allow some thrusting mid-flight
-    if (!isGrounded) {
-      return
-    }
-
     // TODO: Should wheeled only rotate when velocity nonzero?
     const {yaw} = engine.position.getAngularVelocityEuler()
 
@@ -97,10 +94,6 @@ content.movement = (() => {
 
   function applyLateralThrust(controls = {}) {
     // TODO: The model might allow some thrusting mid-flight
-    if (!isGrounded) {
-      return
-    }
-
     normalThrust = engine.utility.vector3d.create({
       x: controls.y * model.xScale,
       y: -controls.x * model.yScale,
@@ -131,18 +124,20 @@ content.movement = (() => {
       })
     )
 
-    // Accelerate to next velocity
-    const rate = appliedThrust.distance() > (engine.position.getVelocity().distance() - gravity)
+    // Accelerate to next velocity, ignorning gravity
+    const current = engine.position.getVelocity().subtract({z: gravity})
+
+    const rate = appliedThrust.distance() > current.distance()
       ? model.lateralAcceleration
       : model.lateralDeceleration
 
-    const velocity = content.utility.accelerate.vector(
-      engine.position.getVelocity(),
+    const next = content.utility.accelerate.vector(
+      current,
       appliedThrust,
       rate
-    )
+    ).add({z: gravity})
 
-    engine.position.setVelocity(velocity)
+    engine.position.setVelocity(next)
   }
 
   function applyVerticalThrust(zThrust) {
@@ -203,12 +198,6 @@ content.movement = (() => {
       reference: nextModel,
       type: nextModel.type,
     }
-  }
-
-  function calculateIsGrounded() {
-    const {z} = engine.position.getVector()
-    const terrain = content.terrain.current()
-    return z <= terrain
   }
 
   function calculateModel() {
@@ -301,10 +290,6 @@ content.movement = (() => {
     const position = engine.position.getVector(),
       terrain = content.terrain.current()
 
-    if (position.z >= terrain) {
-      return
-    }
-
     engine.position.setVector({
       ...position,
       z: terrain,
@@ -395,7 +380,10 @@ content.movement = (() => {
       intendedModel = calculateIntendedModel()
       model = {...intendedModel}
 
-      isGrounded = calculateIsGrounded()
+      const {z} = engine.position.getVector()
+      const terrain = content.terrain.current()
+
+      isGrounded = z <= terrain
 
       if (isGrounded) {
         cacheSlope()
@@ -476,24 +464,33 @@ content.movement = (() => {
         model = calculateModel()
       }
 
-      isGrounded = calculateIsGrounded()
-      glueZ()
+      const {z} = engine.position.getVector()
+      const terrain = content.terrain.current()
+
+      isGrounded = z <= terrain
+
+      if (isGrounded) {
+        glueZ()
+      }
 
       applyVerticalThrust(controls.z)
       applyGravity()
 
-      if (isGrounded) {
-        cacheSlope()
+      const hasLeeway = z <= terrain + groundLeeway && !isJetActive && !isJumpCooldown
 
+      if (hasLeeway) {
+        cacheSlope()
+        applyAngularThrust(controls.rotate)
+        applyLateralThrust(controls)
+      }
+
+      if (isGrounded) {
         if (shouldGlue()) {
           // TODO: sound when sticking a landing
           glueVelocity()
         } else {
           reflect()
         }
-
-        applyAngularThrust(controls.rotate)
-        applyLateralThrust(controls)
       }
 
       return this
