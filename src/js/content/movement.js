@@ -224,11 +224,12 @@ content.movement = (() => {
   }
 
   function calculateSlope() {
-    const position = engine.position.getVector(),
+    const delta = 1 / 1000,
+      position = engine.position.getVector(),
       quaternion = engine.position.getQuaternion()
 
-    const depth = quaternion.forward().scale(model.depth / 2),
-      width = quaternion.right().scale(model.width / 2)
+    const depth = quaternion.forward().scale(delta),
+      width = quaternion.right().scale(delta)
 
     const back = position.subtract(depth),
       front = position.add(depth),
@@ -247,15 +248,15 @@ content.movement = (() => {
     rightToLeft.z = engine.utility.clamp(rightToLeft.z, -1, 1)
 
     return engine.utility.euler.create({
-      pitch: Math.acos(backToFront.z / model.depth) - halfPi,
-      roll: Math.acos(rightToLeft.z / model.width) - halfPi,
+      pitch: Math.atan(backToFront.z / (delta * 2)),
+      roll: Math.atan(rightToLeft.z / (delta * 2)),
     })
   }
 
   function calculateSlopeNormal() {
     const distance = engine.utility.distance({
       x: slope.pitch,
-      y: slope.yaw,
+      y: slope.roll,
     })
 
     return engine.utility.clamp(distance / (Math.PI / 2), 0, 1)
