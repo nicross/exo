@@ -63,7 +63,7 @@ content.audio.tires = (() => {
 
     const velocity = engine.position.getVelocity()
 
-    if (velocity.isZero()) {
+    if (engine.utility.round(velocity.distance(), 3) <= 0) {
       return false
     }
 
