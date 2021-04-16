@@ -1,9 +1,5 @@
 # TODO
 ## Issues
-- Movement
-  - Passing through terrain while jets enabled
-  - Many jumps in a row
-  - Reflections happen many times per second
 - Terrain
   - Occasional seams between biomes
   - Polar not implemented

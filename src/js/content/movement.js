@@ -22,7 +22,6 @@ content.movement = (() => {
   ]
 
   const halfPi = Math.PI / 2,
-    groundThreshold = 1/32,
     reflectionRate = 1/2,
     transitionRate = 1
 
@@ -119,6 +118,7 @@ content.movement = (() => {
       ? 1
       : engine.utility.clamp(engine.utility.scale(slopeNormal, 0.5, 1, 1, 0), 0, 1)
 
+    // TODO: expose this for actuators
     const scaleFactor = engine.utility.lerp(1, slopeFactor, deltaAngleFactor)
 
     const appliedThrust = thrust.scale(scaleFactor).rotateQuaternion(
@@ -153,13 +153,17 @@ content.movement = (() => {
       return
     }
 
-    if (model.jumpForce && isGrounded) {
+    if (model.jumpForce && isGrounded && !isJetActive) {
       jumpCooldown = true
       isGrounded = false
       return jump()
     }
 
-    if (jumpCooldown || jetDelta >= model.jetCapacity) {
+    if (jumpCooldown) {
+      return
+    }
+
+    if (jetDelta >= model.jetCapacity) {
       isJetActive = false
       return
     }
@@ -200,7 +204,7 @@ content.movement = (() => {
   function calculateIsGrounded() {
     const {z} = engine.position.getVector()
     const terrain = content.terrain.current()
-    return z - terrain <= groundThreshold
+    return z <= terrain
   }
 
   function calculateModel() {
@@ -263,7 +267,7 @@ content.movement = (() => {
     if (gravity) {
       engine.position.setVelocity(
         engine.position.getVelocity().add(
-          slope.forward().normalize().scale(Math.abs(gravity))
+          slope.forward().scale(Math.abs(gravity))
         ).subtract({
           z: gravity,
         })
@@ -292,6 +296,10 @@ content.movement = (() => {
   function glueZ() {
     const position = engine.position.getVector(),
       terrain = content.terrain.current()
+
+    if (position.z >= terrain) {
+      return
+    }
 
     engine.position.setVector({
       ...position,
@@ -348,10 +356,6 @@ content.movement = (() => {
   }
 
   function shouldGlue() {
-    if (jumpCooldown || isJetActive) {
-      return false
-    }
-
     const velocity = engine.position.getVelocity()
     const distance = velocity.distance()
 
@@ -360,15 +364,11 @@ content.movement = (() => {
       return true
     }
 
-    // TODO: fix slopes
-    // XXX: dead code ahead
-    return true
-
     // Glue on low angles
     const dot = velocity.dotProduct(slope.up())
     const theta = Math.acos(dot / distance)
 
-    return engine.utility.between(theta, Math.PI/2*8/9, Math.PI/2*10/9)
+    return engine.utility.between(theta, Math.PI/2*7.5/9, Math.PI/2*10.5/9)
   }
 
   return engine.utility.pubsub.decorate({
@@ -467,10 +467,7 @@ content.movement = (() => {
       }
 
       isGrounded = calculateIsGrounded()
-
-      if (isGrounded) {
-        glueZ()
-      }
+      glueZ()
 
       applyVerticalThrust(controls.z)
       applyGravity()
@@ -479,6 +476,7 @@ content.movement = (() => {
         cacheSlope()
 
         if (shouldGlue()) {
+          // TODO: sound when sticking a landing
           glueVelocity()
         } else {
           reflect()
