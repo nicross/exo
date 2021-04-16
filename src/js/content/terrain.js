@@ -85,6 +85,10 @@ content.terrain = (() => {
   }
 
   function getValue(x, y) {
+    // TODO: fix terrain issues
+    // XXX: dead code ahead
+    return plateau(x,y)
+
     const biome = getBiome(x, y)
     return biome(x, y) + sauce(x, y)
   }
