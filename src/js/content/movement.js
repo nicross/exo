@@ -262,6 +262,22 @@ content.movement = (() => {
   }
 
   function glueVelocity() {
+    // XXX: simple solution - push gravitational velocity toward slope
+    if (gravity) {
+      engine.position.setVelocity(
+        engine.position.getVelocity().add(
+          slope.forward().normalize().scale(Math.abs(gravity))
+        ).subtract({
+          z: gravity,
+        })
+      )
+    }
+
+    // XXX: return early, dead code ahead
+    return
+
+    // Rotate grounded velocity toward slope
+    // TODO: fix reversing down slope
     const velocity = engine.position.getVelocity()
 
     engine.position.setVelocity(
@@ -329,6 +345,7 @@ content.movement = (() => {
 
     // Emit event before setting velocity so true velocity is accessible
     pubsub.emit('reflect')
+    console.log('reflect')
 
     engine.position.setVelocity(reflection)
   }
@@ -345,6 +362,10 @@ content.movement = (() => {
     if (distance < 1) {
       return true
     }
+
+    // TODO: fix slopes
+    // XXX: dead code ahead
+    return true
 
     // Glue on low angles
     const dot = velocity.dotProduct(slope.up())
@@ -459,15 +480,15 @@ content.movement = (() => {
 
       if (isGrounded) {
         cacheSlope()
-        applyAngularThrust(controls.rotate)
-        applyLateralThrust(controls)
 
         if (shouldGlue()) {
           glueVelocity()
         } else {
           reflect()
-          console.log('reflect')
         }
+
+        applyAngularThrust(controls.rotate)
+        applyLateralThrust(controls)
       }
 
       return this
