@@ -6,7 +6,6 @@ content.audio.collision = (() => {
 
     // XXX: strength is ratio to hardcoded maximum velocity
     const distance = velocity.distance() || engine.const.zero,
-      normal = velocity.scale(1 / distance),
       strength = engine.utility.clamp(distance / 20, 0, 1)
 
     const synth = engine.audio.synth.createBuffer({
@@ -15,9 +14,13 @@ content.audio.collision = (() => {
       frequency: engine.utility.lerpExp(200, 800, strength, 2),
     })
 
-    const binaural = engine.audio.binaural.create({
-      ...normal,
-    }).from(synth).to(bus)
+    const direction = velocity.scale(1 / distance).rotateQuaternion(
+      engine.position.getQuaternion().conjugate()
+    )
+
+    const binaural = engine.audio.binaural.create(direction)
+      .from(synth)
+      .to(bus)
 
     const duration = engine.utility.lerpExp(1, 4, strength, 0.5),
       now = engine.audio.time()
