@@ -21,8 +21,7 @@ content.movement = (() => {
     'yScale',
   ]
 
-  const halfPi = Math.PI / 2,
-    reflectionRate = 1/2,
+  const reflectionRate = 1/2,
     transitionRate = 1
 
   let gravity = 0,
@@ -31,6 +30,7 @@ content.movement = (() => {
     intendedTurbo = 0,
     isGrounded = false,
     isJetActive = false,
+    isJumpActive = false,
     isJumpCooldown = false,
     jetDelta = 0,
     mode = 0,
@@ -73,7 +73,6 @@ content.movement = (() => {
     // TODO: apply slippage on steep slopes when wheeled
 
     if (isGrounded) {
-      // Reset z-velocity due to gravity
       gravity = 0
       return
     }
@@ -89,8 +88,11 @@ content.movement = (() => {
     }
 
     velocity.z -= deltaGravity
-
     engine.position.setVelocity(velocity)
+
+    if (gravity < 0) {
+      isJumpCooldown = false
+    }
   }
 
   function applyLateralThrust(controls = {}) {
@@ -148,18 +150,20 @@ content.movement = (() => {
 
     if (!zThrust) {
       isJetActive = false
+      isJumpActive = false
       isJumpCooldown = false
       jetDelta = Math.max(jetDelta - delta, 0)
       return
     }
 
-    if (model.jumpForce && isGrounded && !isJetActive) {
+    if (model.jumpForce && isGrounded && !isJetActive && !isJumpCooldown) {
       isGrounded = false
+      isJumpActive = true
       isJumpCooldown = true
       return jump()
     }
 
-    if (isJumpCooldown) {
+    if (isJumpActive) {
       return
     }
 
@@ -406,7 +410,6 @@ content.movement = (() => {
     isFast: () => intendedTurbo == 1,
     isGrounded: () => isGrounded,
     isJetActive: () => isJetActive,
-    isJumpCooldown: () => isJumpCooldown,
     isSlow: () => intendedTurbo == 0,
     isWheeled: () => intendedMode == 1,
     jetDelta: () => jetDelta,
@@ -421,6 +424,7 @@ content.movement = (() => {
       intendedTurbo = 0
       isGrounded = true
       isJetActive = false
+      isJumpActive = false
       isJumpCooldown = false
       jetDelta = 0
       model = {}
@@ -437,9 +441,14 @@ content.movement = (() => {
     toggleMode: function () {
       intendedMode = intendedMode ? 0 : 1
       intendedModel = calculateIntendedModel()
+
+      isJumpActive = false
+      isJumpCooldown = false
+
       pubsub.emit('mode')
       pubsub.emit('mode-' + intendedModel.type)
       pubsub.emit('mode-' + intendedModel.id)
+
       return this
     },
     thrust: () => thrust,
