@@ -1,7 +1,9 @@
 # TODO
 ## Issues
+- Movement
+  - Excessive reflections when grounded
+  - No reflections when jets active and colliding with ground
 - Terrain
-  - Occasional seams between biomes
   - Polar not implemented
   - Waves are inconsistent
 

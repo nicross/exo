@@ -33,31 +33,58 @@ content.terrain = (() => {
     return noiseField.value(x / 100, y / 100) * 2
   }
 
-  function generateBiome(x, y) {
+  function getWeightedBiomes(x, y) {
     x = biomeXField.value(x, y)
     y = biomeYField.value(x, y)
 
+    const results = []
+
     for (const biome of biomes) {
-      biome.distance = engine.utility.distance2({x, y}, {x: biome.x, y: biome.y})
+      results.push({
+        command: biome.command,
+        distance: engine.utility.distance2({x, y}, {x: biome.x, y: biome.y}),
+        name: biome.name,
+      })
     }
 
-    const closest = biomes.sort((a, b) => {
+    results.sort((a, b) => {
       return b.distance - a.distance
-    }).slice(6)
+    })
 
-    let sum = closest.reduce((sum, biome) => {
-      return sum + biome.distance
+    let totalDistance = results.reduce((sum, result) => {
+      return sum + result.distance
     }, 0)
 
-    for (const biome of closest) {
-      biome.percent = 1 - (biome.distance / sum)
+    for (const result of results) {
+      result.weight = (1 - (result.distance / totalDistance)) ** 32
     }
+
+    let totalWeight = results.reduce((sum, result) => {
+      return sum + result.weight
+    }, 0)
+
+    for (const result of results) {
+      result.weight /= totalWeight
+    }
+
+    results.debug = {
+      totalDistance: totalDistance,
+      totalWeight: totalWeight,
+      x: x,
+      y: y,
+    }
+
+    return results
+  }
+
+  function generateBiome(x, y) {
+    const weighted = getWeightedBiomes(x, y)
 
     return (...args) => {
       let value = 0
 
-      for (const biome of closest) {
-        value += biome.percent * biome.command(...args)
+      for (const biome of weighted) {
+        value += biome.weight * biome.command(...args)
       }
 
       return value
@@ -142,7 +169,7 @@ content.terrain = (() => {
   }
 
   function sauce({x, y}) {
-    return sauceField.value(x / 4, y / 4) / 8
+    return sauceField.value(x / 2, y / 2) / 32
   }
 
   function smooth(value) {
@@ -163,11 +190,16 @@ content.terrain = (() => {
 
       return current
     },
+    debug: (position = engine.position.getVector()) => ({
+      biomes: getWeightedBiomes(position.x, position.y),
+      value: getValue(position.x, position.y),
+    }),
     import: function () {
       cacheCurrent()
       return this
     },
     reset: function () {
+      biomeCache.clear()
       current = undefined
       return this
     },
