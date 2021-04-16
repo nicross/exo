@@ -15,21 +15,23 @@ content.audio.tires = (() => {
       engine.position.getQuaternion().conjugate()
     )
 
+    const carrierGain = engine.utility.random.float(1/2, 2/3)
+
     const synth = engine.audio.synth.createAmBuffer({
-      buffer: engine.audio.buffer.noise.brown(),
-      carrierGain: 1/2,
-      modDepth: 1/2,
+      buffer: engine.audio.buffer.noise.pink(),
+      carrierGain,
+      modDepth: 1 - carrierGain,
       modFrequency: engine.utility.lerpRandom([4, 8], [10, 20], strength),
     }).filtered({
-      frequency: engine.utility.lerp(80, 640, strength),
+      frequency: engine.utility.lerpRandom([80, 120], [300, 600], strength),
     })
 
     const binaural = engine.audio.binaural.create(direction)
       .from(synth.output)
       .to(bus)
 
-    const duration = engine.utility.lerp(1/4, 1, strength),
-      gain = engine.utility.lerp(1, 1/2, strength),
+    const duration = engine.utility.lerpRandom([1/8, 1], [1/2, 1], strength),
+      gain = engine.utility.random.float(1/2, 1),
       now = engine.audio.time()
 
     synth.param.gain.setValueAtTime(engine.const.zeroGain, now)
