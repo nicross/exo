@@ -30,9 +30,9 @@ content.movement = (() => {
     intendedModel = {},
     intendedTurbo = 0,
     isGrounded = false,
-    isJetActive,
+    isJetActive = false,
+    isJumpCooldown = false,
     jetDelta = 0,
-    jumpCooldown = true,
     mode = 0,
     model = {},
     normalThrust = engine.utility.vector3d.create(),
@@ -148,18 +148,18 @@ content.movement = (() => {
 
     if (!zThrust) {
       isJetActive = false
+      isJumpCooldown = false
       jetDelta = Math.max(jetDelta - delta, 0)
-      jumpCooldown = false
       return
     }
 
     if (model.jumpForce && isGrounded && !isJetActive) {
-      jumpCooldown = true
       isGrounded = false
+      isJumpCooldown = true
       return jump()
     }
 
-    if (jumpCooldown) {
+    if (isJumpCooldown) {
       return
     }
 
@@ -406,11 +406,11 @@ content.movement = (() => {
     isFast: () => intendedTurbo == 1,
     isGrounded: () => isGrounded,
     isJetActive: () => isJetActive,
+    isJumpCooldown: () => isJumpCooldown,
     isSlow: () => intendedTurbo == 0,
     isWheeled: () => intendedMode == 1,
     jetDelta: () => jetDelta,
     jetProgress: () => jetDelta / model.jetCapacity,
-    jumpCooldown: () => jumpCooldown,
     mode: () => mode,
     model: () => ({...model}),
     normalThrust: () => normalThrust,
@@ -420,8 +420,9 @@ content.movement = (() => {
       intendedModel = {}
       intendedTurbo = 0
       isGrounded = true
+      isJetActive = false
+      isJumpCooldown = false
       jetDelta = 0
-      jumpCooldown = false
       model = {}
       mode = 0
       normalThrust = engine.utility.vector3d.create()
