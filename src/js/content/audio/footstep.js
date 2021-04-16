@@ -131,6 +131,8 @@ content.audio.footstep = (() => {
     binaural.from(synth)
     synth.stop(now + duration)
 
+    pubsub.emit('piston', strength)
+
     return engine.utility.timing.promise(duration / 2)
   }
 

@@ -8,9 +8,6 @@
   - Waves are inconsistent
 
 ## Planned features
-- Haptic feedback
-  - Collisions
-  - Terrain
 - Materials
   - Define materials
   - Spawning
@@ -22,6 +19,7 @@
   - Raycasting
   - Pause time on scan
   - Audio cues
+  - Haptic feedback
 - Soundtrack
   - Ambient synths
   - Spatial frequency selection
@@ -37,8 +35,13 @@
     - Material full
     - Inventory collected
     - Upgrades ready to craft
+- Controls
+  - Mouse
 - Audio cues
   - Mode switching
   - Ice creaks
+- Movement
+  - RCS thrusters
+  - Stabilizers
 - Terrain generation
   - Crater generation

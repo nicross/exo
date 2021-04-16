@@ -53,3 +53,50 @@ app.controls.haptic = (() => {
     },
   }
 })()
+
+content.audio.collision.on('trigger', (strength) => {
+  app.controls.haptic.trigger({
+    duration: engine.utility.lerp(75, 300, strength),
+    startDelay: 0,
+    strongMagnitude: strength ** 0.5,
+    weakMagnitude: strength ** 2,
+  })
+})
+
+content.audio.footstep.on('crunch', (strength) => {
+  app.controls.haptic.trigger({
+    duration: engine.utility.lerp(50, 100, strength),
+    startDelay: 0,
+    strongMagnitude: strength / 2,
+    weakMagnitude: 0,
+  })
+})
+
+content.audio.footstep.on('piston', (strength) => {
+  app.controls.haptic.trigger({
+    duration: engine.utility.lerp(75, 150, strength),
+    startDelay: 0,
+    strongMagnitude: 0,
+    weakMagnitude: strength,
+  })
+})
+
+content.audio.jets.on('fire', () => {
+  const progress = content.movement.jetProgress()
+
+  app.controls.haptic.trigger({
+    duration: engine.performance.delta() * 1000,
+    startDelay: 0,
+    strongMagnitude: (1 - progress) ** 6,
+    weakMagnitude: (progress ** 6) * (1 - progress),
+  })
+})
+
+content.audio.tires.on('grain', (strength) => {
+  app.controls.haptic.trigger({
+    duration: engine.utility.lerpExp(25, 100, strength, 2),
+    startDelay: 0,
+    strongMagnitude: 0,
+    weakMagnitude: strength,
+  })
+})

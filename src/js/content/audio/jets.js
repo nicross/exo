@@ -1,6 +1,7 @@
 content.audio.jets = (() => {
   const bus = content.audio.createBus(),
-    firstBurnDuration = 1/4
+    firstBurnDuration = 1/4,
+    pubsub = engine.utility.pubsub.create()
 
   let firstBurn,
     firstBurnTimeout,
@@ -84,7 +85,7 @@ content.audio.jets = (() => {
     engine.audio.ramp.set(synth.param.mod.frequency, modFrequency)
   }
 
-  return {
+  return engine.utility.pubsub.decorate({
     reset: function () {
       if (synth) {
         destroySynth()
@@ -101,13 +102,15 @@ content.audio.jets = (() => {
         } else if (!firstBurn) {
           updateSynth()
         }
+
+        pubsub.emit('fire')
       } else if (synth) {
         destroySynth()
       }
 
       return this
     },
-  }
+  }, pubsub)
 })()
 
 engine.loop.on('frame', ({paused}) => {
