@@ -5,7 +5,7 @@ content.audio.collision = (() => {
     const velocity = engine.position.getVelocity()
 
     // XXX: strength is ratio to hardcoded maximum velocity
-    const distance = velocity.distance(),
+    const distance = velocity.distance() || engine.const.zero,
       normal = velocity.scale(1 / distance),
       strength = engine.utility.clamp(distance / 20, 0, 1)
 
