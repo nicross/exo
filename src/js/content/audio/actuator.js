@@ -5,8 +5,7 @@ content.audio.actuator = (() => {
   let strength = 0,
     synth
 
-
-  bus.gain.value = engine.utility.fromDb(-18)
+  bus.gain.value = engine.utility.fromDb(-15)
 
   function calculateIntent() {
     // TODO: while turning
@@ -23,14 +22,14 @@ content.audio.actuator = (() => {
   }
 
   function calculateParameters() {
-    const amodDepth = engine.utility.lerp(1/4, 1/2, strength)
+    const amodDepth = engine.utility.lerp(1/4, 1/3, strength)
 
     return {
       amodDepth,
-      amodFrequency: engine.utility.lerp(5, 20, strength),
+      amodFrequency: engine.utility.lerp(1/2, 1, strength) * rootFrequency / 4,
       carrierGain: 1 - amodDepth,
-      detune: engine.utility.lerp(-2400, 0, engine.utility.clamp(strength * 2, 0, 1)),
-      fmodDepth: engine.utility.lerp(0, 1, strength) * rootFrequency,
+      detune: engine.utility.lerp(-3600, -1200, strength),
+      fmodDepth: engine.utility.lerp(0, 4, strength) * rootFrequency,
       fmodDetune: engine.utility.lerp(700, 2400, strength),
       gain: engine.utility.lerpExp(engine.const.zeroGain, 1, strength, 0.5),
     }
@@ -47,8 +46,11 @@ content.audio.actuator = (() => {
       carrierGain: parameters.carrierGain,
       fmodDepth: parameters.fmodDepth,
       fmodDetune: parameters.fmodDetune,
-      fmodFrequency: rootFrequency,
+      fmodFrequency: rootFrequency * 2,
+      fmodType: 'sawtooth',
       gain: parameters.gain,
+    }).filtered({
+      frequency: rootFrequency * 8,
     }).connect(bus)
   }
 
