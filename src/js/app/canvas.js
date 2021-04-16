@@ -37,6 +37,7 @@ app.canvas = (() => {
 
   function draw() {
     app.canvas.terrain.draw()
+    app.canvas.grain.draw()
   }
 
   function onEnterGame() {
