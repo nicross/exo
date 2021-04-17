@@ -6,9 +6,7 @@
 ## Planned features
 - Materials
   - Audio cues
-  - Inventory system
   - Inventory screen
-  - Statistics
 - Scanning system
   - Raycasting
   - Pause time on scan
@@ -32,7 +30,6 @@
 - Controls
   - Mouse
 - Audio cues
-  - Mode switching
   - Ice creaks
 - Movement
   - RCS thrusters

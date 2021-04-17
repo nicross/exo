@@ -71,11 +71,13 @@ app.screen.stats = (() => {
     const maxAltitude = app.stats.maxAltitude.get(),
       maxDistance = app.stats.maxDistance.get(),
       totalDistance = app.stats.totalDistance.get(),
+      totalMaterials = app.stats.materials.total(),
       totalTime = app.stats.totalTime.get()
 
     root.querySelector('.a-stats--metric-maxAltitude').innerHTML = app.utility.format.number(maxAltitude)
     root.querySelector('.a-stats--metric-maxDistance').innerHTML = app.utility.format.number(maxDistance)
     root.querySelector('.a-stats--metric-totalDistance').innerHTML = app.utility.format.number(totalDistance)
+    root.querySelector('.a-stats--metric-totalMaterials').innerHTML = app.utility.format.number(totalMaterials)
     root.querySelector('.a-stats--metric-totalTime').innerHTML = app.utility.format.time(totalTime)
   }
 
