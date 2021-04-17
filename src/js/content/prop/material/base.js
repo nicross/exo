@@ -1,6 +1,9 @@
 content.prop.material.base = engine.prop.base.invent({
+  radius: 2,
   onConstruct: function (options = {}, ...args) {
+    this.chunk = options.chunk
     this.synth = engine.audio.synth.createFm().filtered().connect(this.output)
+    this.synth.param.gain.value = 1
     this.configureSynth(options, ...args)
   },
   onDestroy: function () {
@@ -16,9 +19,10 @@ content.prop.material.base = engine.prop.base.invent({
     }
   },
   collect: function () {
+    // TODO: inventory check
     this.isCollected = true
     engine.audio.ramp.exponential(this.output.gain, engine.const.zeroGain, 1/4)
-    content.materials.collect(this)
+    this.chunk.collect(this)
     return this
   },
   configureSynth: () => {},
