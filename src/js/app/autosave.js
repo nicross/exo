@@ -56,3 +56,5 @@ app.autosave = (() => {
     },
   }
 })()
+
+content.materials.on('collect', () => app.autosave.trigger())
