@@ -24,18 +24,19 @@ content.materials.types = (() => {
     choose: (value = Math.random()) => engine.utility.chooseWeighted(Array.from(registry.values()), value),
     get: (key) => registry.get(key),
     register: function ({
+      group,
+      prototype,
       name,
-      type,
       weight,
     } = {}) {
-      const key = toSlug(type) + '/' + toSlug(name)
+      const key = toSlug(group) + '/' + toSlug(name)
 
       registry.set(key, {
+        group,
         key,
         name,
-        type,
-        prototype: prototypes[type] || content.prop.material.base,
-        weight: weight || weights[type] || 0,
+        prototype: prototype || prototypes[group] || content.prop.material.base,
+        weight: weight || weights[group] || 0,
       })
 
       return this
@@ -44,81 +45,81 @@ content.materials.types = (() => {
 })()
 
 content.materials.types.register({
+  group: 'Common',
   name: 'Carbon',
-  type: 'Common',
 })
 
 content.materials.types.register({
+  group: 'Common',
   name: 'Hydrogen',
-  type: 'Common',
 })
 
 content.materials.types.register({
+  group: 'Common',
   name: 'Lithium',
-  type: 'Common',
 })
 
 content.materials.types.register({
+  group: 'Common',
   name: 'Nitrogen',
-  type: 'Common',
 })
 
 content.materials.types.register({
+  group: 'Common',
   name: 'Oxygen',
-  type: 'Common',
 })
 
 content.materials.types.register({
+  group: 'Common',
   name: 'Silicon',
-  type: 'Common',
 })
 
 content.materials.types.register({
+  group: 'Metal',
   name: 'Aluminum',
-  type: 'Metal',
 })
 
 content.materials.types.register({
+  group: 'Metal',
   name: 'Copper',
-  type: 'Metal',
 })
 
 content.materials.types.register({
+  group: 'Metal',
   name: 'Gold',
-  type: 'Metal',
 })
 
 content.materials.types.register({
+  group: 'Metal',
   name: 'Iron',
-  type: 'Metal',
 })
 
 content.materials.types.register({
+  group: 'Metal',
   name: 'Silver',
-  type: 'Metal',
 })
 
 content.materials.types.register({
+  group: 'Exotic',
   name: 'Neodymium',
-  type: 'Exotic',
 })
 
 content.materials.types.register({
+  group: 'Exotic',
   name: 'Plutonium',
-  type: 'Exotic',
 })
 
 content.materials.types.register({
+  group: 'Exotic',
   name: 'Uranium',
-  type: 'Exotic',
 })
 
 content.materials.types.register({
+  group: 'Xenotech',
   name: 'Artifact',
-  type: 'Xenotech',
 })
 
 content.materials.types.register({
+  group: 'Xenotech',
   name: 'Black Box',
-  type: 'Xenotech',
 })
