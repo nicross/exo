@@ -1,33 +1,23 @@
-app.screen.gameMenu = (() => {
+app.screen.upgrades = (() => {
   let root
 
   engine.ready(() => {
-    root = document.querySelector('.a-gameMenu')
+    root = document.querySelector('.a-upgrades')
 
-    app.state.screen.on('enter-gameMenu', onEnter)
-    app.state.screen.on('exit-gameMenu', onExit)
+    app.state.screen.on('enter-upgrades', onEnter)
+    app.state.screen.on('exit-upgrades', onExit)
 
-    Object.entries({
-      crafting: root.querySelector('.a-gameMenu--crafting'),
-      mainMenu: root.querySelector('.a-gameMenu--mainMenu'),
-      misc: root.querySelector('.a-gameMenu--misc'),
-      quit: root.querySelector('.a-gameMenu--quit'),
-      resume: root.querySelector('.a-gameMenu--resume'),
-      status: root.querySelector('.a-gameMenu--status'),
-    }).forEach(([event, element]) => {
-      element.addEventListener('click', () => app.state.screen.dispatch(event))
-    })
-
-    root.querySelector('.a-gameMenu--action-quit').hidden = !app.isElectron()
+    root.querySelector('.a-upgrades--back').addEventListener('click', onBackClick)
 
     app.utility.focus.trap(root)
+    app.utility.input.preventScrolling(root.querySelector('.a-upgrades--data'))
   })
 
   function handleControls() {
     const ui = app.controls.ui()
 
-    if (ui.backspace || ui.cancel || ui.escape || ui.start) {
-      return app.state.screen.dispatch('resume')
+    if (ui.backspace || ui.cancel || ui.escape) {
+      return onBackClick()
     }
 
     if (ui.confirm) {
@@ -59,19 +49,26 @@ app.screen.gameMenu = (() => {
     }
   }
 
+  function onBackClick() {
+    app.state.screen.dispatch('back')
+  }
+
   function onEngineLoopFrame(e) {
     handleControls(e)
   }
 
   function onEnter() {
-    root.querySelector('.a-gameMenu--action-crafting').hidden = !app.screen.crafting.hasOptions()
-    
+    updateTable()
     engine.loop.on('frame', onEngineLoopFrame)
     app.utility.focus.setWithin(root)
   }
 
   function onExit() {
     engine.loop.off('frame', onEngineLoopFrame)
+  }
+
+  function updateTable() {
+
   }
 
   return {}

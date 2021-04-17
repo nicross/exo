@@ -108,6 +108,23 @@
         </section>
       </div>
 
+      <div class="a-app--screen a-app--crafting">
+        <section class="c-screen a-crafting" aria-label="Crafting">
+          <h1 class="c-screen--title">Crafting</h1>
+          <ul class="c-screen--actions">
+            <li class="c-screen--action a-crafting--action-upgrades">
+              <button class="c-menuButton a-crafting--upgrades" type="button">Upgrades</button>
+            </li>
+            <li class="c-screen--action a-crafting--action-inventory">
+              <button class="c-menuButton a-crafting--inventory" type="button">Inventory</button>
+            </li>
+            <li class="c-screen--action">
+              <button class="c-menuButton a-crafting--back" type="button">Back</button>
+            </li>
+          </ul>
+        </section>
+      </div>
+
       <div class="a-app--screen a-app--game">
         <section class="c-screen a-game" tabindex="-1" aria-label="Game">
           <canvas class="a-game--canvas"></canvas>
@@ -120,6 +137,9 @@
           <ul class="c-screen--actions">
             <li class="c-screen--action">
               <button class="c-menuButton a-gameMenu--status" type="button">Status</button>
+            </li>
+            <li class="c-screen--action a-gameMenu--action-crafting">
+              <button class="c-menuButton a-gameMenu--crafting" type="button">Crafting</button>
             </li>
             <li class="c-screen--action">
               <button class="c-menuButton a-gameMenu--misc" type="button">Miscellaneous</button>
@@ -174,6 +194,20 @@
           <ul class="c-screen--actions">
             <li class="c-screen--action">
               <button class="c-menuButton a-graphics--back" type="button">Back</button>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="a-app--screen a-app--inventory">
+        <section class="c-screen a-inventory" aria-label="Inventory">
+          <h1 class="c-screen--title">Inventory</h1>
+          <div class="a-inventory--data c-screen--scrollable">
+            <table class="a-inventory--table"></table>
+          </div>
+          <ul class="c-screen--actions">
+            <li class="c-screen--action">
+              <button class="c-menuButton a-inventory--back" type="button">Back</button>
             </li>
           </ul>
         </section>
@@ -312,6 +346,20 @@
           <ul class="c-screen--actions">
             <li class="c-screen--action">
               <button class="c-menuButton a-status--back" type="button">Back</button>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="a-app--screen a-app--upgrades">
+        <section class="c-screen a-upgrades" aria-label="SUpgrades">
+          <h1 class="c-screen--title">Upgrades</h1>
+          <div class="a-upgrades--data c-screen--scrollable">
+
+          </div>
+          <ul class="c-screen--actions">
+            <li class="c-screen--action">
+              <button class="c-menuButton a-upgrades--back" type="button">Back</button>
             </li>
           </ul>
         </section>

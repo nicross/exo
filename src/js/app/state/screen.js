@@ -11,12 +11,26 @@ app.state.screen = engine.utility.machine.create({
         this.change('settings')
       },
     },
+    crafting: {
+      back: function () {
+        this.change('gameMenu')
+      },
+      inventory: function () {
+        this.change('inventory')
+      },
+      upgrades: function () {
+        this.change('upgrades')
+      },
+    },
     game: {
       pause: function () {
         this.change('gameMenu')
       },
     },
     gameMenu: {
+      crafting: function () {
+        this.change('crafting')
+      },
       mainMenu: function () {
         this.change('mainMenu')
       },
@@ -36,6 +50,11 @@ app.state.screen = engine.utility.machine.create({
     graphics: {
       back: function () {
         this.change('settings')
+      },
+    },
+    inventory: {
+      back: function () {
+        this.change('crafting')
       },
     },
     mainMenu: {
@@ -101,6 +120,11 @@ app.state.screen = engine.utility.machine.create({
         this.change('mainMenu')
       },
     },
+    upgrades: {
+      back: function () {
+        this.change('crafting')
+      },
+    },
   },
 })
 
@@ -134,15 +158,18 @@ app.state.screen.on('enter', (e) => {
   const selectors = {
     audio: '.a-app--audio',
     controls: '.a-app--controls',
+    crafting: '.a-app--crafting',
     game: '.a-app--game',
     gameMenu: '.a-app--gameMenu',
     graphics: '.a-app--graphics',
+    inventory: '.a-app--inventory',
     mainMenu: '.a-app--mainMenu',
     misc: '.a-app--misc',
     settings: '.a-app--settings',
     splash: '.a-app--splash',
     stats: '.a-app--stats',
     status: '.a-app--status',
+    upgrades: '.a-app--upgrades',
   }
 
   const selector = selectors[e.currentState]

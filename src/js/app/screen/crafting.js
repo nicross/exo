@@ -1,24 +1,19 @@
-app.screen.gameMenu = (() => {
+app.screen.crafting = (() => {
   let root
 
   engine.ready(() => {
-    root = document.querySelector('.a-gameMenu')
+    root = document.querySelector('.a-crafting')
 
-    app.state.screen.on('enter-gameMenu', onEnter)
-    app.state.screen.on('exit-gameMenu', onExit)
+    app.state.screen.on('enter-crafting', onEnter)
+    app.state.screen.on('exit-crafting', onExit)
 
     Object.entries({
-      crafting: root.querySelector('.a-gameMenu--crafting'),
-      mainMenu: root.querySelector('.a-gameMenu--mainMenu'),
-      misc: root.querySelector('.a-gameMenu--misc'),
-      quit: root.querySelector('.a-gameMenu--quit'),
-      resume: root.querySelector('.a-gameMenu--resume'),
-      status: root.querySelector('.a-gameMenu--status'),
+      back: root.querySelector('.a-crafting--back'),
+      inventory: root.querySelector('.a-crafting--inventory'),
+      upgrades: root.querySelector('.a-crafting--upgrades'),
     }).forEach(([event, element]) => {
       element.addEventListener('click', () => app.state.screen.dispatch(event))
     })
-
-    root.querySelector('.a-gameMenu--action-quit').hidden = !app.isElectron()
 
     app.utility.focus.trap(root)
   })
@@ -26,8 +21,8 @@ app.screen.gameMenu = (() => {
   function handleControls() {
     const ui = app.controls.ui()
 
-    if (ui.backspace || ui.cancel || ui.escape || ui.start) {
-      return app.state.screen.dispatch('resume')
+    if (ui.backspace || ui.cancel || ui.escape) {
+      return app.state.screen.dispatch('back')
     }
 
     if (ui.confirm) {
@@ -59,13 +54,24 @@ app.screen.gameMenu = (() => {
     }
   }
 
+  function hasInventory() {
+    // TODO
+    return false
+  }
+
+  function hasUpgrades() {
+    // TODO
+    return false
+  }
+
   function onEngineLoopFrame(e) {
     handleControls(e)
   }
 
   function onEnter() {
-    root.querySelector('.a-gameMenu--action-crafting').hidden = !app.screen.crafting.hasOptions()
-    
+    root.querySelector('.a-crafting--action-inventory').hidden = !hasInventory()
+    root.querySelector('.a-crafting--action-upgrades').hidden = !hasUpgrades()
+
     engine.loop.on('frame', onEngineLoopFrame)
     app.utility.focus.setWithin(root)
   }
@@ -74,5 +80,7 @@ app.screen.gameMenu = (() => {
     engine.loop.off('frame', onEngineLoopFrame)
   }
 
-  return {}
+  return {
+    hasOptions: () => hasInventory() || hasUpgrades(),
+  }
 })()
