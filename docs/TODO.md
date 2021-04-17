@@ -1,7 +1,6 @@
 # TODO
 ## Issues
 - Movement
-  - Excessive reflections when grounded
   - No reflections when jets active and colliding with ground
 
 ## Planned features

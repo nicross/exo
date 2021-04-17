@@ -70,11 +70,6 @@ content.movement = (() => {
   function applyGravity() {
     // TODO: apply slippage on steep slopes when wheeled
 
-    if (isGrounded) {
-      gravity = 0
-      return
-    }
-
     const deltaGravity = engine.const.gravity * engine.loop.delta(),
       velocity = engine.position.getVelocity()
 
@@ -350,7 +345,7 @@ content.movement = (() => {
     const distance = velocity.distance()
 
     // Glue on low velocities
-    if (distance < 1) {
+    if (engine.utility.round(distance, 1) == 0) {
       return true
     }
 
@@ -358,7 +353,9 @@ content.movement = (() => {
     const dot = velocity.dotProduct(slope.up())
     const theta = Math.acos(dot / distance)
 
-    return engine.utility.between(theta, Math.PI/2*7.5/9, Math.PI/2*10.5/9)
+    return gravity
+      ? engine.utility.between(theta, Math.PI/2*8/9, Math.PI/2*10/9)
+      : engine.utility.between(theta, Math.PI/2*4.5/9, Math.PI/2*13.5/9)
   }
 
   return engine.utility.pubsub.decorate({
@@ -478,7 +475,6 @@ content.movement = (() => {
       }
 
       applyVerticalThrust(controls.z)
-      applyGravity()
 
       isGroundedEnough = z <= terrain + groundLeeway && !isJetActive && !isJumpCooldown
 
@@ -495,6 +491,13 @@ content.movement = (() => {
         } else {
           reflect()
         }
+      }
+
+      if (!isGroundedEnough) {
+        applyGravity()
+      } else {
+        gravity = 0
+        isJumpCooldown = false
       }
 
       return this
