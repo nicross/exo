@@ -1,5 +1,5 @@
 content.materials.types = (() => {
-  const registry = []
+  const registry = new Map()
 
   const prototypes = {
     Common: content.prop.material.common,
@@ -15,15 +15,23 @@ content.materials.types = (() => {
     Xenotech: 1,
   }
 
+  function toSlug(value) {
+    return value.toLowerCase().replace(/\W/g, '-')
+  }
+
   return {
-    all: () => [...registry],
-    choose: (value = Math.random()) => engine.utility.chooseWeighted(registry, value),
+    all: () => Array.from(registry.values()),
+    choose: (value = Math.random()) => engine.utility.chooseWeighted(Array.from(registry.values()), value),
+    get: (key) => registry.get(key),
     register: function ({
       name,
       type,
       weight,
     } = {}) {
-      registry.push({
+      const key = toSlug(type) + '/' + toSlug(name)
+
+      registry.set(key, {
+        key,
         name,
         type,
         prototype: prototypes[type] || content.prop.material.base,
