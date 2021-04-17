@@ -9,6 +9,32 @@ content.inventory = (() => {
   return {
     capacity: () => calculateCapacity(),
     canCollect: (key) => !cargo[key] || cargo[key] < calculateCapacity(),
+    canConsume: (hash = {}) => {
+      // hash is {material_key: quantity}
+
+      for (const [key, value] of Object.entries(hash)) {
+        if (!cargo[key] || cargo[key] < value) {
+          return false
+        }
+      }
+
+      return true
+    },
+    consume: function (hash = {}) {
+      // hash is {material_key: quantity}
+
+      for (const [key, value] of Object.entries(hash)) {
+        if (cargo[key]) {
+          cargo[key] -= value
+
+          if (cargo[key] <= 0) {
+            delete cargo[key]
+          }
+        }
+      }
+
+      return this
+    },
     export: () => ({...cargo}),
     get: (key) => cargo[key] || 0,
     import: function (data = {}) {
