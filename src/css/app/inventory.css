@@ -1,0 +1,35 @@
+.a-inventory {}
+  .a-inventory--data {
+    list-style-type: none;
+    max-height: calc(2em * 5 + 0.5em);
+  }
+  .a-inventory--count,
+  .a-inventory--name {
+    border-right: 1px solid rgba(0, 0, 0, 0.25);
+  }
+  .a-inventory--table {
+    border-collapse: collapse;
+    display: block;
+    margin: -0.5em;
+  }
+  .a-inventory--table td {
+    padding: 0.5em;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .a-inventory--table th {
+    padding: 0.25em;
+    text-align: left;
+    width: 100%;
+  }
+  .a-inventory--table tr {
+    transition: opacity 0.25s ease;
+  }
+  .a-inventory--table:focus-within tr,
+  .a-inventory--table:hover tr {
+    opacity: 0.333;
+  }
+  .a-inventory--table:focus-within tr:focus,
+  .a-inventory--table:hover tr:hover {
+    opacity: 1;
+  }

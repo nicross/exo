@@ -6,7 +6,9 @@
 ## Planned features
 - Materials
   - Audio cues
-  - Inventory screen
+    - Props
+    - Material collected
+    - Inventory full
 - Scanning system
   - Raycasting
   - Pause time on scan

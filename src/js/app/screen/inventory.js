@@ -1,8 +1,10 @@
 app.screen.inventory = (() => {
-  let root
+  let root,
+    table
 
   engine.ready(() => {
     root = document.querySelector('.a-inventory')
+    table = root.querySelector('.a-inventory--table')
 
     app.state.screen.on('enter-inventory', onEnter)
     app.state.screen.on('exit-inventory', onExit)
@@ -12,6 +14,15 @@ app.screen.inventory = (() => {
     app.utility.focus.trap(root)
     app.utility.input.preventScrolling(root.querySelector('.a-inventory--data'))
   })
+
+  function getTableData() {
+    return content.materials.types.sort(
+      content.inventory.export()
+    ).map(([key, count]) => ({
+      ...content.materials.types.get(key),
+      count,
+    }))
+  }
 
   function handleControls() {
     const ui = app.controls.ui()
@@ -68,7 +79,24 @@ app.screen.inventory = (() => {
   }
 
   function updateTable() {
+    const capacity = content.inventory.capacity(),
+      data = getTableData()
 
+    let html = ''
+
+    for (const row of data) {
+      const count = row.count < capacity
+        ? `${row.count} <abbr aria-label="of">/</abbr> ${capacity}`
+        : 'FULL'
+
+      html += `<tr tabindex="0">
+        <th class="a-inventory--name" scope="row">${row.name}</th>
+        <td class="a-inventory--count">${count}</td>
+        <td class="a-inventory--group">${row.group}</td>
+      </tr>`
+    }
+
+    table.innerHTML = html
   }
 
   return {}
