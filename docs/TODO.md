@@ -5,7 +5,6 @@
   - No reflections when jets active and colliding with ground
 - Terrain
   - Polar not implemented
-  - Waves are inconsistent
 
 ## Planned features
 - Materials

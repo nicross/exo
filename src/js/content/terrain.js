@@ -241,9 +241,14 @@ content.terrain = (() => {
     return 1 / (1 + (Math.E ** (-20 * (value - 0.5))))
   }
 
-  function waves({x, y}) {
-    // TODO: Adjust scale and exponent by noise fields
-    return (engine.utility.scale(Math.sin(x * Math.PI / engine.utility.lerp(25, 75, Math.abs(Math.sin(y * Math.PI / 1000)))), -1, 1, 0, 1) ** 2) * 10
+  function waves({amplitude, exponent, x, y}) {
+    const wavelength = engine.utility.lerp(25, 75, Math.abs(Math.sin(x * 2 * Math.PI / 5000)))
+    const oscillation = (Math.cos(x * 2 * Math.PI / wavelength) + 1) / 2
+
+    amplitude = engine.utility.lerp(5, 15, amplitude)
+    exponent = engine.utility.lerp(1, 4, exponent)
+
+    return amplitude * (oscillation ** exponent)
   }
 
   return {
