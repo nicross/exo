@@ -41,6 +41,24 @@ content.materials.types = (() => {
 
       return this
     },
+    sort: (hash = {}) => {
+      // hash is {material_key: mixed}
+
+      const result = Array.from(Object.entries(hash))
+
+      result.sort((a, b) => {
+        const aType = registry.get(a[0]),
+          bType = registry.get(b[0])
+
+        if (aType.group == bType.group) {
+          return aType.name.localeCompare(bType.name)
+        }
+
+        return weights[bType.group] - weights[aType.group]
+      })
+
+      return result
+    },
   }
 })()
 
