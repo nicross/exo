@@ -12,7 +12,7 @@ content.terrain = (() => {
   const biomes = [
     {x: 1/5, y: 1/3, name: 'flat', command: flat}, {x: 1/5, y: 2/3, name: 'waves', command: waves},
     {x: 2/5, y: 1/3, name: 'plains', command: plains}, {x: 2/5, y: 2/3, name: 'rolling', command: rolling},
-    {x: 3/5, y: 1/3, name: 'rough', command: rough}, {x: 3/5, y: 2/3, name: 'polar', command: polar},
+    {x: 3/5, y: 1/3, name: 'rough', command: rough}, {x: 3/5, y: 2/3, name: 'hoodoos', command: hoodoos},
     {x: 4/5, y: 1/3, name: 'mountains', command: mountains}, {x: 4/5, y: 2/3, name: 'plateau', command: plateau},
   ]
 
@@ -171,25 +171,26 @@ content.terrain = (() => {
     return result.value
   }
 
+  function hoodoos({amplitude, exponent, x, y}) {
+    // TODO: Adjust stairHeight by noise fields
+    const noise = noiseField.value((x / 25) + 0.5, (y / 25) + 0.5),
+      stairHeight = 2
+
+    amplitude = engine.utility.lerp(250, 500, amplitude)
+    exponent = engine.utility.lerp(4, 8, exponent)
+
+    const value = amplitude * (noise ** exponent)
+
+    const v0 = Math.floor(value / stairHeight) * stairHeight,
+      delta = smooth((value - v0) / stairHeight) * stairHeight
+
+    return v0 + delta
+  }
+
   function mountains({amplitude, exponent, x, y}) {
     const noise = noiseField.value(x / 1000, y / 1000)
     amplitude = engine.utility.lerp(500, 2000, amplitude)
     exponent = engine.utility.lerp(1/4, 1, exponent)
-    return amplitude * (noise ** exponent)
-  }
-
-  function polar({amplitude, exponent, x, y}) {
-    // TODO: repeat in a grid somehow,basically to create pockets of radial symmetry that fade out from their center
-    /*
-    const xi = Math.floor(x / 1000) * 1000,
-      yi = Math.floor(y / 1000) * 1000
-
-    const blend = engine.utility.distance({x, y}, {x: xi, y: xi})
-    */
-
-    const noise = noiseField.value(engine.utility.distance({x, y}) / 100, Math.abs(x + y) / 100)
-    amplitude = engine.utility.lerp(500, 1000, amplitude)
-    exponent = engine.utility.lerp(5, 10, exponent)
     return amplitude * (noise ** exponent)
   }
 
