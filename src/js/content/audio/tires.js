@@ -5,7 +5,7 @@ content.audio.tires = (() => {
 
   let throttle = 0
 
-  bus.gain.value = engine.utility.fromDb(-6)
+  bus.gain.value = engine.utility.fromDb(-4.5)
 
   function grain() {
     const velocity = humanize(engine.position.getVelocity())
@@ -23,7 +23,7 @@ content.audio.tires = (() => {
       modDepth: 1 - carrierGain,
       modFrequency: engine.utility.lerpRandom([4, 8], [10, 20], strength),
     }).filtered({
-      frequency: engine.utility.lerpRandom([80, 120], [300, 600], strength),
+      frequency: engine.utility.lerpRandom([100, 150], [300, 600], strength),
     })
 
     const binaural = engine.audio.binaural.create(direction)
