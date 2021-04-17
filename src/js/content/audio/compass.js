@@ -24,7 +24,7 @@ content.audio.compass = (() => {
 
   let previousAngle = 0
 
-  bus.gain.value = engine.utility.fromDb(-12)
+  bus.gain.value = engine.utility.fromDb(-10.5)
 
   function getRose(angle) {
     const max = Math.max(angle, previousAngle),
