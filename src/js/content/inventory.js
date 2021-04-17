@@ -11,7 +11,7 @@ content.inventory = (() => {
     canCollect: (key) => !cargo[key] || cargo[key] < calculateCapacity(),
     export: () => ({...cargo}),
     get: (key) => cargo[key] || 0,
-    import: function (data) {
+    import: function (data = {}) {
       cargo = {...data}
       return this
     },
@@ -29,6 +29,15 @@ content.inventory = (() => {
     reset: function () {
       cargo = {}
       return this
+    },
+    total: function () {
+      let sum = 0
+
+      for (const value of Object.values(cargo)) {
+        sum += value
+      }
+
+      return sum
     },
   }
 })()

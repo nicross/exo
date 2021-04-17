@@ -55,8 +55,7 @@ app.screen.crafting = (() => {
   }
 
   function hasInventory() {
-    // TODO
-    return false
+    return content.inventory.total() > 0
   }
 
   function hasUpgrades() {
