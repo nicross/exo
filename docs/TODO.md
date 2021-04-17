@@ -5,8 +5,6 @@
 
 ## Planned features
 - Materials
-  - Define materials
-  - Spawning
   - Audio cues
   - Inventory system
   - Inventory screen

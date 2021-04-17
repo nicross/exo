@@ -79,18 +79,18 @@ content.materials.chunk.prototype = {
       + (this.size * this.cluster.distance * Math.sin(this.cluster.angle))
       + (this.cluster.radius * this.size * (srand() ** this.cluster.density))
 
-    // TODO: ptototype and material type
-    const prototype = content.prop.material.base
+    const type = content.materials.types.choose(srand())
 
     const options = {
       chunk: this,
       index,
+      type,
       x,
       y,
       z: content.terrain.value(x, y) + content.prop.material.base.radius,
     }
 
-    const token = engine.streamer.registerProp(prototype, options)
+    const token = engine.streamer.registerProp(type.prototype, options)
     this.tokens.set(token, index)
 
     return this

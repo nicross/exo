@@ -2,6 +2,9 @@ content.prop.material.base = engine.prop.base.invent({
   radius: 2,
   onConstruct: function (options = {}, ...args) {
     this.chunk = options.chunk
+    this.index = options.index
+    this.type = options.type
+
     this.synth = engine.audio.synth.createFm().filtered().connect(this.output)
     this.synth.param.gain.value = 1
     this.configureSynth(options, ...args)
