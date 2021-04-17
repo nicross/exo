@@ -5,7 +5,7 @@ content.audio.actuator = (() => {
   let strength = 0,
     synth
 
-  bus.gain.value = engine.utility.fromDb(-15)
+  bus.gain.value = engine.utility.fromDb(-12)
 
   function calculateIntent() {
     // TODO: while turning
@@ -31,7 +31,7 @@ content.audio.actuator = (() => {
       detune: engine.utility.lerp(-3600, -1200, strength),
       fmodDepth: engine.utility.lerp(0, 4, strength) * rootFrequency,
       fmodDetune: engine.utility.lerp(700, 2400, strength),
-      gain: engine.utility.lerpExp(engine.const.zeroGain, 1, strength, 0.5),
+      gain: engine.utility.lerpExp(engine.const.zeroGain, 1, strength, 1/3),
     }
   }
 
