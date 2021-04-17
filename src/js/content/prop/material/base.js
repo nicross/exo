@@ -18,11 +18,14 @@ content.prop.material.base = engine.prop.base.invent({
     }
 
     if (engine.utility.round(this.distance, 3) <= 0) {
-      this.collect()
+      if (content.inventory.canCollect(this.type.key)) {
+        this.collect()
+      } else {
+        // TODO: periodic error
+      }
     }
   },
   collect: function () {
-    // TODO: inventory check
     this.isCollected = true
     engine.audio.ramp.exponential(this.output.gain, engine.const.zeroGain, 1/4)
     this.chunk.collect(this)
