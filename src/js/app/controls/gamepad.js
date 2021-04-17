@@ -36,6 +36,14 @@ app.controls.gamepad = {
       state.cancel = true
     }
 
+    if (engine.input.gamepad.isDigital(8)) {
+      state.select = true
+    }
+
+    if (engine.input.gamepad.isDigital(9)) {
+      state.start = true
+    }
+
     if (engine.input.gamepad.isDigital(12)) {
       y = 1
     }
