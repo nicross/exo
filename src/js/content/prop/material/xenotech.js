@@ -3,7 +3,4 @@ content.prop.material.xenotech = content.prop.material.base.invent({
   configureSynth: function () {
 
   },
-  pulse: function () {
-
-  },
 })

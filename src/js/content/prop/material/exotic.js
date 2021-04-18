@@ -3,7 +3,4 @@ content.prop.material.exotic = content.prop.material.base.invent({
   configureSynth: function () {
 
   },
-  pulse: function () {
-
-  },
 })

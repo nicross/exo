@@ -35,5 +35,4 @@ content.prop.material.base = engine.prop.base.invent({
     return this
   },
   configureSynth: () => {},
-  pulse: () => {},
 })
