@@ -23,8 +23,6 @@
 - Notification system
   - Event subscribers
     - Upgrades available
-- Controls
-  - Mouse
 - Audio cues
   - Ice creaks
 - Movement
