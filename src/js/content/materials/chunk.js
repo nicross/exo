@@ -74,7 +74,7 @@ content.materials.chunk.prototype = {
       + (this.size * this.cluster.distance * Math.cos(this.cluster.angle)) // center of cluster
       + (this.cluster.radius * this.size * (srand() ** this.cluster.density)) // offset from cluster
 
-    const y = (this.x * this.size)
+    const y = (this.y * this.size)
       + (this.size / 2)
       + (this.size * this.cluster.distance * Math.sin(this.cluster.angle))
       + (this.cluster.radius * this.size * (srand() ** this.cluster.density))

@@ -58,6 +58,7 @@ content.materials = (() => {
   }
 
   return engine.utility.pubsub.decorate({
+    chunks: () => [...chunks],
     chunkTree: () => chunkTree,
     collect: function (prop) {
       pubsub.emit('collect', prop)
