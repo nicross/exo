@@ -174,9 +174,10 @@ content.terrain = (() => {
     return results
   }
 
+  function hoodoos({amplitude, exponent, weight, x, y}) {
     // TODO: Adjust stairHeight by noise fields
     const noise = noiseField.value((x / 25) + 0.5, (y / 25) + 0.5),
-      stairHeight = 2
+      stairHeight = 2 / weight
 
     amplitude = engine.utility.lerp(250, 500, amplitude)
     exponent = engine.utility.lerp(4, 8, exponent)
@@ -202,10 +203,10 @@ content.terrain = (() => {
     return amplitude * noise
   }
 
-  function plateau({amplitude, exponent, x, y}) {
+  function plateau({amplitude, exponent, weight, x, y}) {
     // TODO: Adjust stairHeight by noise fields
     const noise = noiseField.value(x / 1000, y / 1000),
-      stairHeight = 2
+      stairHeight = 2 / weight
 
     amplitude = engine.utility.lerp(250, 750, amplitude)
     exponent = engine.utility.lerp(1/4, 1, exponent)
