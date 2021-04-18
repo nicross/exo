@@ -136,10 +136,6 @@ content.movement = (() => {
       rate
     ).add({z: gravity})
 
-    if (isNaN(next.x) || isNaN(next.y) || isNaN(next.z)) {
-      console.log(controlsX, controlsY, model, normalThrust, thrust, slopeAngle, thrustAngle, deltaAngle,
-        deltaAngleFactor, slopeFactor, scaleFactor, appliedThrust, current, rate, next)
-    }
     engine.position.setVelocity(next)
   }
 
@@ -317,7 +313,6 @@ content.movement = (() => {
     })
 
     pubsub.emit('jump')
-    console.log('jump')
   }
 
   function lerpModel(a, b, value) {
@@ -342,7 +337,6 @@ content.movement = (() => {
 
     // Emit event before setting velocity so true velocity is accessible
     pubsub.emit('reflect')
-    console.log('reflect')
 
     engine.position.setVelocity(reflection)
   }
