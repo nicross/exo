@@ -1,6 +1,7 @@
 content.materials.types = (() => {
   const registry = new Map()
 
+  // XXX: source order, see Gulpfile
   const prototypes = {
     Common: content.prop.material.common,
     Exotic: content.prop.material.exotic,

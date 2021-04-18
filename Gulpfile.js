@@ -176,6 +176,7 @@ function getContentJs() {
     'src/js/content/utility/*.js',
     'src/js/content/utility/**/*.js',
     'src/js/content/prop/material/base.js',
+    'src/js/content/prop/material/*.js',
     'src/js/content/*.js',
     'src/js/content/**/*.js',
   ]
