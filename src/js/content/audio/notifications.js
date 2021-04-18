@@ -24,6 +24,6 @@ content.audio.notifications = (() => {
 })()
 
 engine.ready(() => {
-  content.inventory.on('full', () => app.audio.notifications.materialFull())
-  content.materials.on('collect', () => app.audio.notifications.materialCollect())
+  content.inventory.on('full', () => content.audio.notifications.materialFull())
+  content.materials.on('collect', () => content.audio.notifications.materialCollect())
 })
