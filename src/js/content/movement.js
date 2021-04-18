@@ -22,7 +22,7 @@ content.movement = (() => {
   ]
 
   const groundLeeway = 1/16,
-    reflectionRate = 1/2,
+    reflectionRate = 1/4,
     transitionRate = 1
 
   let gravity = 0,
