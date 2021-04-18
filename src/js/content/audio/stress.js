@@ -8,7 +8,7 @@ content.audio.stress = (() => {
     breathTimer,
     pulseTimer
 
-  bus.gain.value = engine.utility.fromDb(-3)
+  bus.gain.value = engine.utility.fromDb(-6)
 
   function breath() {
     const level = content.stress.level(),
