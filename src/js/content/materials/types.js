@@ -28,10 +28,12 @@ content.materials.types = (() => {
       prototype,
       name,
       weight,
+      ...options // Fun fact: no comma allowed, "rest element must be last element"
     } = {}) {
       const key = toSlug(group) + '/' + toSlug(name)
 
       registry.set(key, {
+        ...options,
         group,
         key,
         name,
@@ -65,74 +67,89 @@ content.materials.types = (() => {
 content.materials.types.register({
   group: 'Common',
   name: 'Carbon',
+  protons: 6,
 })
 
 content.materials.types.register({
   group: 'Common',
   name: 'Hydrogen',
+  protons: 1,
 })
 
 content.materials.types.register({
   group: 'Common',
   name: 'Lithium',
+  protons: 3,
 })
 
 content.materials.types.register({
   group: 'Common',
   name: 'Nitrogen',
+  protons: 7,
 })
 
 content.materials.types.register({
   group: 'Common',
   name: 'Oxygen',
+  protons: 8,
 })
 
 content.materials.types.register({
   group: 'Common',
   name: 'Silicon',
+  protons: 14,
 })
 
 content.materials.types.register({
   group: 'Metal',
   name: 'Aluminum',
+  protons: 13,
 })
 
 content.materials.types.register({
   group: 'Metal',
   name: 'Copper',
+  protons: 29,
 })
 
 content.materials.types.register({
   group: 'Metal',
   name: 'Gold',
+  protons: 79,
 })
 
 content.materials.types.register({
   group: 'Metal',
   name: 'Iron',
+  protons: 26,
 })
 
 content.materials.types.register({
   group: 'Metal',
   name: 'Silver',
+  protons: 47,
 })
 
 content.materials.types.register({
   group: 'Exotic',
   name: 'Neodymium',
+  protons: 60,
 })
 
 content.materials.types.register({
   group: 'Exotic',
   name: 'Thorium',
+  protons: 90,
 })
 
 content.materials.types.register({
   group: 'Exotic',
   name: 'Uranium',
+  protons: 92,
 })
 
 content.materials.types.register({
   group: 'Xenotech',
   name: 'Artifact',
+  protons: 666,
 })
