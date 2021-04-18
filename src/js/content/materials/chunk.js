@@ -43,7 +43,7 @@ content.materials.chunk.prototype = {
   },
   generate: function () {
     const srand = engine.utility.srand('materials', 'chunk', this.x, this.y)
-    const count = Math.round(engine.utility.lerpExp(0, 4, srand(), 3))
+    const count = Math.round(engine.utility.lerpExp(0, 4, srand(), 2))
 
     if (!count || this.collected.size == count) {
       return this
