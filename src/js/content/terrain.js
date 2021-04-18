@@ -40,50 +40,6 @@ content.terrain = (() => {
     return amplitude * noise
   }
 
-  function getWeightedBiomes(x, y) {
-    x = biomeXField.value(x, y)
-    y = biomeYField.value(x, y)
-
-    const results = []
-
-    for (const biome of biomes) {
-      results.push({
-        command: biome.command,
-        distance: engine.utility.distance2({x, y}, {x: biome.x, y: biome.y}),
-        name: biome.name,
-      })
-    }
-
-    results.sort((a, b) => {
-      return b.distance - a.distance
-    })
-
-    let totalDistance = results.reduce((sum, result) => {
-      return sum + result.distance
-    }, 0)
-
-    for (const result of results) {
-      result.weight = (1 - (result.distance / totalDistance)) ** 32
-    }
-
-    let totalWeight = results.reduce((sum, result) => {
-      return sum + result.weight
-    }, 0)
-
-    for (const result of results) {
-      result.weight /= totalWeight
-    }
-
-    results.debug = {
-      totalDistance: totalDistance,
-      totalWeight: totalWeight,
-      x: x,
-      y: y,
-    }
-
-    return results
-  }
-
   function generateBiome(x, y) {
     x /= biomeScale
     y /= biomeScale
@@ -92,11 +48,14 @@ content.terrain = (() => {
 
     const weighted = getWeightedBiomes(x, y)
 
-    return (...args) => {
+    return (options) => {
       let value = 0
 
       for (const biome of weighted) {
-        value += biome.weight * biome.command(...args)
+        value += biome.weight * biome.command({
+          ...options,
+          weight: biome.weight,
+        })
       }
 
       return value
@@ -171,7 +130,50 @@ content.terrain = (() => {
     return result.value
   }
 
-  function hoodoos({amplitude, exponent, x, y}) {
+  function getWeightedBiomes(x, y) {
+    x = biomeXField.value(x, y)
+    y = biomeYField.value(x, y)
+
+    const results = []
+
+    for (const biome of biomes) {
+      results.push({
+        command: biome.command,
+        distance: engine.utility.distance2({x, y}, {x: biome.x, y: biome.y}),
+        name: biome.name,
+      })
+    }
+
+    results.sort((a, b) => {
+      return b.distance - a.distance
+    })
+
+    let totalDistance = results.reduce((sum, result) => {
+      return sum + result.distance
+    }, 0)
+
+    for (const result of results) {
+      result.weight = (1 - (result.distance / totalDistance)) ** 32
+    }
+
+    let totalWeight = results.reduce((sum, result) => {
+      return sum + result.weight
+    }, 0)
+
+    for (const result of results) {
+      result.weight /= totalWeight
+    }
+
+    results.debug = {
+      totalDistance: totalDistance,
+      totalWeight: totalWeight,
+      x: x,
+      y: y,
+    }
+
+    return results
+  }
+
     // TODO: Adjust stairHeight by noise fields
     const noise = noiseField.value((x / 25) + 0.5, (y / 25) + 0.5),
       stairHeight = 2
