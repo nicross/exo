@@ -1,6 +1,6 @@
 content.materials = (() => {
   const chunks = [],
-    chunkSize = 200,
+    chunkSize = 250,
     chunkTree = engine.utility.quadtree.create(),
     pubsub = engine.utility.pubsub.create()
 

@@ -1,5 +1,5 @@
 content.prop.material.base = engine.prop.base.invent({
-  radius: 2,
+  radius: 4,
   onConstruct: function (options = {}, ...args) {
     this.chunk = options.chunk
     this.index = options.index
