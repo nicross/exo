@@ -1,18 +1,18 @@
-app.screen.inventory = (() => {
+app.screen.materials = (() => {
   let root,
     table
 
   engine.ready(() => {
-    root = document.querySelector('.a-inventory')
-    table = root.querySelector('.a-inventory--table')
+    root = document.querySelector('.a-materials')
+    table = root.querySelector('.a-materials--table')
 
-    app.state.screen.on('enter-inventory', onEnter)
-    app.state.screen.on('exit-inventory', onExit)
+    app.state.screen.on('enter-materials', onEnter)
+    app.state.screen.on('exit-materials', onExit)
 
-    root.querySelector('.a-inventory--back').addEventListener('click', onBackClick)
+    root.querySelector('.a-materials--back').addEventListener('click', onBackClick)
 
     app.utility.focus.trap(root)
-    app.utility.input.preventScrolling(root.querySelector('.a-inventory--data'))
+    app.utility.input.preventScrolling(root.querySelector('.a-materials--data'))
   })
 
   function getTableData() {
@@ -90,9 +90,9 @@ app.screen.inventory = (() => {
         : 'FULL'
 
       html += `<tr tabindex="0">
-        <th class="a-inventory--name" scope="row">${row.name}</th>
-        <td class="a-inventory--count">${count}</td>
-        <td class="a-inventory--group">${row.group}</td>
+        <th class="a-materials--name" scope="row">${row.name}</th>
+        <td class="a-materials--count">${count}</td>
+        <td class="a-materials--group">${row.group}</td>
       </tr>`
     }
 

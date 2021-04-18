@@ -9,7 +9,7 @@ app.screen.crafting = (() => {
 
     Object.entries({
       back: root.querySelector('.a-crafting--back'),
-      inventory: root.querySelector('.a-crafting--inventory'),
+      materials: root.querySelector('.a-crafting--materials'),
       upgrades: root.querySelector('.a-crafting--upgrades'),
     }).forEach(([event, element]) => {
       element.addEventListener('click', () => app.state.screen.dispatch(event))
@@ -54,7 +54,7 @@ app.screen.crafting = (() => {
     }
   }
 
-  function hasInventory() {
+  function hasMaterials() {
     return content.inventory.total() > 0
   }
 
@@ -68,7 +68,7 @@ app.screen.crafting = (() => {
   }
 
   function onEnter() {
-    root.querySelector('.a-crafting--action-inventory').hidden = !hasInventory()
+    root.querySelector('.a-crafting--action-materials').hidden = !hasMaterials()
     root.querySelector('.a-crafting--action-upgrades').hidden = !hasUpgrades()
 
     engine.loop.on('frame', onEngineLoopFrame)
@@ -80,6 +80,6 @@ app.screen.crafting = (() => {
   }
 
   return {
-    hasOptions: () => hasInventory() || hasUpgrades(),
+    hasOptions: () => hasMaterials() || hasUpgrades(),
   }
 })()

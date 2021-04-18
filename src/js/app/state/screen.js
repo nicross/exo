@@ -15,8 +15,8 @@ app.state.screen = engine.utility.machine.create({
       back: function () {
         this.change('gameMenu')
       },
-      inventory: function () {
-        this.change('inventory')
+      materials: function () {
+        this.change('materials')
       },
       upgrades: function () {
         this.change('upgrades')
@@ -52,11 +52,6 @@ app.state.screen = engine.utility.machine.create({
         this.change('settings')
       },
     },
-    inventory: {
-      back: function () {
-        this.change('crafting')
-      },
-    },
     mainMenu: {
       continue: function () {
         this.change('game')
@@ -69,6 +64,11 @@ app.state.screen = engine.utility.machine.create({
       },
       quit: () => {
         ElectronApi.quit()
+      },
+    },
+    materials: {
+      back: function () {
+        this.change('crafting')
       },
     },
     misc: {
@@ -162,7 +162,7 @@ app.state.screen.on('enter', (e) => {
     game: '.a-app--game',
     gameMenu: '.a-app--gameMenu',
     graphics: '.a-app--graphics',
-    inventory: '.a-app--inventory',
+    materials: '.a-app--materials',
     mainMenu: '.a-app--mainMenu',
     misc: '.a-app--misc',
     settings: '.a-app--settings',
