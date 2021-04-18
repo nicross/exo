@@ -4,9 +4,6 @@
   - No reflections when jets active and colliding with ground
 
 ## Planned features
-- Materials
-  - Audio cues
-    - Props
 - Scanning system
   - Pause time on scan
   - Raycasting

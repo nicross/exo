@@ -82,24 +82,8 @@ content.terrain = (() => {
   }
 
   function getBiome(x, y) {
-    x = Math.round(x)
-    y = Math.round(y)
-
-    let result = biomeCache.find({x, y}, engine.const.zero)
-
-    if (result && result.value) {
-      return result.value
-    }
-
-    result = {
-      value: generateBiome(x, y),
-      x,
-      y,
-    }
-
-    biomeCache.insert(result)
-
-    return result.value
+    // XXX: originally caching here, but it causes seams
+    return generateBiome(x, y)
   }
 
   function getExponent(x, y) {
