@@ -43,7 +43,7 @@ content.movement = (() => {
     thrust = engine.utility.vector3d.create(),
     turbo = 0
 
-  function applyAngularThrust(rotate) {
+  function applyAngularThrust(rotate = 0) {
     // TODO: The model might allow some thrusting mid-flight
     // TODO: Should wheeled only rotate when velocity nonzero?
     const {yaw} = engine.position.getAngularVelocityEuler()
@@ -88,11 +88,14 @@ content.movement = (() => {
     }
   }
 
-  function applyLateralThrust(controls = {}) {
+  function applyLateralThrust({
+    x: controlsX = 0,
+    y: controlsY = 0,
+  } = {}) {
     // TODO: The model might allow some thrusting mid-flight
     normalThrust = engine.utility.vector3d.create({
-      x: controls.y * model.xScale,
-      y: -controls.x * model.yScale,
+      x: controlsY * model.xScale,
+      y: -controlsX * model.yScale,
     })
 
     thrust = normalThrust.scale(model.lateralVelocity)
@@ -133,10 +136,14 @@ content.movement = (() => {
       rate
     ).add({z: gravity})
 
+    if (isNaN(next.x) || isNaN(next.y) || isNaN(next.z)) {
+      console.log(controlsX, controlsY, model, normalThrust, thrust, slopeAngle, thrustAngle, deltaAngle,
+        deltaAngleFactor, slopeFactor, scaleFactor, appliedThrust, current, rate, next)
+    }
     engine.position.setVelocity(next)
   }
 
-  function applyVerticalThrust(zThrust) {
+  function applyVerticalThrust(zThrust = 0) {
     const delta = engine.loop.delta()
 
     if (!zThrust) {
@@ -444,7 +451,7 @@ content.movement = (() => {
     turbo: () => turbo,
     update: function (controls = {}) {
       if (Number(controls.turbo) != intendedTurbo) {
-        intendedTurbo = Number(controls.turbo)
+        intendedTurbo = Number(controls.turbo) || 0
         intendedModel = calculateIntendedModel()
         pubsub.emit('turbo')
         pubsub.emit('turbo-' + intendedModel.type)

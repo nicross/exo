@@ -23,7 +23,9 @@ app.screen.game = (() => {
 
     if (access) {
       if (!paused) {
-        content.movement.update()
+        content.movement.update({
+          turbo: app.settings.computed.toggleTurbo ? turboState : false,
+        })
       }
       return app.access.handle(access)
     }
