@@ -71,11 +71,16 @@ app.screen.game.toasts = (() => {
   }
 })()
 
+// XXX: Event subscriptions inside engine.ready() to escape race conditions with content modules
 engine.ready(() => {
-  // Material collection notification
-  // XXX: inside engine.ready() to escape race condition with content modules
+  // Material collect
   content.materials.on('collect', (prop) => {
     app.screen.game.toasts.toast(`<strong>${prop.type.name}</strong> collected`)
     // TODO: check if upgrades available
+  })
+
+  // Material storage full
+  content.inventory.on('full', (prop) => {
+    app.screen.game.toasts.toast(`<strong>${prop.type.name}</strong> storage full`)
   })
 })

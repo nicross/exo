@@ -24,7 +24,6 @@
   - Applying upgrades to movement models
 - Notification system
   - Event subscribers
-    - (Material name) full
     - Upgrades available
 - Controls
   - Mouse

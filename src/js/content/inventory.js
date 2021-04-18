@@ -1,4 +1,6 @@
 content.inventory = (() => {
+  const pubsub = engine.utility.pubsub.create()
+
   let cargo = {}
 
   function calculateCapacity() {
@@ -6,7 +8,7 @@ content.inventory = (() => {
     return 5
   }
 
-  return {
+  return engine.utility.pubsub.decorate({
     capacity: () => calculateCapacity(),
     canCollect: (key) => !cargo[key] || cargo[key] < calculateCapacity(),
     canConsume: (hash = {}) => {
@@ -52,6 +54,11 @@ content.inventory = (() => {
 
       return this
     },
+    onFull: function (prop) {
+      // XXX: Called directly by props
+      pubsub.emit('full', prop)
+      return this
+    },
     reset: function () {
       cargo = {}
       return this
@@ -65,7 +72,7 @@ content.inventory = (() => {
 
       return sum
     },
-  }
+  }, pubsub)
 })()
 
 engine.ready(() => {
