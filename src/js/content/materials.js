@@ -81,6 +81,22 @@ content.materials = (() => {
 
       return this
     },
+    test: function (key = 'common/hydrogen') {
+      const type = content.materials.types.get(key)
+
+      const location = engine.position.getVector().add(
+        engine.position.getQuaternion().forward().scale(10)
+      )
+
+      return engine.props.create(type.prototype, {
+        chunk: {collect: () => {}, count: 4},
+        index: engine.utility.random.integer(1, 4),
+        type,
+        x: location.x,
+        y: location.y,
+        z: content.terrain.value(location.x, location.y) + (content.prop.material.base.radius / 2),
+      })
+    },
     update: function () {
       stream()
       return this
