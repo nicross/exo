@@ -1,5 +1,5 @@
 app.screen.game.toasts = (() => {
-  const duration = 2,
+  const duration = 3,
     queue = []
 
   let root,
