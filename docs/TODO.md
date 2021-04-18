@@ -8,10 +8,18 @@
   - Audio cues
     - Props
 - Scanning system
-  - Raycasting
   - Pause time on scan
+  - Raycasting
+    - Get heights along rays
+    - Every 30 degrees (7 rays)
+    - 25m out, 1m increments
   - Audio cues
+    - Convert heights to frequencies, distances to gains
+      - Level is Middle C, 10m per note, detune between steps
+    - Play rays from left to right, notes closest to farthest, equal spacing between notes
   - Haptic feedback
+    - On scan
+    - On scanner recharged
 - Soundtrack
   - Ambient synths
   - Spatial frequency selection
