@@ -12,8 +12,8 @@ content.terrain = (() => {
   const biomes = [
     {x: 1/5, y: 1/3, name: 'flat', command: flat}, {x: 1/5, y: 2/3, name: 'waves', command: waves},
     {x: 2/5, y: 1/3, name: 'plains', command: plains}, {x: 2/5, y: 2/3, name: 'rolling', command: rolling},
-    {x: 3/5, y: 1/3, name: 'rough', command: rough}, {x: 3/5, y: 2/3, name: 'hoodoos', command: hoodoos},
-    {x: 4/5, y: 1/3, name: 'mountains', command: mountains}, {x: 4/5, y: 2/3, name: 'plateau', command: plateau},
+    {x: 3/5, y: 1/3, name: 'plateau', command: plateau}, {x: 3/5, y: 2/3, name: 'mountains', command: mountains},
+    {x: 4/5, y: 1/3, name: 'hoodoos', command: hoodoos}, {x: 4/5, y: 2/3, name: 'rough', command: rough},
   ]
 
   const biomeCache = engine.utility.quadtree.create(),
