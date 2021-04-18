@@ -255,34 +255,19 @@ content.movement = (() => {
   }
 
   function glueVelocity() {
-    // XXX: simple solution - push gravitational velocity toward slope
+    let velocity = engine.position.getVelocity()
+
     if (gravity) {
-      engine.position.setVelocity(
-        engine.position.getVelocity().add(
-          slope.forward().scale(Math.abs(gravity))
-        ).subtract({
-          z: gravity,
-        })
-      )
+      velocity = velocity.add(
+        slope.forward().scale(Math.abs(gravity) * reflectionRate)
+      ).subtract({
+        z: gravity,
+      })
     }
 
-    // XXX: return early, dead code ahead
-    return
+    // TODO: Rotate velocity toward slope.forward()
 
-    // Rotate grounded velocity toward slope
-    // TODO: fix reversing down slope
-    const velocity = engine.position.getVelocity()
-
-    engine.position.setVelocity(
-      slope.forward().normalize().scale(
-        Math.max(velocity.distance() - Math.abs(gravity), 0)
-      ).rotateQuaternion(
-        engine.utility.vector3d.create({
-          x: velocity.x,
-          y: velocity.y,
-        }).quaternion()
-      )
-    )
+    engine.position.setVelocity(velocity)
   }
 
   function glueZ() {
