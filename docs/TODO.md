@@ -23,12 +23,9 @@
   - Crafting screen
   - Applying upgrades to movement models
 - Notification system
-  - ARIA-live region
-  - Simple visual
   - Event subscribers
-    - Material full
-    - Inventory collected
-    - Upgrades ready to craft
+    - (Material name) full
+    - Upgrades available
 - Controls
   - Mouse
 - Audio cues

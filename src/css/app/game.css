@@ -1,8 +1,75 @@
 .a-game {
   max-width: none;
   padding: 0;
+  position: relative;
 }
   .a-game--canvas {
     height: 100%;
     width: 100%;
   }
+  .a-game--toast {
+    animation: a-game--toast--in 0.5s ease 0s 1 normal both;
+    background-color: #000000;
+    bottom: 0;
+    color: #FFFFFF;
+    left: 50%;
+    padding: 1em;
+    position: absolute;
+    transform: translateX(-50%);
+  }
+  .a-game--toast[aria-hidden="true"] {
+    animation: a-game--toast--out 0.5s ease 0s 1 normal both;
+  }
+  .a-game--toast strong {
+    font-family: RobotoRegular;
+    font-weight: 400;
+  }
+  .a-game--toasts {
+    bottom: 4em;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+  }
+
+@keyframes a-game--toast--in {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(2em);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes a-game--toast--out {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-2em);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes a-game--toast--in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes a-game--toast--out {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+}

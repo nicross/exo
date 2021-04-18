@@ -69,6 +69,7 @@ content.inventory = (() => {
 })()
 
 engine.ready(() => {
+  // XXX: source ordering, content.materials undefined
   content.materials.on('collect', (...args) => content.inventory.onCollect(...args))
 })
 
