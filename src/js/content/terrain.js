@@ -3,7 +3,7 @@ content.terrain = (() => {
     amplitudeScale = 1000,
     biomeXField = engine.utility.perlin2d.create('terrain', 'biomeX'),
     biomeYField = engine.utility.perlin2d.create('terrain', 'biomeY'),
-    biomeScale = 10000,
+    biomeScale = 5000,
     exponentField = engine.utility.perlin2d.create('terrain', 'exponent'),
     exponentScale = 1000,
     noiseField = engine.utility.createPerlinWithOctaves(engine.utility.perlin2d, 'terrain', 2),
