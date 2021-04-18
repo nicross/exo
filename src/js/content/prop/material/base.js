@@ -3,11 +3,11 @@ content.prop.material.base = engine.prop.base.invent({
   onConstruct: function (options = {}, ...args) {
     this.chunk = options.chunk
     this.index = options.index
+    this.rootFrequency = this.resolveFrequency()
     this.type = options.type
 
-    this.synth = engine.audio.synth.createFm().filtered().connect(this.output)
-    this.synth.param.gain.value = 1
-    this.configureSynth(options, ...args)
+    this.createSynth()
+    this.configureSynth()
   },
   onDestroy: function () {
     this.synth.stop()
@@ -28,6 +28,12 @@ content.prop.material.base = engine.prop.base.invent({
       }
     }
   },
+  createSynth: function () {
+    this.synth = engine.audio.synth.createSimple({
+      carrierFrequency: this.rootFrequency,
+      gain: 1,
+    }).connect(this.output)
+  },
   collect: function () {
     this.isCollected = true
     engine.audio.ramp.exponential(this.output.gain, engine.const.zeroGain, 1/4)
@@ -35,4 +41,11 @@ content.prop.material.base = engine.prop.base.invent({
     return this
   },
   configureSynth: () => {},
+  resolveFrequency: function (offset = 0) {
+    return content.utility.frequency.fromMidi(this.resolveNote() + offset)
+  },
+  resolveNote: function () {
+    const index = this.index / (this.chunk.count + 1)
+    return engine.utility.choose([67, 70, 72, 75], index)
+  },
 })
