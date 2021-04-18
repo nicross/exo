@@ -7,8 +7,6 @@
 - Materials
   - Audio cues
     - Props
-    - Material collected
-    - Inventory full
 - Scanning system
   - Raycasting
   - Pause time on scan
