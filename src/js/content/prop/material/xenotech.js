@@ -8,7 +8,7 @@ content.prop.material.xenotech = content.prop.material.base.invent({
       carrierType: 'square',
       gain: 1,
       modDepth: 1/2,
-      modFrequency: 24,
+      modFrequency: 0,
       modType: 'square',
     }).filtered({
       frequency: this.rootFrequency / 2,
@@ -18,7 +18,7 @@ content.prop.material.xenotech = content.prop.material.base.invent({
 
     const lfo = engine.audio.synth.createLfo({
       depth: 600,
-      frequency: 1,
+      frequency: 1/2,
       type: 'triangle',
     }).connect(this.synth.param.detune)
 
