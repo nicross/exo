@@ -18,8 +18,8 @@ app.state.screen = engine.utility.machine.create({
       materials: function () {
         this.change('materials')
       },
-      upgrades: function () {
-        this.change('upgrades')
+      synthesis: function () {
+        this.change('synthesis')
       },
     },
     game: {
@@ -120,7 +120,7 @@ app.state.screen = engine.utility.machine.create({
         this.change('mainMenu')
       },
     },
-    upgrades: {
+    synthesis: {
       back: function () {
         this.change('crafting')
       },
@@ -169,7 +169,7 @@ app.state.screen.on('enter', (e) => {
     splash: '.a-app--splash',
     stats: '.a-app--stats',
     status: '.a-app--status',
-    upgrades: '.a-app--upgrades',
+    synthesis: '.a-app--synthesis',
   }
 
   const selector = selectors[e.currentState]

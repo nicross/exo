@@ -1,16 +1,16 @@
-app.screen.upgrades = (() => {
+app.screen.synthesis = (() => {
   let root
 
   engine.ready(() => {
-    root = document.querySelector('.a-upgrades')
+    root = document.querySelector('.a-synthesis')
 
-    app.state.screen.on('enter-upgrades', onEnter)
-    app.state.screen.on('exit-upgrades', onExit)
+    app.state.screen.on('enter-synthesis', onEnter)
+    app.state.screen.on('exit-synthesis', onExit)
 
-    root.querySelector('.a-upgrades--back').addEventListener('click', onBackClick)
+    root.querySelector('.a-synthesis--back').addEventListener('click', onBackClick)
 
     app.utility.focus.trap(root)
-    app.utility.input.preventScrolling(root.querySelector('.a-upgrades--data'))
+    app.utility.input.preventScrolling(root.querySelector('.a-synthesis--data'))
   })
 
   function handleControls() {

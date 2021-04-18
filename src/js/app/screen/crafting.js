@@ -10,7 +10,7 @@ app.screen.crafting = (() => {
     Object.entries({
       back: root.querySelector('.a-crafting--back'),
       materials: root.querySelector('.a-crafting--materials'),
-      upgrades: root.querySelector('.a-crafting--upgrades'),
+      synthesis: root.querySelector('.a-crafting--synthesis'),
     }).forEach(([event, element]) => {
       element.addEventListener('click', () => app.state.screen.dispatch(event))
     })
@@ -69,7 +69,7 @@ app.screen.crafting = (() => {
 
   function onEnter() {
     root.querySelector('.a-crafting--action-materials').hidden = !hasMaterials()
-    root.querySelector('.a-crafting--action-upgrades').hidden = !hasUpgrades()
+    root.querySelector('.a-crafting--action-synthesis').hidden = !hasUpgrades()
 
     engine.loop.on('frame', onEngineLoopFrame)
     app.utility.focus.setWithin(root)
