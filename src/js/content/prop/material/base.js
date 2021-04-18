@@ -7,7 +7,6 @@ content.prop.material.base = engine.prop.base.invent({
     this.type = options.type
 
     this.createSynth()
-    this.configureSynth()
   },
   onDestroy: function () {
     this.synth.stop()
@@ -40,7 +39,6 @@ content.prop.material.base = engine.prop.base.invent({
     this.chunk.collect(this)
     return this
   },
-  configureSynth: () => {},
   resolveFrequency: function (offset = 0) {
     return content.utility.frequency.fromMidi(this.resolveNote() + offset)
   },
