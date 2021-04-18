@@ -12,7 +12,7 @@ content.materials.types = (() => {
     Common: 20,
     Exotic: 5,
     Metal: 10,
-    Xenotech: 1,
+    Xenotech: 2.5,
   }
 
   function toSlug(value) {
@@ -124,7 +124,7 @@ content.materials.types.register({
 
 content.materials.types.register({
   group: 'Exotic',
-  name: 'Plutonium',
+  name: 'Thorium',
 })
 
 content.materials.types.register({
@@ -135,9 +135,4 @@ content.materials.types.register({
 content.materials.types.register({
   group: 'Xenotech',
   name: 'Artifact',
-})
-
-content.materials.types.register({
-  group: 'Xenotech',
-  name: 'Black Box',
 })
