@@ -250,7 +250,10 @@ content.terrain = (() => {
     const oscillation = (Math.cos(x * 2 * Math.PI / wavelength) + 1) / 2
 
     amplitude = engine.utility.lerp(5, 15, amplitude)
-    exponent = engine.utility.lerp(1, 4, exponent)
+    exponent = engine.utility.lerp(1, 2.8, exponent)
+
+    // Prevent odd exponents
+    exponent = Math.round((exponent - (exponent % 0.2)) * 100) / 100
 
     return amplitude * (oscillation ** exponent)
   }
