@@ -340,8 +340,8 @@ content.movement = (() => {
     const theta = Math.acos(dot / distance)
 
     return gravity
-      ? engine.utility.between(theta, Math.PI/2*8/9, Math.PI/2*10/9)
-      : engine.utility.between(theta, Math.PI/2*4.5/9, Math.PI/2*13.5/9)
+      ? engine.utility.between(theta, Math.PI/2*6/9, Math.PI/2*12/9)
+      : engine.utility.between(theta, Math.PI/2*3/9, Math.PI/2*15/9)
   }
 
   return engine.utility.pubsub.decorate({
