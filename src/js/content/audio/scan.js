@@ -13,12 +13,12 @@ content.audio.scan = (() => {
       when: now,
     })
 
-    renderGroup(scan.forwardLeft1, {
+    renderGroup(scan.forwardLeftLeft, {
       pan: -2/3,
       when: now,
     })
 
-    renderGroup(scan.forwardLeft2, {
+    renderGroup(scan.forwardForwardLeft, {
       pan: -1/3,
       when: now,
     })
@@ -28,12 +28,12 @@ content.audio.scan = (() => {
       when: now,
     })
 
-    renderGroup(scan.forwardRight1, {
+    renderGroup(scan.forwardForwardRight, {
       pan: 1/3,
       when: now,
     })
 
-    renderGroup(scan.forwardRight2, {
+    renderGroup(scan.forwardRightRight, {
       pan: 2/3,
       when: now,
     })
