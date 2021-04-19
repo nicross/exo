@@ -9,9 +9,6 @@
     - Convert heights to frequencies, distances to gains
       - Level is Middle C, 10m per note, detune between steps
     - Play rays from left to right, notes closest to farthest, equal spacing between notes
-  - Haptic feedback
-    - On scan
-    - On scanner recharged
 - Soundtrack
   - Ambient synths
   - Spatial frequency selection

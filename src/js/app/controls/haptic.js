@@ -100,3 +100,25 @@ content.audio.tires.on('grain', (strength) => {
     weakMagnitude: strength,
   })
 })
+
+content.scan.on('trigger', () => {
+  app.controls.haptic.trigger({
+    duration: 50,
+    startDelay: 0,
+    strongMagnitude: 1,
+    weakMagnitude: 1,
+  })
+})
+
+content.scan.on('recharge', () => {
+  if (engine.loop.isPaused()) {
+    return
+  }
+
+  app.controls.haptic.trigger({
+    duration: 50,
+    startDelay: 0,
+    strongMagnitude: 0.5,
+    weakMagnitude: 0.5,
+  })
+})
