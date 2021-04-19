@@ -1,9 +1,9 @@
 content.audio.scan = (() => {
-  const bus = content.audio.createBus(),
+  const bus = content.audio.createBypass(),
     context = engine.audio.context(),
     rootFrequency = content.utility.frequency.fromMidi(60)
 
-  bus.gain.value = engine.utility.fromDb(-6)
+  bus.gain.value = engine.utility.fromDb(-9)
 
   function render(scan) {
     const now = engine.audio.time()
