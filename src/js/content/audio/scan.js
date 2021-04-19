@@ -3,15 +3,7 @@ content.audio.scan = (() => {
     context = engine.audio.context(),
     rootFrequency = content.utility.frequency.fromMidi(60)
 
-  bus.gain.value = engine.utility.fromDb(-9)
-
-  function honk() {
-    // TODO: bass drop
-  }
-
-  function recharge() {
-    // TODO: bass swell
-  }
+  bus.gain.value = engine.utility.fromDb(-6)
 
   function render(scan) {
     const now = engine.audio.time()
@@ -81,28 +73,20 @@ content.audio.scan = (() => {
 
       synth.param.detune.linearRampToValueAtTime(detune, next)
       synth.param.frequency.exponentialRampToValueAtTime(frequency, next)
-      synth.param.gain.linearRampToValueAtTime(gain, next)
+      synth.param.gain.linearRampToValueAtTime(gain / 2.5, next)
     }
 
     synth.stop(when + duration)
   }
 
   return {
-    complete: function (scan) {
+    render: function (scan) {
       render(scan)
-      recharge()
-      return this
-    },
-    trigger: function ({
-      forward = false,
-    } = {}) {
-      honk(forward)
       return this
     },
   }
 })()
 
 engine.ready(() => {
-  content.scan.on('complete', (...args) => content.audio.scan.complete(...args))
-  content.scan.on('trigger', (...args) => content.audio.scan.trigger(...args))
+  content.scan.on('complete', (...args) => content.audio.scan.render(...args))
 })

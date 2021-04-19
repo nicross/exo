@@ -4,11 +4,6 @@
   - No reflections when jets active and colliding with ground
 
 ## Planned features
-- Scanning system
-  - Audio cues
-    - Convert heights to frequencies, distances to gains
-      - Level is Middle C, 10m per note, detune between steps
-    - Play rays from left to right, notes closest to farthest, equal spacing between notes
 - Soundtrack
   - Ambient synths
   - Spatial frequency selection
