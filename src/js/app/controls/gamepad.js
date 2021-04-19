@@ -34,7 +34,7 @@ app.controls.gamepad = {
       rotate = -1
     }
 
-    if (engine.input.gamepad.isDigital(5)) {
+    if (engine.input.gamepad.isDigital(0) || engine.input.gamepad.isDigital(5)) {
       state.z = 1
     }
 
@@ -54,7 +54,7 @@ app.controls.gamepad = {
       state.y = y
     }
 
-    if (engine.input.gamepad.isDigital(10) && !app.settings.computed.toggleTurbo) {
+    if (!app.settings.computed.toggleTurbo && (engine.input.gamepad.isDigital(1) || engine.input.gamepad.isDigital(10))) {
       state.turbo = true
     }
 
@@ -74,7 +74,7 @@ app.controls.gamepad = {
       state.cancel = true
     }
 
-    if (engine.input.gamepad.isDigital(4)) {
+    if (engine.input.gamepad.isDigital(2) || engine.input.gamepad.isDigital(4)) {
       state.scan = true
     }
 
@@ -102,11 +102,11 @@ app.controls.gamepad = {
       x = 1
     }
 
-    if (engine.input.gamepad.isDigital(10) && app.settings.computed.toggleTurbo) {
+    if (app.settings.computed.toggleTurbo && (engine.input.gamepad.isDigital(1) || engine.input.gamepad.isDigital(10))) {
       state.turbo = true
     }
 
-    if (engine.input.gamepad.isDigital(11)) {
+    if (engine.input.gamepad.isDigital(3) || engine.input.gamepad.isDigital(11)) {
       state.mode = true
     }
 
