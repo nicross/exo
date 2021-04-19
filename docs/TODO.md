@@ -6,10 +6,6 @@
 ## Planned features
 - Scanning system
   - Pause time on scan
-  - Raycasting
-    - Get heights along rays
-    - Every 30 degrees (7 rays)
-    - 25m out, 1m increments
   - Audio cues
     - Convert heights to frequencies, distances to gains
       - Level is Middle C, 10m per note, detune between steps
