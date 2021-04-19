@@ -1,8 +1,8 @@
 content.scan = (() => {
-  const cooldown = 2000,
-    maxDistance = 20,
+  const cooldown = 2000, // ms for scan cue to end
+    maxDistance = 100,
     pubsub = engine.utility.pubsub.create(),
-    unit2 = Math.sqrt(2) / 2
+    unitX = engine.utility.vector2d.unitX()
 
   let isCooldown = false
 
@@ -32,11 +32,13 @@ content.scan = (() => {
     }
 
     return {
-      forward: await scheduleRaycast(position, {x: 1}),
-      forwardLeft: await scheduleRaycast(position, {x: unit2, y: unit2}),
-      forwardRight: await scheduleRaycast(position, {x: unit2, y: -unit2}),
-      left: await scheduleRaycast(position, {y: 1}),
-      right: await scheduleRaycast(position, {y: -1}),
+      forward: await scheduleRaycast(position, unitX.clone()),
+      forwardLeft1: await scheduleRaycast(position, unitX.rotate(Math.PI / 6)),
+      forwardLeft2: await scheduleRaycast(position, unitX.rotate(Math.PI / 3)),
+      forwardRight1: await scheduleRaycast(position, unitX.rotate(-Math.PI / 6)),
+      forwardRight2: await scheduleRaycast(position, unitX.rotate(-Math.PI / 3)),
+      left: await scheduleRaycast(position, unitX.rotate(Math.PI / 2)),
+      right: await scheduleRaycast(position, unitX.rotate(-Math.PI / 2)),
     }
   }
 
