@@ -2,18 +2,56 @@ app.controls.gamepad = {
   game: function () {
     const state = {}
 
+    let rotate = 0,
+      x = 0,
+      y = 0
+
     if (engine.input.gamepad.hasAxis(2)) {
-      state.rotate = engine.input.gamepad.getAxis(2, true)
-      state.x = engine.input.gamepad.getAxis(0)
-      state.y = engine.input.gamepad.getAxis(1, true)
+      rotate = engine.input.gamepad.getAxis(2, true)
+      x = engine.input.gamepad.getAxis(0)
+      y = engine.input.gamepad.getAxis(1, true)
     } else {
-      state.rotate = engine.input.gamepad.getAxis(0, true)
-      state.x = 0
-      state.y = engine.input.gamepad.getAxis(1, true)
+      rotate = engine.input.gamepad.getAxis(0, true)
+      y = engine.input.gamepad.getAxis(1, true)
+    }
+
+    y -= engine.input.gamepad.getAnalog(6)
+    y += engine.input.gamepad.getAnalog(7)
+
+    if (engine.input.gamepad.isDigital(12)) {
+      y = 1
+    }
+
+    if (engine.input.gamepad.isDigital(13)) {
+      y = -1
+    }
+
+    if (engine.input.gamepad.isDigital(14)) {
+      rotate = 1
+    }
+
+    if (engine.input.gamepad.isDigital(15)) {
+      rotate = -1
     }
 
     if (engine.input.gamepad.isDigital(5)) {
       state.z = 1
+    }
+
+    rotate = engine.utility.clamp(rotate, -1, 1) || 0
+    x = engine.utility.clamp(x, -1, 1) || 0
+    y = engine.utility.clamp(y, -1, 1) || 0
+
+    if (rotate) {
+      state.rotate = rotate
+    }
+
+    if (x) {
+      state.x = x
+    }
+
+    if (y) {
+      state.y = y
     }
 
     if (engine.input.gamepad.isDigital(10) && !app.settings.computed.toggleTurbo) {
@@ -36,7 +74,7 @@ app.controls.gamepad = {
       state.cancel = true
     }
 
-    if (engine.input.gamepad.isDigital(6)) {
+    if (engine.input.gamepad.isDigital(4)) {
       state.scan = true
     }
 
