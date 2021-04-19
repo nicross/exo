@@ -5,7 +5,6 @@
 
 ## Planned features
 - Scanning system
-  - Pause time on scan
   - Audio cues
     - Convert heights to frequencies, distances to gains
       - Level is Middle C, 10m per note, detune between steps
