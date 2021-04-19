@@ -36,6 +36,10 @@ app.controls.gamepad = {
       state.cancel = true
     }
 
+    if (engine.input.gamepad.isDigital(6)) {
+      state.scan = true
+    }
+
     if (engine.input.gamepad.isDigital(8)) {
       state.select = true
     }

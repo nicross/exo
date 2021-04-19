@@ -80,6 +80,10 @@ app.controls.keyboard = {
       state.turbo = true
     }
 
+    if (keys.KeyF) {
+      state.scan = true
+    }
+
     if (keys.KeyR || keys.KeyV) {
       state.mode = true
     }

@@ -48,6 +48,10 @@ app.screen.game = (() => {
     }
 
     content.movement.update(controls)
+
+    if (ui.scan) {
+      content.scan.trigger()
+    }
   }
 
   function onEnter() {
