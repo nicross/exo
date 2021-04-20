@@ -88,55 +88,10 @@ content.movement = (() => {
     }
   }
 
-  function applyLateralThrust({
-    x: controlsX = 0,
-    y: controlsY = 0,
-  } = {}) {
-    // TODO: The model might allow some thrusting mid-flight
-    normalThrust = engine.utility.vector3d.create({
-      x: controlsY * model.xScale,
-      y: -controlsX * model.yScale,
-    })
-
-    thrust = normalThrust.scale(model.lateralVelocity)
-
-    // Adjust thrust based on slope
-    const slopeAngle = engine.utility.normalizeAngle(Math.atan2(-slope.roll, -slope.pitch)),
-      thrustAngle = engine.utility.normalizeAngle(Math.atan2(normalThrust.y, normalThrust.x))
-
-    const deltaAngle = Math.abs(engine.utility.normalizeAngleSigned(slopeAngle - thrustAngle)),
-      deltaAngleFactor = Math.abs(Math.sin(deltaAngle / 2)) ** 4
-
-    // TODO: slopeFactor inclines a function of model?
-    const slopeFactor = slopeNormal < 0.5
-      ? 1
-      : engine.utility.clamp(engine.utility.scale(slopeNormal, 0.5, 1, 1, 0), 0, 1)
-
-    // TODO: expose this for actuators
-    const scaleFactor = engine.utility.lerp(1, slopeFactor, deltaAngleFactor)
-
-    const appliedThrust = thrust.scale(scaleFactor).rotateQuaternion(
-      engine.utility.quaternion.fromEuler({
-        pitch: slope.pitch,
-        roll: slope.roll,
-        yaw: engine.position.getEuler().yaw,
-      })
+  function applyLateralThrust() {
+    engine.position.setVelocity(
+      calculateNextLateralVelocity()
     )
-
-    // Accelerate to next velocity, ignorning gravity
-    const current = engine.position.getVelocity().subtract({z: gravity})
-
-    const rate = appliedThrust.distance() > current.distance()
-      ? model.lateralAcceleration
-      : model.lateralDeceleration
-
-    const next = content.utility.accelerate.vector(
-      current,
-      appliedThrust,
-      rate
-    ).add({z: gravity})
-
-    engine.position.setVelocity(next)
   }
 
   function applyVerticalThrust(zThrust = 0) {
@@ -199,6 +154,18 @@ content.movement = (() => {
     }
   }
 
+  function calculateLateralThrust({
+    x = 0,
+    y = 0,
+  }) {
+    normalThrust = engine.utility.vector3d.create({
+      x: y * model.xScale,
+      y: -x * model.yScale,
+    })
+
+    thrust = normalThrust.scale(model.lateralVelocity)
+  }
+
   function calculateModel() {
     return lerpModel(
       lerpModel(
@@ -215,33 +182,89 @@ content.movement = (() => {
     )
   }
 
+  function calculateNextLateralVelocity() {
+    // Adjust thrust based on slope
+    const slopeAngle = engine.utility.normalizeAngle(Math.atan2(-slope.roll, -slope.pitch)),
+      thrustAngle = engine.utility.normalizeAngle(Math.atan2(normalThrust.y, normalThrust.x))
+
+    const deltaAngle = Math.abs(engine.utility.normalizeAngleSigned(slopeAngle - thrustAngle)),
+      deltaAngleFactor = Math.abs(Math.sin(deltaAngle / 2)) ** 4
+
+    // TODO: slopeFactor inclines a function of model?
+    const slopeFactor = slopeNormal < 0.5
+      ? 1
+      : engine.utility.clamp(engine.utility.scale(slopeNormal, 0.5, 1, 1, 0), 0, 1)
+
+    // TODO: expose this for actuators?
+    const scaleFactor = engine.utility.lerp(1, slopeFactor, deltaAngleFactor)
+
+    const appliedThrust = thrust.scale(scaleFactor).rotateQuaternion(
+      engine.utility.quaternion.fromEuler({
+        pitch: slope.pitch,
+        roll: slope.roll,
+        yaw: engine.position.getEuler().yaw,
+      })
+    )
+
+    // Accelerate to next velocity, ignorning gravity
+    const current = engine.position.getVelocity().subtract({z: gravity})
+
+    const rate = appliedThrust.distance() > current.distance()
+      ? model.lateralAcceleration
+      : model.lateralDeceleration
+
+    return content.utility.accelerate.vector(
+      current,
+      appliedThrust,
+      rate
+    ).add({z: gravity})
+  }
+
   function calculateSlope() {
-    const delta = 1 / 1000,
+    // Use predicted thrust using last frame's values to approximate vertices for slope calculations
+    const delta = engine.loop.delta(),
       position = engine.position.getVector(),
+      predictedThrust = calculateNextLateralVelocity().scale(delta),
       quaternion = engine.position.getQuaternion()
 
-    const depth = quaternion.forward().scale(delta),
-      width = quaternion.right().scale(delta)
+    // Rotate back and forth to isolate X and Y components of predicted thrust
+    const isolated = predictedThrust.rotateQuaternion(quaternion.conjugate()),
+      isolatedX = engine.utility.vector3d.create({x: isolated.x}).rotateQuaternion(quaternion),
+      isolatedY = engine.utility.vector3d.create({y: isolated.y}).rotateQuaternion(quaternion)
 
+    // Force depth and width to be at least delta in magnitude
+    const depth = isolatedX.distance() > delta
+      ? isolatedX
+      : quaternion.forward().scale(delta)
+
+    const width = isolatedY.distance() > delta
+      ? isolatedY
+      : quaternion.right().scale(delta)
+
+    // Calculate vertices for slope calculation
     const back = position.subtract(depth),
       front = position.add(depth),
       left = position.subtract(width),
       right = position.add(width)
 
+    // Resolve z-coordinates of vertices
     back.z = content.terrain.value(back.x, back.y)
     front.z = content.terrain.value(front.x, front.y)
     left.z = content.terrain.value(left.x, left.y)
     right.z = content.terrain.value(right.x, right.y)
 
-    const backToFront = front.subtract(back),
+    // Calculate slopes along axes defined by vertices
+    const frontToBack = back.subtract(front),
       rightToLeft = left.subtract(right)
 
-    backToFront.z = engine.utility.clamp(backToFront.z, -1, 1)
+    // Clamp values so atan2() returns sensible values
+    frontToBack.z = engine.utility.clamp(frontToBack.z, -1, 1)
     rightToLeft.z = engine.utility.clamp(rightToLeft.z, -1, 1)
 
+    // Return slope as Euler angle
     return engine.utility.euler.create({
-      pitch: Math.atan(backToFront.z / (delta * 2)),
-      roll: Math.atan(rightToLeft.z / (delta * 2)),
+      pitch: Math.atan(frontToBack.z / (depth.distance() * 2)),
+      roll: Math.atan(rightToLeft.z / (width.distance() * 2)),
     })
   }
 
@@ -339,6 +362,7 @@ content.movement = (() => {
     const dot = velocity.dotProduct(slope.up())
     const theta = Math.acos(dot / distance)
 
+    // TODO: can this be more predictive?
     return gravity
       ? engine.utility.between(theta, Math.PI/2*6/9, Math.PI/2*12/9)
       : engine.utility.between(theta, Math.PI/2*3/9, Math.PI/2*15/9)
@@ -412,7 +436,7 @@ content.movement = (() => {
       return this
     },
     slope: () => slope,
-    slopeNormal: () => slopeNormal,
+    slopeNormal: () => slopeNormal, // TODO: rename to slopeMagnitude
     toggleMode: function () {
       intendedMode = intendedMode ? 0 : 1
       intendedModel = calculateIntendedModel()
@@ -465,9 +489,10 @@ content.movement = (() => {
       isGroundedEnough = z <= terrain + groundLeeway && !isJetActive && !isJumpCooldown
 
       if (isGroundedEnough) {
+        calculateLateralThrust(controls)
         cacheSlope()
         applyAngularThrust(controls.rotate)
-        applyLateralThrust(controls)
+        applyLateralThrust()
       }
 
       if (isGrounded) {
