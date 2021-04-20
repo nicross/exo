@@ -105,7 +105,10 @@ content.movement = (() => {
       return
     }
 
-    if (model.jumpForce && isGrounded && !isJetActive && !isJumpCooldown) {
+    const {z} = engine.position.getVector()
+    const terrain = content.terrain.current()
+
+    if (model.jumpForce && z <= terrain + groundLeeway && !isJetActive && !isJumpCooldown) {
       isGrounded = false
       isJumpActive = true
       isJumpCooldown = true
