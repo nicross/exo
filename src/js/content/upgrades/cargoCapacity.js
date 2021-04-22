@@ -1,5 +1,5 @@
-content.upgrades.cargoCapacity = content.upgrades.invent({
-  name: 'Cargo Capacity',
+content.upgrades.cargoRacks = content.upgrades.invent({
+  name: 'Cargo Racks',
   levels: [
     {
       bonus: 5,
