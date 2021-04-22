@@ -3,7 +3,7 @@ content.movementModel.bipedalFast = {
     return {
       angularAcceleration: Math.PI / 2,
       angularDeceleration: Math.PI * 2,
-      angularVelocity: Math.PI / 4,
+      angularVelocity: Math.PI / 2,
       depth: 1,
       height: 2,
       jetAcceleration: 5,

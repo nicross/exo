@@ -8,12 +8,24 @@ content.audio.actuator = (() => {
   bus.gain.value = engine.utility.fromDb(-12)
 
   function calculateIntent() {
-    // TODO: while turning
-
     if (!content.movement.isGroundedEnough()) {
       return 0
     }
 
+    const rotate = calculateIntentRotate(),
+      thrust = calculateIntentThrust()
+
+    return engine.utility.clamp(thrust + rotate, 0, 1)
+  }
+
+  function calculateIntentRotate() {
+    const {yaw} = engine.position.getAngularVelocityEuler()
+    const clamped = engine.utility.clamp(Math.abs(yaw), 0, Math.PI/2)
+
+    return engine.utility.scale(clamped, 0, Math.PI/2, 0, 1/8)
+  }
+
+  function calculateIntentThrust() {
     const mode = engine.utility.lerp(0.5, 1, content.movement.mode()),
       normal = content.movement.normalThrust().distance(),
       turbo = engine.utility.lerp(0.5, 1, content.movement.turbo())
