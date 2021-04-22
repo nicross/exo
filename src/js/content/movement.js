@@ -45,8 +45,8 @@ content.movement = (() => {
     turbo = 0
 
   function applyAngularThrust(rotate = 0) {
-    // TODO: The model might allow some thrusting mid-flight
-    // TODO: Should wheeled only rotate when velocity nonzero?
+    // TODO: rcs thrusters
+
     const {yaw} = engine.position.getAngularVelocityEuler()
 
     if (!rotate) {
@@ -105,6 +105,8 @@ content.movement = (() => {
       jetDelta = Math.max(jetDelta - delta, 0)
       return
     }
+
+    // TODO: vectoring
 
     const {z} = engine.position.getVector()
     const terrain = content.terrain.current()
@@ -412,6 +414,11 @@ content.movement = (() => {
     mode: () => mode,
     model: () => ({...model}),
     normalThrust: () => normalThrust,
+    recalculate: function () {
+      intendedModel = calculateIntendedModel()
+      model = calculateModel()
+      return this
+    },
     reset: function () {
       gravity = 0
       intendedMode = 0
@@ -514,6 +521,10 @@ content.movement = (() => {
     },
   }, pubsub)
 })()
+
+engine.ready(() => {
+  content.upgrades.on('upgrade', () => content.movement.recalculate())
+})
 
 engine.state.on('export', (data = {}) => data.movement = content.movement.export())
 engine.state.on('import', ({movement = {}}) => content.movement.import(movement))
