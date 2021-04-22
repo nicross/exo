@@ -352,23 +352,22 @@ content.movement = (() => {
     engine.position.setVelocity(reflection)
   }
 
-  function shouldGlue() {
+  function shouldReflect() {
     const velocity = engine.position.getVelocity()
     const distance = velocity.distance()
 
     // Glue on low velocities
-    if (engine.utility.round(distance, 1) == 0) {
-      return true
+    if (distance <= 1) {
+      return false
     }
 
     // Glue on low angles
-    const dot = velocity.dotProduct(slope.up())
-    const theta = Math.acos(dot / distance)
+    const dot = velocity.dotProduct(slope.up()),
+      theta = Math.acos(dot / distance)
 
-    // TODO: can this be more predictive?
-    return gravity
-      ? engine.utility.between(theta, Math.PI/2*6/9, Math.PI/2*12/9)
-      : engine.utility.between(theta, Math.PI/2*3/9, Math.PI/2*15/9)
+    // XXX: range is scaled with a hardcoded maximum velocity
+    const range = engine.utility.clamp(engine.utility.scale(distance, 0, 20, Math.PI/3, Math.PI/6), 0, Math.PI/2)
+    return !engine.utility.between(theta, Math.PI/2 - range, Math.PI/2 + range)
   }
 
   return engine.utility.pubsub.decorate({
@@ -499,19 +498,20 @@ content.movement = (() => {
       }
 
       if (isGrounded) {
-        if (shouldGlue()) {
-          // TODO: sound when sticking a landing
-          glueVelocity()
-        } else {
+        if (shouldReflect()) {
           reflect()
+        } else {
+          glueVelocity()
         }
-      }
 
-      if (!isGroundedEnough) {
-        applyGravity()
-      } else {
+        if (gravity) {
+          pubsub.emit('land')
+        }
+
         gravity = 0
         isJumpCooldown = false
+      } else {
+        applyGravity()
       }
 
       return this
