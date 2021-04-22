@@ -1,5 +1,8 @@
 content.upgrades.combustion = content.upgrades.invent({
   name: 'Combustion',
+  describe: function (level = this.level) {
+    return `+${this.levels[level].bonus * 100}% jet velocity`
+  },
   levels: [
     {
       bonus: 1/8,

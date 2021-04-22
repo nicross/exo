@@ -10,6 +10,10 @@ content.upgrades.base = {
 
     return content.inventory.canConsume(next.cost)
   },
+  describe: () => '',
+  describeNext: function () {
+    return this.describe(this.level + 1)
+  },
   getBonus: function () {
     const current = this.getLevel()
     return current ? current.bonus : 0

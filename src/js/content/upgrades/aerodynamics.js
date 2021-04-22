@@ -1,5 +1,8 @@
 content.upgrades.aerodynamics = content.upgrades.invent({
   name: 'Aerodynamics',
+  describe: function (level = this.level) {
+    return `+${this.levels[level].bonus * 100}% acceleration`
+  },
   levels: [
     {
       bonus: 1/4,

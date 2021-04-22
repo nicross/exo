@@ -1,5 +1,8 @@
 content.upgrades.actuators = content.upgrades.invent({
   name: 'Actuators',
+  describe: function (level = this.level) {
+    return `+${this.levels[level].bonus * 100}% velocity`
+  },
   levels: [
     {
       bonus: 1/8,

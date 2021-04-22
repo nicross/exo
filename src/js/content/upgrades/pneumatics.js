@@ -1,5 +1,8 @@
 content.upgrades.pneumatics = content.upgrades.invent({
   name: 'Pneumatics',
+  describe: function (level = this.level) {
+    return `+${this.levels[level].bonus * 100}% jump height`
+  },
   levels: [
     {
       bonus: 1/8,
