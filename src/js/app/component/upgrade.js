@@ -15,29 +15,37 @@ app.component.upgrade.prototype = {
     engine.utility.pubsub.decorate(this)
     this.upgrade = upgrade
 
-    this.rootElement = document.createElement('button')
-    this.rootElement.className = 'c-upgrade'
-    this.rootElement.type = 'button'
+    this.rootElement = document.createElement('li')
+    this.rootElement.className = 'a-synthesis--upgrade'
 
-    this.rootElement.addEventListener('click', (e) => this.onClick(e))
+    const button = document.createElement('button')
+    button.className = 'c-upgrade'
+    button.type = 'button'
+    button.addEventListener('click', (e) => this.onClick(e))
+    this.rootElement.append(button)
 
     const title = document.createElement('p')
     title.classList.add('c-upgrade--name')
     title.innerHTML = upgrade.name
-    this.rootElement.appendChild(title)
+    button.appendChild(title)
 
     if (upgrade.canUpgrade()) {
       const available = document.createElement('p')
       available.classList.add('c-upgrade--available')
       available.innerHTML = 'Upgrade Available'
-      this.rootElement.append(progress)
+      button.append(progress)
     }
 
     const progress = document.createElement('p')
     progress.classList.add('c-upgrade--progress')
     progress.innerHTML = `${upgrade.level} <abbr aria-label="of">/</abbr> ${upgrade.levels.length - 1}`
-    this.rootElement.append(progress)
+    button.append(progress)
 
+    return this
+  },
+  destroy: function () {
+    this.rootElement.remove()
+    this.off()
     return this
   },
   onClick: function (e) {

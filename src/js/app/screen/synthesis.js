@@ -1,8 +1,12 @@
 app.screen.synthesis = (() => {
-  let root
+  const components = []
+
+  let root,
+    upgradesList
 
   engine.ready(() => {
     root = document.querySelector('.a-synthesis')
+    upgradesList = root.querySelector('.a-synthesis--upgrades')
 
     app.state.screen.on('enter-synthesis', onEnter)
     app.state.screen.on('exit-synthesis', onExit)
@@ -10,7 +14,7 @@ app.screen.synthesis = (() => {
     root.querySelector('.a-synthesis--back').addEventListener('click', onBackClick)
 
     app.utility.focus.trap(root)
-    app.utility.input.preventScrolling(root.querySelector('.a-synthesis--data'))
+    app.utility.input.preventScrolling(upgradesList)
   })
 
   function handleControls() {
@@ -58,7 +62,7 @@ app.screen.synthesis = (() => {
   }
 
   function onEnter() {
-    updateTable()
+    updateComponents()
     engine.loop.on('frame', onEngineLoopFrame)
     app.utility.focus.setWithin(root)
   }
@@ -67,8 +71,32 @@ app.screen.synthesis = (() => {
     engine.loop.off('frame', onEngineLoopFrame)
   }
 
-  function updateTable() {
+  function updateComponents() {
+    const upgrades = [
+      ...content.upgrades.getAvailable(),
+      ...content.upgrades.getApplied(),
+      ...content.upgrades.getPending(),
+    ].sort((a, b) => {
+      if (a.canUpgrade() != b.canUpgrade()) {
+        return a.canUpgrade() ? -1 : 1
+      }
 
+      return a.name.localeCompare(b.name)
+    })
+
+    for (const component of components) {
+      component.destroy()
+    }
+
+    components.length = 0
+
+    for (const upgrade of upgrades) {
+      const component = app.component.upgrade.create(upgrade)
+        .attach(upgradesList)
+        .on('click', () => {}) // TODO: go to upgrade screen
+
+      components.push(component)
+    }
   }
 
   return {}
