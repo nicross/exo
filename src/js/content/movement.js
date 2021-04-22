@@ -191,20 +191,9 @@ content.movement = (() => {
   }
 
   function calculateNextLateralVelocity() {
-    // Adjust thrust based on slope
-    const slopeAngle = engine.utility.normalizeAngle(Math.atan2(-slope.roll, -slope.pitch)),
-      thrustAngle = engine.utility.normalizeAngle(Math.atan2(normalThrust.y, normalThrust.x))
-
-    const deltaAngle = Math.abs(engine.utility.normalizeAngleSigned(slopeAngle - thrustAngle)),
-      deltaAngleFactor = Math.abs(Math.sin(deltaAngle / 2)) ** 4
-
-    // TODO: slopeFactor inclines a function of model?
-    const slopeFactor = slopeNormal < 0.5
-      ? 1
-      : engine.utility.clamp(engine.utility.scale(slopeNormal, 0.5, 1, 1, 0), 0, 1)
-
-    // TODO: expose this for actuators?
-    const scaleFactor = engine.utility.lerp(1, slopeFactor, deltaAngleFactor)
+    // TODO: only scale if slope is against normalThrust
+    const dot = normalThrust.dotProduct(slope.forward())
+    const scaleFactor = (Math.abs(dot / normalThrust.distance()) || 0) ** 2
 
     const appliedThrust = thrust.scale(scaleFactor).rotateQuaternion(
       engine.utility.quaternion.fromEuler({
