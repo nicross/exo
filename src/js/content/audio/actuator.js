@@ -20,9 +20,9 @@ content.audio.actuator = (() => {
 
   function calculateIntentRotate() {
     const {yaw} = engine.position.getAngularVelocityEuler()
-    const clamped = engine.utility.clamp(Math.abs(yaw), 0, Math.PI/2)
+    const clamped = engine.utility.clamp(Math.abs(yaw), 0, content.const.maxAngularVelocity)
 
-    return engine.utility.scale(clamped, 0, Math.PI/2, 0, 1/8)
+    return engine.utility.scale(clamped, 0, content.const.maxAngularVelocity, 0, 1/8)
   }
 
   function calculateIntentThrust() {

@@ -364,8 +364,7 @@ content.movement = (() => {
     const dot = velocity.dotProduct(slope.up()),
       theta = Math.acos(dot / distance)
 
-    // XXX: range is scaled with a hardcoded maximum velocity
-    const range = engine.utility.clamp(engine.utility.scale(distance, 0, 20, Math.PI/3, Math.PI/6), 0, Math.PI/2)
+    const range = engine.utility.clamp(engine.utility.scale(distance, 0, content.const.maxWheeledVelocity, Math.PI/3, Math.PI/6), 0, Math.PI/2)
     return !engine.utility.between(theta, Math.PI/2 - range, Math.PI/2 + range)
   }
 
