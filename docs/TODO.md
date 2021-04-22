@@ -1,8 +1,5 @@
 # TODO
 ## Issues
-- Movement
-  - No reflections when jets active and colliding with ground
-
 ## Planned features
 - Soundtrack
   - Ambient synths

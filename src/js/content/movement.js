@@ -21,7 +21,8 @@ content.movement = (() => {
     'yScale',
   ]
 
-  const groundLeeway = 1/16,
+  const gravityLeeway = 1/128,
+    groundLeeway = 1/16,
     reflectionRate = 1/4,
     transitionRate = 1
 
@@ -107,9 +108,13 @@ content.movement = (() => {
 
     const {z} = engine.position.getVector()
     const terrain = content.terrain.current()
+    const tempIsGroundedEnough = z <= terrain + groundLeeway && !isJetActive && !isJumpCooldown
 
-    if (model.jumpForce && z <= terrain + groundLeeway && !isJetActive && !isJumpCooldown) {
+    if (model.jumpForce && tempIsGroundedEnough) {
+      // XXX: prevent gravity from accumulating between jumps
+      gravity = 0
       isGrounded = false
+
       isJumpActive = true
       isJumpCooldown = true
       return jump()
@@ -119,14 +124,14 @@ content.movement = (() => {
       return
     }
 
-    if (jetDelta >= model.jetCapacity) {
+    // Kill jets if out of fuel or close to ground
+    if (isJetActive && jetDelta >= model.jetCapacity) {
       isJetActive = false
       return
     }
 
     jets()
 
-    isGrounded = false
     isJetActive = true
     jetDelta += delta
   }
@@ -280,22 +285,6 @@ content.movement = (() => {
     return engine.utility.clamp(distance / (Math.PI / 2), 0, 1)
   }
 
-  function glueVelocity() {
-    let velocity = engine.position.getVelocity()
-
-    if (gravity) {
-      velocity = velocity.add(
-        slope.forward().scale(Math.abs(gravity) * reflectionRate)
-      ).subtract({
-        z: gravity,
-      })
-    }
-
-    // TODO: Rotate velocity toward slope.forward()
-
-    engine.position.setVelocity(velocity)
-  }
-
   function glueZ() {
     const position = engine.position.getVector(),
       terrain = content.terrain.current()
@@ -324,6 +313,16 @@ content.movement = (() => {
     })
 
     pubsub.emit('jump')
+  }
+
+  function land() {
+    engine.position.setVelocity(
+      engine.position.getVelocity().subtract({
+        z: gravity,
+      })
+    )
+
+    pubsub.emit('land')
   }
 
   function lerpModel(a, b, value) {
@@ -500,17 +499,18 @@ content.movement = (() => {
       if (isGrounded) {
         if (shouldReflect()) {
           reflect()
-        } else {
-          glueVelocity()
-        }
-
-        if (gravity) {
-          pubsub.emit('land')
+        } else if (gravity) {
+          land()
         }
 
         gravity = 0
         isJumpCooldown = false
-      } else {
+      }
+
+      // Apply gravity only when far enough from ground
+      let isGravityApplied = z > terrain + gravityLeeway
+
+      if (isGravityApplied) {
         applyGravity()
       }
 
