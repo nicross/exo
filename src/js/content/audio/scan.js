@@ -66,10 +66,10 @@ content.audio.scan = (() => {
     for (let i = 0; i < count; i += 1) {
       const gain = (1 - (i / (count - 1))) ** 4,
         next = when + ((i + 1) * (duration / count)),
-        note = engine.utility.scale(group[i], 0, 12.5, 0, 12)
+        note = engine.utility.scale(group[i], 0, 100/12, 0, 12)
 
       const detune = (note - Math.round(note)) * 100,
-        frequency = content.utility.frequency.fromMidi(60 + Math.round(note))
+        frequency = content.utility.frequency.fromMidi(engine.utility.clamp(60 + Math.round(note), 0, 127))
 
       synth.param.detune.linearRampToValueAtTime(detune, next)
       synth.param.frequency.exponentialRampToValueAtTime(frequency, next)
