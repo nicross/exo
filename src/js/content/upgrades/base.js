@@ -14,6 +14,10 @@ content.upgrades.base = {
     const current = this.getCurrentLevel()
     return current ? current.bonus : 0
   },
+  getCost: function () {
+    const current = this.getCurrentLevel()
+    return current ? current.cost : {}
+  },
   getLevel: function () {
     return this.levels[this.level]
   },

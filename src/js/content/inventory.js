@@ -58,6 +58,10 @@ content.inventory = (() => {
       pubsub.emit('full', prop)
       return this
     },
+    onUpgrade: function (upgrade) {
+      this.consume(upgrade.getCost())
+      return this
+    },
     reset: function () {
       cargo = {}
       return this
@@ -75,8 +79,9 @@ content.inventory = (() => {
 })()
 
 engine.ready(() => {
-  // XXX: source ordering, content.materials undefined
+  // XXX: source ordering
   content.materials.on('collect', (...args) => content.inventory.onCollect(...args))
+  content.upgrades.on('upgrade', (...args) => content.inventory.onUpgrade(...args))
 })
 
 engine.state.on('export', (data) => data.inventory = content.inventory.export())
