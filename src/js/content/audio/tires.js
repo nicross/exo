@@ -8,8 +8,10 @@ content.audio.tires = (() => {
   bus.gain.value = engine.utility.fromDb(-4.5)
 
   function grain() {
-    const velocity = humanize(engine.position.getVelocity())
-    const strength = toStrength(velocity)
+    const velocity = humanize(engine.position.getVelocity()),
+      yaw = Math.abs(engine.position.getAngularVelocityEuler().yaw)
+
+    const strength = toStrength(velocity, yaw)
 
     const direction = velocity.normalize().rotateQuaternion(
       engine.position.getQuaternion().conjugate()
@@ -61,22 +63,26 @@ content.audio.tires = (() => {
       return false
     }
 
-    const velocity = engine.position.getVelocity()
+    const velocity = engine.position.getVelocity(),
+      yaw = Math.abs(engine.position.getAngularVelocityEuler().yaw)
 
-    if (engine.utility.round(velocity.distance(), 3) <= 0) {
+    if (engine.utility.round(velocity.distance() + yaw, 3) <= 0) {
       return false
     }
 
     const fps = Math.max(engine.performance.fps(), 1),
-      strength = toStrength(velocity)
+      strength = toStrength(velocity, yaw)
 
     const chance = engine.utility.lerp(1/fps, 1/(fps/8), strength)
 
     return Math.random() < chance
   }
 
-  function toStrength(vector) {
-    return engine.utility.clamp(vector.distance() / content.const.maxWheeledVelocity, 0, 1)
+  function toStrength(velocity, yaw) {
+    const velocityRatio = velocity.distance() / content.const.maxWheeledVelocity,
+      yawRatio = yaw / content.const.maxAngularVelocity / 16
+
+    return engine.utility.clamp(velocityRatio + yawRatio, 0, 1)
   }
 
   return engine.utility.pubsub.decorate({
