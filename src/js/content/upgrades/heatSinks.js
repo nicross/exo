@@ -4,8 +4,8 @@ content.upgrades.heatSinks = content.upgrades.invent({
     {
       bonus: 1/4,
       cost: {
-        'common/hydrogen': 5,
         'common/nitrogen': 5,
+        'common/silicon': 5,
         'metal/aluminum': 1,
         'metal/copper': 1,
       },
@@ -14,8 +14,8 @@ content.upgrades.heatSinks = content.upgrades.invent({
     {
       bonus: 1/2,
       cost: {
-        'common/hydrogen': 10,
         'common/nitrogen': 10,
+        'common/silicon': 10,
         'metal/aluminum': 5,
         'metal/copper': 5,
         'exotic/thorium': 1,
@@ -26,8 +26,8 @@ content.upgrades.heatSinks = content.upgrades.invent({
     {
       bonus: 1,
       cost: {
-        'common/hydrogen': 20,
         'common/nitrogen': 20,
+        'common/silicon': 20,
         'metal/aluminum': 10,
         'metal/copper': 10,
         'exotic/thorium': 5,
