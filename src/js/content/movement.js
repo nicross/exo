@@ -154,8 +154,12 @@ content.movement = (() => {
       nextModel = content.movementModel.wheeledFast
     }
 
+    const calculated = nextModel.calculate()
+
+    calculated.jetCapacity *= 1 + content.upgrades.heatSinks.getBonus()
+
     return {
-      ...nextModel.calculate(),
+      ...calculated,
       id: nextModel.id,
       reference: nextModel,
       type: nextModel.type,
