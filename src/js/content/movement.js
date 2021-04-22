@@ -157,6 +157,7 @@ content.movement = (() => {
     const calculated = nextModel.calculate()
 
     calculated.jetCapacity *= 1 + content.upgrades.heatSinks.getBonus()
+    calculated.jumpForce *= 1 + content.upgrades.pneumatics.getBonus()
 
     return {
       ...calculated,
