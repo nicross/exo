@@ -156,6 +156,7 @@ content.movement = (() => {
 
     const calculated = nextModel.calculate()
 
+    calculated.lateralAcceleration *= 1 + content.upgrades.aerodynamics.getBonus()
     calculated.jetCapacity *= 1 + content.upgrades.heatSinks.getBonus()
     calculated.jetVelocity *= 1 + content.upgrades.combustion.getBonus()
     calculated.jumpForce *= 1 + content.upgrades.pneumatics.getBonus()
