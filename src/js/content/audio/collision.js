@@ -44,6 +44,5 @@ content.audio.collision = (() => {
 })()
 
 engine.ready(() => {
-  // TODO: play when first gluing from air
   content.movement.on('reflect', () => content.audio.collision.trigger())
 })
