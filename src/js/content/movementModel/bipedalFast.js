@@ -12,7 +12,7 @@ content.movementModel.bipedalFast = {
       jumpForce: 2,
       lateralAcceleration: 5,
       lateralDeceleration: 10,
-      lateralVelocity: 10,
+      lateralVelocity: 10 * (1 + content.upgrades.actuators.getBonus()),
       rotateScale: 1,
       strideLength: 10/3,
       width: 1,
