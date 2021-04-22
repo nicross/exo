@@ -4,8 +4,7 @@ content.inventory = (() => {
   let cargo = {}
 
   function calculateCapacity() {
-    // TODO: upgrades
-    return 5
+    return 5 + content.upgrades.cargoCapacity.getBonus()
   }
 
   return engine.utility.pubsub.decorate({
