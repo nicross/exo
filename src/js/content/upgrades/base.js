@@ -11,11 +11,11 @@ content.upgrades.base = {
     return content.inventory.canConsume(next.cost)
   },
   getBonus: function () {
-    const current = this.getCurrentLevel()
+    const current = this.getLevel()
     return current ? current.bonus : 0
   },
   getCost: function () {
-    const current = this.getCurrentLevel()
+    const current = this.getLevel()
     return current ? current.cost : {}
   },
   getLevel: function () {
