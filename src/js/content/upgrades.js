@@ -20,6 +20,15 @@ content.upgrades = (() => {
     get: (key) => registry.get(key),
     getApplied: () => Array.from(registry.values()).filter((upgrade) => upgrade.level),
     getAvailable: () => Array.from(registry.values()).filter((upgrade) => upgrade.canUpgrade()),
+    getPending: () => Array.from(registry.values()).filter((upgrade) => {
+      for (const key of Object.keys(upgrade.getNextCost())) {
+        if (content.inventory.get(key)) {
+          return true
+        }
+      }
+
+      return false
+    }),
     import: function (data = {}) {
       for (const upgrade of registry.values()) {
         upgrade.level = data[upgrade.key] || 0

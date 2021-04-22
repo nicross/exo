@@ -25,6 +25,10 @@ content.upgrades.base = {
   getLevel: function () {
     return this.levels[this.level]
   },
+  getNextCost: function () {
+    const next = this.getNextLevel()
+    return next ? next.cost : {}
+  },
   getNextLevel: function () {
     return this.levels[this.level + 1]
   },

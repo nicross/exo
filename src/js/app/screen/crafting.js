@@ -59,8 +59,7 @@ app.screen.crafting = (() => {
   }
 
   function hasUpgrades() {
-    // TODO
-    return false
+    return content.upgrades.getApplied().length > 0 || content.upgrades.getAvailable().length > 0 || content.upgrades.getPending().length > 0
   }
 
   function onEngineLoopFrame(e) {
