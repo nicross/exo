@@ -76,7 +76,11 @@ engine.ready(() => {
   // Material collect
   content.materials.on('collect', (prop) => {
     app.screen.game.toasts.toast(`<strong>${prop.type.name}</strong> collected`)
-    // TODO: check if upgrades available
+
+    // TODO: track upgrades to prevent excessive notifications
+    if (content.upgrades.getAvailable().length) {
+      app.screen.game.toasts.toast('Upgrades available')
+    }
   })
 
   // Material storage full
