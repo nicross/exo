@@ -47,6 +47,16 @@ content.upgrades = (() => {
 
       return this
     },
+    upgrade: function (key) {
+      const upgrade = registry.get(key)
+
+      if (key && key.canUpgrade()) {
+        upgrade.level += 1
+        pubsub.emit('upgrade', upgrade)
+      }
+
+      return this
+    },
   }, pubsub)
 })()
 
