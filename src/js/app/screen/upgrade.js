@@ -110,7 +110,7 @@ app.screen.upgrade = (() => {
       </tr>`
     }
 
-    table.scrollTop = 0  
+    table.scrollTop = 0
     table.innerHTML = html
   }
 

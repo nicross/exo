@@ -6,7 +6,7 @@ content.upgrades.vectors = content.upgrades.invent({
     }
 
     if (level == 1) {
-      return 'Unlocks air strafing'
+      return 'Unlock air strafing'
     }
 
     return `+${Math.round(this.levels[level].bonus / (Math.PI / 2) * 100)}% air strafing`

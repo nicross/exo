@@ -6,7 +6,7 @@ content.upgrades.rcsThrusters = content.upgrades.invent({
     }
 
     if (level == 1) {
-      return 'Unlocks air turning'
+      return 'Unlock air turning'
     }
 
     return `+${Math.round(this.levels[level].bonus / (Math.PI / 2) * 100)}% air turning`
