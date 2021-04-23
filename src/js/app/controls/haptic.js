@@ -101,6 +101,17 @@ content.audio.landing.on('trigger', (strength) => {
   })
 })
 
+content.audio.rcs.on('fire', () => {
+  const strength = Math.abs(content.movement.rcsThrust())
+
+  app.controls.haptic.trigger({
+    duration: engine.performance.delta() * 1000,
+    startDelay: 0,
+    strongMagnitude: 0,
+    weakMagnitude: (strength ** 2) / 8,
+  })
+})
+
 content.audio.tires.on('grain', (strength) => {
   app.controls.haptic.trigger({
     duration: engine.utility.lerpExp(25, 100, strength, 2),
