@@ -16,14 +16,15 @@ content.prop.material.base = engine.prop.base.invent({
       return this
     }
 
+    if (this.collectErrorTimer > 0) {
+      this.collectErrorTimer -= delta
+    }
+
     if (engine.utility.round(this.distance, 3) <= 0) {
       if (content.inventory.canCollect(this.type.key)) {
         this.collect()
-      } else if (this.collectErrorTimer > delta) {
-        this.collectErrorTimer -= delta
       } else {
-        content.inventory.onFull(this)
-        this.collectErrorTimer = 10
+        this.error()
       }
     }
   },
@@ -35,8 +36,24 @@ content.prop.material.base = engine.prop.base.invent({
   },
   collect: function () {
     this.isCollected = true
-    engine.audio.ramp.exponential(this.output.gain, engine.const.zeroGain, 1/4)
+    engine.audio.ramp.exponential(this.output.gain, engine.const.zeroGain, 1/8)
     this.chunk.collect(this)
+    return this
+  },
+  error: function () {
+    if (this.collectErrorTimer > 0) {
+      return this
+    }
+
+    content.inventory.onFull(this)
+    this.collectErrorTimer = 10
+
+    const now = engine.audio.time()
+
+    this.output.gain.setValueAtTime(1, now)
+    this.output.gain.exponentialRampToValueAtTime(1/256, now + 1/32)
+    this.output.gain.exponentialRampToValueAtTime(1, now + 1)
+
     return this
   },
   resolveFrequency: function (offset = 0) {
