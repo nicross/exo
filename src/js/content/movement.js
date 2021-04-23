@@ -95,6 +95,17 @@ content.movement = (() => {
     )
   }
 
+  function applyUpgrades(model) {
+    model.lateralAcceleration *= 1 + content.upgrades.aerodynamics.getBonus()
+    model.lateralDeceleration *= 1 + content.upgrades.brakes.getBonus()
+    model.jetCapacity *= 1 + content.upgrades.heatSinks.getBonus()
+    model.jetVectorAngle = content.upgrades.vectors.getBonus()
+    model.jetVelocity *= 1 + content.upgrades.combustors.getBonus()
+    model.jumpForce *= 1 + content.upgrades.pneumatics.getBonus()
+
+    return model
+  }
+
   function applyVerticalThrust(zThrust = 0) {
     const delta = engine.loop.delta()
 
@@ -156,13 +167,7 @@ content.movement = (() => {
       nextModel = content.movementModel.wheeledFast
     }
 
-    const calculated = nextModel.calculate()
-
-    calculated.lateralAcceleration *= 1 + content.upgrades.aerodynamics.getBonus()
-    calculated.lateralDeceleration *= 1 + content.upgrades.brakes.getBonus()
-    calculated.jetCapacity *= 1 + content.upgrades.heatSinks.getBonus()
-    calculated.jetVelocity *= 1 + content.upgrades.combustors.getBonus()
-    calculated.jumpForce *= 1 + content.upgrades.pneumatics.getBonus()
+    const calculated = applyUpgrades(nextModel.calculate())
 
     return {
       ...calculated,
@@ -185,18 +190,20 @@ content.movement = (() => {
   }
 
   function calculateModel() {
-    return lerpModel(
+    return applyUpgrades(
       lerpModel(
-        content.movementModel.bipedalSlow.calculate(),
-        content.movementModel.bipedalFast.calculate(),
-        turbo
-      ),
-      lerpModel(
-        content.movementModel.wheeledSlow.calculate(),
-        content.movementModel.wheeledFast.calculate(),
-        turbo
-      ),
-      mode
+        lerpModel(
+          content.movementModel.bipedalSlow.calculate(),
+          content.movementModel.bipedalFast.calculate(),
+          turbo
+        ),
+        lerpModel(
+          content.movementModel.wheeledSlow.calculate(),
+          content.movementModel.wheeledFast.calculate(),
+          turbo
+        ),
+        mode
+      )
     )
   }
 
@@ -413,7 +420,7 @@ content.movement = (() => {
     jetProgress: () => jetDelta / model.jetCapacity,
     mode: () => mode,
     model: () => ({...model}),
-    normalThrust: () => normalThrust,
+    normalThrust: () => normalThrust.clone(),
     recalculate: function () {
       intendedModel = calculateIntendedModel()
       model = calculateModel()
@@ -441,6 +448,7 @@ content.movement = (() => {
     },
     slope: () => slope,
     slopeNormal: () => slopeNormal, // TODO: rename to slopeMagnitude
+    thrust: () => thrust.clone(),
     toggleMode: function () {
       intendedMode = intendedMode ? 0 : 1
       intendedModel = calculateIntendedModel()
@@ -454,7 +462,6 @@ content.movement = (() => {
 
       return this
     },
-    thrust: () => thrust,
     turbo: () => turbo,
     update: function (controls = {}) {
       if (Number(controls.turbo) != intendedTurbo) {
