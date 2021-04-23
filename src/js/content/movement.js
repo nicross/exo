@@ -99,6 +99,10 @@ content.movement = (() => {
   }
 
   function applyRcsThrust(rotate = 0) {
+    if (!model.rcsVelocity) {
+      return
+    }
+
     rcsThrust = rotate
 
     if (!rcsThrust) {
@@ -123,7 +127,7 @@ content.movement = (() => {
     model.jetVectorAngle = content.upgrades.vectors.getBonus()
     model.jetVelocity *= 1 + content.upgrades.combustors.getBonus()
     model.jumpForce *= 1 + content.upgrades.pneumatics.getBonus()
-    model.rcsVelocity = content.upgrades.vectors.getBonus()
+    model.rcsVelocity = content.upgrades.rcsThrusters.getBonus()
 
     return model
   }
@@ -556,6 +560,7 @@ content.movement = (() => {
 
         gravity = 0
         isJumpCooldown = false
+        rcsThrust = 0
       }
 
       // Apply gravity only when far enough from ground
