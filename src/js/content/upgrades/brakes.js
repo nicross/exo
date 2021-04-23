@@ -1,6 +1,10 @@
 content.upgrades.brakes = content.upgrades.invent({
   name: 'Brakes',
   describe: function (level = this.level) {
+    if (!level) {
+      return 'Normal deceleration'
+    }
+
     return `+${this.levels[level].bonus * 100}% deceleration`
   },
   levels: [

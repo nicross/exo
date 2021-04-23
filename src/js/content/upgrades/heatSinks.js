@@ -1,6 +1,10 @@
 content.upgrades.heatSinks = content.upgrades.invent({
   name: 'Heat Sinks',
   describe: function (level = this.level) {
+    if (!level) {
+      return 'Normal jet capacity'
+    }
+
     return `+${this.levels[level].bonus * 100}% jet capacity`
   },
   levels: [

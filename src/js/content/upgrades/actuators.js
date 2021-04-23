@@ -1,6 +1,10 @@
 content.upgrades.actuators = content.upgrades.invent({
   name: 'Actuators',
   describe: function (level = this.level) {
+    if (!level) {
+      return 'Normal velocity'
+    }
+
     return `+${this.levels[level].bonus * 100}% velocity`
   },
   levels: [
