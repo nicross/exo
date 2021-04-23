@@ -201,9 +201,9 @@ content.movement = (() => {
   }
 
   function calculateNextLateralVelocity() {
-    // TODO: only scale if slope is against normalThrust
-    const dot = normalThrust.dotProduct(slope.forward())
-    const scaleFactor = (Math.abs(dot / normalThrust.distance()) || 0) ** 2
+    // TODO: only scale if slope is against normalThrust (i.e. full speed down slopes)
+    const dot = normalThrust.dotProduct(slope.up())
+    const scaleFactor = (1 - (Math.abs(dot / normalThrust.distance()) || 0)) ** 2
 
     const appliedThrust = thrust.scale(scaleFactor).rotateQuaternion(
       engine.utility.quaternion.fromEuler({
