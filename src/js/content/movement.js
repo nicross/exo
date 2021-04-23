@@ -9,6 +9,7 @@ content.movement = (() => {
     'height',
     'jetAcceleration',
     'jetCapacity',
+    'jetVectorAngle',
     'jetVelocity',
     'jumpForce',
     'lateralAcceleration',
@@ -36,6 +37,7 @@ content.movement = (() => {
     isJumpActive = false,
     isJumpCooldown = false,
     jetDelta = 0,
+    jetVector = engine.utility.vector3d.create(),
     mode = 0,
     model = {},
     normalThrust = engine.utility.vector3d.create(),
@@ -106,10 +108,10 @@ content.movement = (() => {
     return model
   }
 
-  function applyVerticalThrust(zThrust = 0) {
+  function applyVerticalThrust({...controls} = {}) {
     const delta = engine.loop.delta()
 
-    if (!zThrust) {
+    if (!controls.z) {
       isJetActive = false
       isJumpActive = false
       isJumpCooldown = false
@@ -143,7 +145,7 @@ content.movement = (() => {
       return
     }
 
-    jets()
+    jets(controls)
 
     isJetActive = true
     jetDelta += delta
@@ -180,7 +182,7 @@ content.movement = (() => {
   function calculateLateralThrust({
     x = 0,
     y = 0,
-  }) {
+  } = {}) {
     normalThrust = engine.utility.vector3d.create({
       x: y * model.xScale,
       y: -x * model.yScale,
@@ -301,13 +303,26 @@ content.movement = (() => {
     })
   }
 
-  function jets() {
+  function jets({
+    x: xInput = 0,
+    y: yInput = 0,
+  } = {}) {
     const velocity = engine.position.getVelocity()
 
-    engine.position.setVelocity({
-      ...velocity,
-      z: content.utility.accelerate.value(velocity.z, model.jetVelocity, model.jetAcceleration),
+    jetVector = engine.utility.vector3d.unitZ().scale(model.jetVelocity).rotateEuler({
+      pitch: yInput * model.jetVectorAngle,
+      roll: xInput * model.jetVectorAngle,
     })
+
+    engine.position.setVelocity(
+      content.utility.accelerate.vector(
+        velocity,
+        velocity.add(
+          jetVector.rotateQuaternion(engine.position.getQuaternion())
+        ),
+        model.jetAcceleration
+      )
+    )
   }
 
   function jump() {
@@ -418,6 +433,7 @@ content.movement = (() => {
     isWheeled: () => intendedMode == 1,
     jetDelta: () => jetDelta,
     jetProgress: () => jetDelta / model.jetCapacity,
+    jetVector: () => jetVector.clone(),
     mode: () => mode,
     model: () => ({...model}),
     normalThrust: () => normalThrust.clone(),
@@ -437,6 +453,7 @@ content.movement = (() => {
       isJumpActive = false
       isJumpCooldown = false
       jetDelta = 0
+      jetVector = engine.utility.vector3d.create()
       model = {}
       mode = 0
       normalThrust = engine.utility.vector3d.create()
@@ -495,7 +512,7 @@ content.movement = (() => {
         glueZ()
       }
 
-      applyVerticalThrust(controls.z)
+      applyVerticalThrust(controls)
 
       isGroundedEnough = z <= terrain + groundLeeway && !isJetActive && !isJumpCooldown
 
