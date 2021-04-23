@@ -1,1 +1,19 @@
 .a-synthesis {}
+  .a-synthesis--scrollable {
+    max-height: calc(2em * 5 + 0.5em);
+  }
+  .a-synthesis--upgrade {
+    transition: opacity 0.25s ease;
+  }
+  .a-synthesis--upgrades:focus-within .a-synthesis--upgrade,
+  .a-synthesis--upgrades:hover .a-synthesis--upgrade {
+    opacity: 0.333;
+  }
+  .a-synthesis--upgrades:focus-within .a-synthesis--upgrade:focus-within,
+  .a-synthesis--upgrades:hover .a-synthesis--upgrade:hover {
+    opacity: 1;
+  }
+  .a-synthesis--upgrades {
+    list-style-type: none;
+    margin: -0.5em;
+  }

@@ -1,6 +1,5 @@
 .a-materials {}
   .a-materials--data {
-    list-style-type: none;
     max-height: calc(2em * 5 + 0.5em);
   }
   .a-materials--count,
@@ -18,7 +17,7 @@
     white-space: nowrap;
   }
   .a-materials--table th {
-    padding: 0.25em;
+    padding: 0.5em;
     text-align: left;
     width: 100%;
   }

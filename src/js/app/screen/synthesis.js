@@ -17,6 +17,22 @@ app.screen.synthesis = (() => {
     app.utility.input.preventScrolling(upgradesList)
   })
 
+  function getUpgrades() {
+    const upgrades = [
+      ...content.upgrades.getAvailable(),
+      ...content.upgrades.getApplied(),
+      ...content.upgrades.getPending(),
+    ].sort((a, b) => {
+      if (a.canUpgrade() != b.canUpgrade()) {
+        return a.canUpgrade() ? -1 : 1
+      }
+
+      return a.name.localeCompare(b.name)
+    })
+
+    return Array.from(new Set(upgrades))
+  }
+
   function handleControls() {
     const ui = app.controls.ui()
 
@@ -72,17 +88,7 @@ app.screen.synthesis = (() => {
   }
 
   function updateComponents() {
-    const upgrades = [
-      ...content.upgrades.getAvailable(),
-      ...content.upgrades.getApplied(),
-      ...content.upgrades.getPending(),
-    ].sort((a, b) => {
-      if (a.canUpgrade() != b.canUpgrade()) {
-        return a.canUpgrade() ? -1 : 1
-      }
-
-      return a.name.localeCompare(b.name)
-    })
+    const upgrades = getUpgrades()
 
     for (const component of components) {
       component.destroy()

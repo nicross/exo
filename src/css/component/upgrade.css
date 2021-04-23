@@ -1,0 +1,27 @@
+.c-upgrade {
+  align-items: stretch;
+  display: flex;
+  text-align: left;
+  width: 100%;
+}
+  .c-upgrade--available {
+    align-items: center;
+    display: flex;
+    flex: 0 1 auto;
+    padding: 0 0.5em;
+  }
+  .c-upgrade--available span {
+    background-color: #000000;
+    color: #FFFFFF;
+    font-size: 0.75em;
+    line-height: 1.5;
+    padding: 0 0.5em;
+  }
+  .c-upgrade--name {
+    flex: 1 1 auto;
+    padding: 0.5em;
+  }
+  .c-upgrade--progress {
+    flex: 0 0 auto;
+    padding: 0.5em;
+  }

@@ -32,8 +32,8 @@ app.component.upgrade.prototype = {
     if (upgrade.canUpgrade()) {
       const available = document.createElement('p')
       available.classList.add('c-upgrade--available')
-      available.innerHTML = 'Upgrade Available'
-      button.append(progress)
+      available.innerHTML = '<span>Upgrade Available</span>'
+      button.append(available)
     }
 
     const progress = document.createElement('p')
