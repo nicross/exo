@@ -23,7 +23,7 @@ app.canvas.planet= (() => {
     const relative = engine.utility.vector3d.create({
       x: horizonDistance,
     }).rotateEuler({
-      pitch: -Math.PI / 5,
+      pitch: -Math.PI / 6,
     }).rotateQuaternion(
       engine.position.getQuaternion().conjugate()
     )
