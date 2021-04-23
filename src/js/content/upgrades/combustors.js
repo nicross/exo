@@ -1,5 +1,5 @@
-content.upgrades.combustion = content.upgrades.invent({
-  name: 'Combustion',
+content.upgrades.combustors = content.upgrades.invent({
+  name: 'Combustors',
   describe: function (level = this.level) {
     return `+${this.levels[level].bonus * 100}% jet velocity`
   },
@@ -12,7 +12,7 @@ content.upgrades.combustion = content.upgrades.invent({
         'metal/gold': 1,
         'metal/silver': 1,
       },
-      name: 'Combustion +1',
+      name: 'Combustors +1',
     },
     {
       bonus: 1/4,
@@ -24,7 +24,7 @@ content.upgrades.combustion = content.upgrades.invent({
         'exotic/uranium': 1,
         'xenotech/artifact': 1,
       },
-      name: 'Combustion +2',
+      name: 'Combustors +2',
     },
     {
       bonus: 1/2,
@@ -36,7 +36,7 @@ content.upgrades.combustion = content.upgrades.invent({
         'exotic/uranium': 5,
         'xenotech/artifact': 2,
       },
-      name: 'Combustion +3',
+      name: 'Combustors +3',
     },
   ],
 })
