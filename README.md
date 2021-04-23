@@ -36,12 +36,12 @@ gulp electron
 gulp electron-build
 ```
 
-### Start web server
+#### Start web server
 ```sh
 gulp serve
 ```
 
-### Start web server and build continuously
+#### Start web server and build continuously
 ```sh
 gulp dev
 ```
@@ -49,7 +49,15 @@ gulp dev
 #### Command line flags
 | Flag | Description |
 | - | - |
-| `--debug` | Suppresses minification. |
+| `--debug` | Suppresses minification, enabled cheats. |
+
+#### Cheats
+Cheats are enabled while the `--debug` command line flag is active:
+
+| Console command | Description |
+| - | - |
+| `content.inventory.giveAll()` | Fills all materials to maximum capacity. |
+| `content.upgrades.giveAll()` | Grants all upgrades. |
 
 ## Credits
 These fonts are free for noncommercial use and not covered by the license of this project:
