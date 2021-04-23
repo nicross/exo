@@ -124,6 +124,14 @@ app.state.screen = engine.utility.machine.create({
       back: function () {
         this.change('crafting')
       },
+      upgrade: function (upgrade) {
+        this.change('upgrade', upgrade)
+      },
+    },
+    upgrade: {
+      back: function () {
+        this.change('synthesis')
+      },
     },
   },
 })
@@ -170,6 +178,7 @@ app.state.screen.on('enter', (e) => {
     stats: '.a-app--stats',
     status: '.a-app--status',
     synthesis: '.a-app--synthesis',
+    upgrade: '.a-app--upgrade',
   }
 
   const selector = selectors[e.currentState]

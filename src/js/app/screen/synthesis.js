@@ -87,6 +87,11 @@ app.screen.synthesis = (() => {
     engine.loop.off('frame', onEngineLoopFrame)
   }
 
+  function onUpgradeClick() {
+    // XXX: this is current component
+    app.state.screen.dispatch('upgrade', this.upgrade)
+  }
+
   function updateComponents() {
     const upgrades = getUpgrades()
 
@@ -99,8 +104,8 @@ app.screen.synthesis = (() => {
     for (const upgrade of upgrades) {
       const component = app.component.upgrade.create(upgrade)
         .attach(upgradesList)
-        .on('click', () => {}) // TODO: go to upgrade screen
 
+      component.on('click', onUpgradeClick.bind(component))
       components.push(component)
     }
   }
