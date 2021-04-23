@@ -12,6 +12,7 @@
 - Terrain generation
   - Crater generation
   - Special noise fields
-- Graphics
-  - Gas giant
-  - Stars
+- Upgrades
+  - Recycler
+    - When inventory is full, earn currency that persists between games
+    - Shop screen to buy materials
