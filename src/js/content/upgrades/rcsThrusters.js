@@ -2,7 +2,7 @@ content.upgrades.rcsThrusters = content.upgrades.invent({
   name: 'RCS Thrusters',
   describe: function (level = this.level) {
     if (!level) {
-      return ''
+      return 'Function offline'
     }
 
     if (level == 1) {
