@@ -38,6 +38,18 @@ content.inventory = (() => {
     },
     export: () => ({...cargo}),
     get: (key) => cargo[key] || 0,
+    giveAll: function () {
+      const capacity = calculateCapacity(),
+        data = {}
+
+      for (const type of content.materials.types.all()) {
+        data[type.key] = capacity
+      }
+
+      cargo = data
+
+      return this
+    },
     import: function (data = {}) {
       cargo = {...data}
       return this
