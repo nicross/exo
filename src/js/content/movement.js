@@ -49,10 +49,10 @@ content.movement = (() => {
     thrust = engine.utility.vector3d.create(),
     turbo = 0
 
-  function applyAngularThrust(rotate = 0) {
+  function applyAngularThrust(rotateInput = 0) {
     const {yaw} = engine.position.getAngularVelocityEuler()
 
-    if (!rotate) {
+    if (!rotateInput) {
       return engine.position.setAngularVelocityEuler({
         yaw: content.utility.accelerate.value(
           yaw,
@@ -65,7 +65,7 @@ content.movement = (() => {
     engine.position.setAngularVelocityEuler({
       yaw: content.utility.accelerate.value(
         yaw,
-        rotate * model.rotateScale * model.angularVelocity,
+        rotateInput * model.rotateScale * model.angularVelocity,
         model.angularAcceleration
       ),
     })
@@ -98,12 +98,12 @@ content.movement = (() => {
     )
   }
 
-  function applyRcsThrust(rotate = 0) {
+  function applyRcsThrust(rotateInput = 0) {
     if (!model.rcsVelocity) {
       return
     }
 
-    rcsThrust = rotate
+    rcsThrust = engine.utility.clamp(rotateInput, -1, 1)
 
     if (!rcsThrust) {
       return
