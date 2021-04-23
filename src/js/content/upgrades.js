@@ -29,6 +29,15 @@ content.upgrades = (() => {
 
       return false
     }),
+    giveAll: function () {
+      for (const upgrade of registry.values()) {
+        upgrade.level = upgrade.levels.length - 1
+      }
+
+      content.movement.recalculate()
+
+      return this
+    },
     import: function (data = {}) {
       for (const upgrade of registry.values()) {
         upgrade.level = data[upgrade.key] || 0
