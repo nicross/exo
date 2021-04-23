@@ -9,7 +9,7 @@ content.upgrades.heatSinks = content.upgrades.invent({
   },
   levels: [
     {
-      bonus: 1/4,
+      bonus: 1/2,
       cost: {
         'common/nitrogen': 5,
         'common/silicon': 5,
@@ -19,7 +19,7 @@ content.upgrades.heatSinks = content.upgrades.invent({
       name: 'Heat Sinks +1',
     },
     {
-      bonus: 1/2,
+      bonus: 1,
       cost: {
         'common/nitrogen': 10,
         'common/silicon': 10,
@@ -31,7 +31,7 @@ content.upgrades.heatSinks = content.upgrades.invent({
       name: 'Heat Sinks +2',
     },
     {
-      bonus: 1,
+      bonus: 2,
       cost: {
         'common/nitrogen': 20,
         'common/silicon': 20,
