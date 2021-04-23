@@ -1,5 +1,5 @@
 * {
-  scrollbar-color: #FFFFFF #000000;
+  scrollbar-color: #000000 #FFFFFF;
   scrollbar-width: 1em;
 }
 ::-webkit-scrollbar {
@@ -7,8 +7,8 @@
   width: 1em;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: #FFFFFF;
+  background-color: #000000;
 }
 ::-webkit-scrollbar-track {
-  background-color: #000000;
+  background-color: #FFFFFF;
 }
