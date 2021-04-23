@@ -1,5 +1,6 @@
 content.audio.jets = (() => {
   const bus = content.audio.createBus(),
+    context = engine.audio.context(),
     firstBurnDuration = 1/4,
     pubsub = engine.utility.pubsub.create()
 
@@ -11,7 +12,8 @@ content.audio.jets = (() => {
 
   function calculateParameters(delta = content.movement.jetDelta()) {
     const model = content.movement.model(),
-      progress = engine.utility.clamp(delta / model.jetCapacity, 0, 1)
+      progress = engine.utility.clamp(delta / model.jetCapacity, 0, 1),
+      vector = content.movement.jetVector().normalize()
 
     const modDepth = engine.utility.lerp(0, 1/4, progress)
 
@@ -22,6 +24,7 @@ content.audio.jets = (() => {
       gain: engine.utility.fromDb(engine.utility.lerp(0, -3, progress)),
       modDepth,
       modFrequency: engine.utility.lerp(20, 4, progress),
+      pan: vector.y * 0.5,
     }
   }
 
@@ -39,7 +42,9 @@ content.audio.jets = (() => {
       frequency: start.filterFrequency,
       Q: start.filterQ,
       type: 'bandpass',
-    }).connect(bus)
+    }).chainAssign('panner', context.createStereoPanner()).connect(bus)
+
+    synth.panner.pan.value = start.pan
 
     synth.param.gain.linearRampToValueAtTime(1, now + 1/16)
     synth.param.gain.linearRampToValueAtTime(end.gain, now + firstBurnDuration)
@@ -75,6 +80,7 @@ content.audio.jets = (() => {
       gain,
       modDepth,
       modFrequency,
+      pan,
     } = calculateParameters()
 
     engine.audio.ramp.set(synth.param.carrierGain, carrierGain)
@@ -83,6 +89,7 @@ content.audio.jets = (() => {
     engine.audio.ramp.set(synth.param.gain, gain)
     engine.audio.ramp.set(synth.param.mod.depth, modDepth)
     engine.audio.ramp.set(synth.param.mod.frequency, modFrequency)
+    engine.audio.ramp.set(synth.panner.pan, pan)
   }
 
   return engine.utility.pubsub.decorate({
