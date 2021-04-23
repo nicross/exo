@@ -59,7 +59,7 @@ content.upgrades = (() => {
     upgrade: function (key) {
       const upgrade = registry.get(key)
 
-      if (key && key.canUpgrade()) {
+      if (upgrade && upgrade.canUpgrade()) {
         upgrade.level += 1
         pubsub.emit('upgrade', upgrade)
       }

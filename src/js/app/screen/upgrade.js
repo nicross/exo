@@ -1,15 +1,15 @@
 app.screen.upgrade = (() => {
-  let root
+  let root,
+    upgrade
 
   engine.ready(() => {
-    // TODO: upgrade button - call upgrade, update the page content, focus root
-
     root = document.querySelector('.a-upgrade')
 
     app.state.screen.on('enter-upgrade', onEnter)
     app.state.screen.on('exit-upgrade', onExit)
 
     root.querySelector('.a-upgrade--back').addEventListener('click', onBackClick)
+    root.querySelector('.a-upgrade--upgrade').addEventListener('click', onUpgradeClick)
 
     app.utility.focus.trap(root)
   })
@@ -67,15 +67,10 @@ app.screen.upgrade = (() => {
   }
 
   function onEnter({
-    upgrade = {},
+    upgrade: selectedUpgrade = {},
   } = {}) {
-    root.querySelector('.a-upgrade--cost').hidden = !upgrade.getNextLevel()
-    root.querySelector('.a-upgrade--description').innerHTML = upgrade.describe()
-    root.querySelector('.a-upgrade--name').innerHTML = upgrade.name
-    root.querySelector('.a-upgrade--upgrade').disabled = upgrade.canUpgrade()
-    root.querySelector('.a-upgrade--upgrade').innerHTML = upgrade.describeNext()
-
-    updateTable(upgrade.getNextCost())
+    upgrade = selectedUpgrade
+    update()
 
     engine.loop.on('frame', onEngineLoopFrame)
     app.utility.focus.set(root)
@@ -83,6 +78,22 @@ app.screen.upgrade = (() => {
 
   function onExit() {
     engine.loop.off('frame', onEngineLoopFrame)
+  }
+
+  function onUpgradeClick() {
+    content.upgrades.upgrade(upgrade.key)
+    update()
+    app.utility.focus.set(root)
+  }
+
+  function update() {
+    root.querySelector('.a-upgrade--cost').hidden = !upgrade.getNextLevel()
+    root.querySelector('.a-upgrade--description').innerHTML = upgrade.describe()
+    root.querySelector('.a-upgrade--name').innerHTML = upgrade.name
+    root.querySelector('.a-upgrade--upgrade').disabled = !upgrade.canUpgrade()
+    root.querySelector('.a-upgrade--upgrade').innerHTML = upgrade.describeNext()
+
+    updateTable(upgrade.getNextCost())
   }
 
   function updateTable(cost = {}) {
