@@ -12,6 +12,10 @@ content.upgrades.base = {
   },
   describe: () => '',
   describeNext: function () {
+    if (!this.getNextLevel()) {
+      return 'Fully upgraded'
+    }
+
     return this.describe(this.level + 1)
   },
   getBonus: function () {

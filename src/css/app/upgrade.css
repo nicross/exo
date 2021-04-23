@@ -1,1 +1,8 @@
 .a-upgrade {}
+  .a-upgrade--cost {
+    margin: 2em 0 1em 0;
+  }
+  .a-upgrade--description {
+    font-size: 1.5em;
+    margin-top: 0.5rem;
+  }

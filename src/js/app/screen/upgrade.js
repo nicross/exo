@@ -14,6 +14,14 @@ app.screen.upgrade = (() => {
     app.utility.focus.trap(root)
   })
 
+  function getTableData(cost = {}) {
+    return content.materials.types.sort(cost).map(([key, count]) => ({
+      ...content.materials.types.get(key),
+      cost: count,
+      total: content.inventory.get(key),
+    }))
+  }
+
   function handleControls() {
     const ui = app.controls.ui()
 
@@ -58,14 +66,39 @@ app.screen.upgrade = (() => {
     handleControls(e)
   }
 
-  function onEnter(upgrade = {}) {
-    // TODO: update page content
+  function onEnter({
+    upgrade = {},
+  } = {}) {
+    root.querySelector('.a-upgrade--cost').hidden = !upgrade.getNextLevel()
+    root.querySelector('.a-upgrade--description').innerHTML = upgrade.describe()
+    root.querySelector('.a-upgrade--name').innerHTML = upgrade.name
+    root.querySelector('.a-upgrade--upgrade').disabled = upgrade.canUpgrade()
+    root.querySelector('.a-upgrade--upgrade').innerHTML = upgrade.describeNext()
+
+    updateTable(upgrade.getNextCost())
+
     engine.loop.on('frame', onEngineLoopFrame)
-    app.utility.focus.setWithin(root)
+    app.utility.focus.set(root)
   }
 
   function onExit() {
     engine.loop.off('frame', onEngineLoopFrame)
+  }
+
+  function updateTable(cost = {}) {
+    const data = getTableData(cost)
+
+    let html = ''
+
+    for (const row of data) {
+      html += `<tr tabindex="0">
+        <th class="a-materials--name" scope="row">${row.name}</th>
+        <td class="a-materials--count">${row.total} <abbr aria-label="of">/</abbr> ${row.cost}</td>
+        <td class="a-materials--group">${row.group}</td>
+      </tr>`
+    }
+
+    root.querySelector('.a-upgrade--table').innerHTML = html
   }
 
   return {}

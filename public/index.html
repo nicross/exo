@@ -367,10 +367,20 @@
       </div>
 
       <div class="a-app--screen a-app--upgrade">
-        <section class="c-screen a-upgrade" aria-label="Upgrade">
-          <h1 class="c-screen--title">Upgrade</h1>
+        <section class="c-screen a-upgrade" aria-labelledby="a-upgrade--title">
+          <div id="a-upgrade--title">
+            <h1 class="c-screen--title a-upgrade--name">Upgrade Name</h1>
+            <h1 class="a-upgrade--description">Upgrade description</h1>
+          </div>
+
+          <div class="c-screen--scrollable a-upgrade--cost">
+            <table class="a-upgrade--table"></table>
+          </div>
 
           <ul class="c-screen--actions">
+            <li class="c-screen--action">
+              <button class="c-menuButton a-upgrade--upgrade" type="button">Upgrade</button>
+            </li>
             <li class="c-screen--action">
               <button class="c-menuButton a-upgrade--back" type="button">Back</button>
             </li>
