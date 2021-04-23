@@ -102,6 +102,7 @@ app.screen.synthesis = (() => {
     }
 
     components.length = 0
+    upgradesList.scrollTop = 0
 
     for (const upgrade of upgrades) {
       const component = app.component.upgrade.create(upgrade)

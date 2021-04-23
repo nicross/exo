@@ -97,7 +97,8 @@ app.screen.upgrade = (() => {
   }
 
   function updateTable(cost = {}) {
-    const data = getTableData(cost)
+    const data = getTableData(cost),
+      table = root.querySelector('.a-upgrade--table')
 
     let html = ''
 
@@ -109,7 +110,8 @@ app.screen.upgrade = (() => {
       </tr>`
     }
 
-    root.querySelector('.a-upgrade--table').innerHTML = html
+    table.scrollTop = 0  
+    table.innerHTML = html
   }
 
   return {}
