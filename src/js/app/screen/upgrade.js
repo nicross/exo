@@ -88,6 +88,7 @@ app.screen.upgrade = (() => {
 
   function update() {
     root.querySelector('.a-upgrade--cost').hidden = !upgrade.getNextLevel()
+    root.querySelector('.a-upgrade--cost').scrollTop = 0
     root.querySelector('.a-upgrade--description').innerHTML = upgrade.describe()
     root.querySelector('.a-upgrade--name').innerHTML = upgrade.name
     root.querySelector('.a-upgrade--upgrade').disabled = !upgrade.canUpgrade()
@@ -110,7 +111,6 @@ app.screen.upgrade = (() => {
       </tr>`
     }
 
-    table.scrollTop = 0
     table.innerHTML = html
   }
 
