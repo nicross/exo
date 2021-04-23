@@ -15,6 +15,8 @@ content.movement = (() => {
     'lateralAcceleration',
     'lateralDeceleration',
     'lateralVelocity',
+    'rcsAcceleration',
+    'rcsVelocity',
     'rotateScale',
     'strideLength',
     'width',
@@ -41,14 +43,13 @@ content.movement = (() => {
     mode = 0,
     model = {},
     normalThrust = engine.utility.vector3d.create(),
+    rcsThrust = 0,
     slope = engine.utility.euler.create(),
     slopeNormal = 0,
     thrust = engine.utility.vector3d.create(),
     turbo = 0
 
   function applyAngularThrust(rotate = 0) {
-    // TODO: rcs thrusters
-
     const {yaw} = engine.position.getAngularVelocityEuler()
 
     if (!rotate) {
@@ -97,6 +98,24 @@ content.movement = (() => {
     )
   }
 
+  function applyRcsThrust(rotate = 0) {
+    rcsThrust = rotate
+
+    if (!rcsThrust) {
+      return
+    }
+
+    const {yaw} = engine.position.getAngularVelocityEuler()
+
+    engine.position.setAngularVelocityEuler({
+      yaw: content.utility.accelerate.value(
+        yaw,
+        yaw + (rcsThrust * model.rcsVelocity),
+        model.rcsAcceleration
+      ),
+    })
+  }
+
   function applyUpgrades(model) {
     model.lateralAcceleration *= 1 + content.upgrades.aerodynamics.getBonus()
     model.lateralDeceleration *= 1 + content.upgrades.brakes.getBonus()
@@ -104,6 +123,7 @@ content.movement = (() => {
     model.jetVectorAngle = content.upgrades.vectors.getBonus()
     model.jetVelocity *= 1 + content.upgrades.combustors.getBonus()
     model.jumpForce *= 1 + content.upgrades.pneumatics.getBonus()
+    model.rcsVelocity = content.upgrades.vectors.getBonus()
 
     return model
   }
@@ -437,6 +457,7 @@ content.movement = (() => {
     mode: () => mode,
     model: () => ({...model}),
     normalThrust: () => normalThrust.clone(),
+    rcsThrust: () => rcsThrust,
     recalculate: function () {
       intendedModel = calculateIntendedModel()
       model = calculateModel()
@@ -457,6 +478,7 @@ content.movement = (() => {
       model = {}
       mode = 0
       normalThrust = engine.utility.vector3d.create()
+      rcsThrust = 0
       slope = engine.utility.euler.create()
       slopeNormal = 0
       thrust = engine.utility.vector3d.create()
@@ -521,6 +543,8 @@ content.movement = (() => {
         cacheSlope()
         applyAngularThrust(controls.rotate)
         applyLateralThrust()
+      } else {
+        applyRcsThrust(controls.rotate)
       }
 
       if (isGrounded) {

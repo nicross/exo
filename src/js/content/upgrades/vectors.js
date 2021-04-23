@@ -2,11 +2,11 @@ content.upgrades.vectors = content.upgrades.invent({
   name: 'Vectors',
   describe: function (level = this.level) {
     if (!level) {
-      return 'Function offline'
+      return 'Air strafing offline'
     }
 
     if (level == 1) {
-      return 'Unlock air strafing'
+      return 'Air strafing online'
     }
 
     return `+${Math.round(this.levels[level].bonus / (Math.PI / 2) * 100)}% air strafing`

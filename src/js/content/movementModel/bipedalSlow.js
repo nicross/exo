@@ -13,6 +13,7 @@ content.movementModel.bipedalSlow = {
       lateralAcceleration: 2.5,
       lateralDeceleration: 10,
       lateralVelocity: 2.5,
+      rcsAcceleration: Math.PI / 2,
       rotateScale: 1,
       strideLength: 2,
       width: 1,
