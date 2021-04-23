@@ -1,8 +1,36 @@
 .a-upgrade {}
   .a-upgrade--cost {
     margin: 2em 0 1em 0;
+    max-height: calc(2em * 3 + 0.5em);
   }
   .a-upgrade--description {
     font-size: 1.5em;
     margin-top: 0.5rem;
+  }
+  .a-upgrade--table {
+    border-collapse: collapse;
+    display: block;
+    margin: -0.5em;
+  }
+  .a-upgrade--table td {
+    border-left: 1px solid rgba(0, 0, 0, 0.25);
+    padding: 0.5em;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .a-upgrade--table th {
+    padding: 0.5em;
+    text-align: left;
+    width: 100%;
+  }
+  .a-upgrade--table tr {
+    transition: opacity 0.25s ease;
+  }
+  .a-upgrade--table:focus-within tr,
+  .a-upgrade--table:hover tr {
+    opacity: 0.333;
+  }
+  .a-upgrade--table:focus-within tr:focus,
+  .a-upgrade--table:hover tr:hover {
+    opacity: 1;
   }

@@ -2,7 +2,7 @@ app.screen.upgrade = (() => {
   let root
 
   engine.ready(() => {
-    // TODO: upgrade button
+    // TODO: upgrade button - call upgrade, update the page content, focus root
 
     root = document.querySelector('.a-upgrade')
 
@@ -92,9 +92,9 @@ app.screen.upgrade = (() => {
 
     for (const row of data) {
       html += `<tr tabindex="0">
-        <th class="a-materials--name" scope="row">${row.name}</th>
-        <td class="a-materials--count">${row.total} <abbr aria-label="of">/</abbr> ${row.cost}</td>
-        <td class="a-materials--group">${row.group}</td>
+        <th scope="row">${row.name}</th>
+        <td>${row.total} <abbr aria-label="of">/</abbr> ${row.cost}</td>
+        <td>${row.group}</td>
       </tr>`
     }
 
