@@ -4,7 +4,6 @@
   - Scanner higher painful frequencies should be rolled off
   - All materials should duck on notification sounds
 - Movement
-  - Add cooldown to jumps to avoid double trigger on slopes
   - Slope shouldn't affect downhill velocity
 
 ## Planned features

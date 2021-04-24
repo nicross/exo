@@ -39,6 +39,7 @@ content.movement = (() => {
     isJumpCooldown = false,
     jetDelta = 0,
     jetVector = engine.utility.vector3d.create(),
+    jumpTimer = 0,
     mode = 0,
     model = {},
     normalThrust = engine.utility.vector3d.create(),
@@ -132,10 +133,12 @@ content.movement = (() => {
   function applyVerticalThrust({...controls} = {}) {
     const delta = engine.loop.delta()
 
+    jumpTimer = Math.max(jumpTimer - delta, 0)
+    isJumpCooldown = jumpTimer > 0
+
     if (!controls.z) {
       isJetActive = false
       isJumpActive = false
-      isJumpCooldown = false
       jetDelta = Math.max(jetDelta - delta, 0)
       return
     }
@@ -153,6 +156,8 @@ content.movement = (() => {
 
       isJumpActive = true
       isJumpCooldown = true
+      jumpTimer = 1/2
+
       return jump()
     }
 
@@ -476,6 +481,7 @@ content.movement = (() => {
       isJumpCooldown = false
       jetDelta = 0
       jetVector = engine.utility.vector3d.create()
+      jumpTimer = 0
       model = {}
       mode = 0
       normalThrust = engine.utility.vector3d.create()
