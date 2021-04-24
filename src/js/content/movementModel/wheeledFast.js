@@ -13,7 +13,6 @@ content.movementModel.wheeledFast = {
       lateralAcceleration: 10,
       lateralDeceleration: 5,
       lateralVelocity: 20 * (1 + content.upgrades.actuators.getBonus()),
-      rcsAcceleration: Math.PI / 2,
       rotateScale: 1,
       strideLength: engine.const.maxSafeFloat,
       width: 2,

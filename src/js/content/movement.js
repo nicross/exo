@@ -15,7 +15,6 @@ content.movement = (() => {
     'lateralAcceleration',
     'lateralDeceleration',
     'lateralVelocity',
-    'rcsAcceleration',
     'rcsVelocity',
     'rotateScale',
     'strideLength',
@@ -109,15 +108,13 @@ content.movement = (() => {
       return
     }
 
-    const {yaw} = engine.position.getAngularVelocityEuler()
-
-    engine.position.setAngularVelocityEuler({
-      yaw: content.utility.accelerate.value(
-        yaw,
-        yaw + (rcsThrust * model.rcsVelocity),
-        model.rcsAcceleration
-      ),
-    })
+    engine.position.setAngularVelocity(
+      engine.position.getAngularVelocity().multiply(
+        engine.utility.quaternion.fromEuler({
+          yaw: rcsThrust * model.rcsVelocity,
+        }).lerpFrom({w: 1}, engine.loop.delta())
+      )
+    )
   }
 
   function applyUpgrades(model) {
