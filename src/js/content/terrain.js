@@ -238,8 +238,8 @@ content.terrain = (() => {
   }
 
   function waves({amplitude, exponent, x}) {
-    const wavelength = 62.5 + (12.5 * Math.sin(x * 2 * Math.PI / 5000))
-    const oscillation = (Math.cos(x * 2 * Math.PI / wavelength) + 1) / 2
+    const wavelength = 62.5 + (12.5 * Math.sin(x * engine.const.tau / 5000))
+    const oscillation = (Math.cos(x * engine.const.tau / wavelength) + 1) / 2
 
     amplitude = engine.utility.lerp(5, 20, amplitude)
     exponent = engine.utility.lerp(1, 2.8, exponent)

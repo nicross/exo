@@ -2,7 +2,7 @@ content.movementModel.wheeledSlow = {
   calculate: function () {
     return {
       angularAcceleration: Math.PI / 2,
-      angularDeceleration: Math.PI * 2,
+      angularDeceleration: engine.const.tau,
       angularVelocity: Math.PI / 2,
       depth: 2,
       height: 1,

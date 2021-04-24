@@ -2,7 +2,7 @@ app.utility.format = {}
 
 app.utility.format.angle = function (radians = 0) {
   let degrees = engine.utility.radiansToDegrees(
-    (Math.PI * 2) - engine.utility.normalizeAngle(radians - Math.PI/2)
+    engine.const.tau - engine.utility.normalizeAngle(radians - Math.PI/2)
   )
 
   let label = ''

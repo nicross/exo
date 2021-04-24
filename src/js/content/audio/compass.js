@@ -1,7 +1,7 @@
 content.audio.compass = (() => {
   const bus = content.audio.createBus(),
     frequency = engine.utility.midiToFrequency(72),
-    tau = Math.PI * 2
+    tau = engine.const.tau
 
   const roses = [
     {angle: Math.PI * 0, strength: 2/3, east: true},
