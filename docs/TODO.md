@@ -15,7 +15,6 @@
 
 ## Wishlist features
 - Terrain generation
-  - Special noise fields
   - Crater generation
     - Chunked
     - Subtract hole from terrain with radius, never below sea level

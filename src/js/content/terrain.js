@@ -7,7 +7,9 @@ content.terrain = (() => {
     exponentField = engine.utility.perlin2d.create('terrain', 'exponent'),
     exponentScale = 1000,
     noiseField = engine.utility.createPerlinWithOctaves(engine.utility.perlin2d, 'terrain', 2),
-    sauceField = engine.utility.perlin2d.create('terrain', 'sauce')
+    sauceField = engine.utility.perlin2d.create('terrain', 'sauce'),
+    wildcardField = engine.utility.perlin2d.create('terrain', 'wildcard'),
+    wildcardScale = 1000
 
   const biomes = [
     {x: 1/5, y: 1/3, name: 'flat', command: flat}, {x: 1/5, y: 2/3, name: 'waves', command: waves},
@@ -16,7 +18,9 @@ content.terrain = (() => {
     {x: 4/5, y: 1/3, name: 'hoodoos', command: hoodoos}, {x: 4/5, y: 2/3, name: 'rough', command: rough},
   ]
 
-  const cache = engine.utility.quadtree.create()
+  const cache = engine.utility.quadtree.create({
+    maxItems: 100,
+  })
 
   let current
 
@@ -27,6 +31,7 @@ content.terrain = (() => {
     .manage(exponentField)
     .manage(noiseField)
     .manage(sauceField)
+    .manage(wildcardField)
 
   function cacheCurrent() {
     const position = engine.position.getVector()
@@ -64,11 +69,13 @@ content.terrain = (() => {
   function generateValue(x, y) {
     const amplitude = getAmplitude(x, y),
       biome = getBiome(x, y),
-      exponent = getExponent(x, y)
+      exponent = getExponent(x, y),
+      wildcard = getWildcard(x, y)
 
     const options = {
       amplitude,
       exponent,
+      wildcard,
       x,
       y,
     }
@@ -157,10 +164,13 @@ content.terrain = (() => {
     return results
   }
 
-  function hoodoos({amplitude, exponent, weight, x, y}) {
-    // TODO: Adjust stairHeight by noise fields
+  function getWildcard(x, y) {
+    return wildcardField.value(x / wildcardScale, y / wildcardScale)
+  }
+
+  function hoodoos({amplitude, exponent, weight, x, y, wildcard}) {
     const noise = noiseField.value((x / 25) + 0.5, (y / 25) + 0.5),
-      stairHeight = 2 / weight
+      stairHeight = engine.utility.lerpExp(2, 10, wildcard, 2) / weight
 
     amplitude = engine.utility.lerp(250, 500, amplitude)
     exponent = engine.utility.lerp(4, 8, exponent)
@@ -186,10 +196,9 @@ content.terrain = (() => {
     return amplitude * noise
   }
 
-  function plateau({amplitude, exponent, weight, x, y}) {
-    // TODO: Adjust stairHeight by noise fields
+  function plateau({amplitude, exponent, weight, x, y, wildcard}) {
     const noise = noiseField.value(x / 1000, y / 1000),
-      stairHeight = 2 / weight
+      stairHeight = engine.utility.lerpExp(2, 10, wildcard, 2) / weight
 
     amplitude = engine.utility.lerp(250, 750, amplitude)
     exponent = engine.utility.lerp(1/4, 1, exponent)
