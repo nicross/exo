@@ -11,7 +11,7 @@ content.upgrades.brakes = content.upgrades.invent({
     {
       bonus: 1/4,
       cost: {
-        'common/carbon': 5,
+        'common/nitrogen': 5,
         'common/lithium': 5,
         'metal/copper': 1,
         'metal/gold': 1,
@@ -21,7 +21,7 @@ content.upgrades.brakes = content.upgrades.invent({
     {
       bonus: 1/2,
       cost: {
-        'common/carbon': 10,
+        'common/nitrogen': 10,
         'common/lithium': 10,
         'metal/copper': 5,
         'metal/gold': 5,
@@ -33,7 +33,7 @@ content.upgrades.brakes = content.upgrades.invent({
     {
       bonus: 1,
       cost: {
-        'common/carbon': 20,
+        'common/nitrogen': 20,
         'common/lithium': 20,
         'metal/copper': 10,
         'metal/gold': 10,
