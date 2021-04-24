@@ -4,7 +4,7 @@ content.audio.music = (() => {
     fadeAltitude = 100,
     filter = context.createBiquadFilter(),
     input = context.createGain(),
-    rootFrequency = content.utility.frequency.fromMidi(24)
+    rootFrequency = content.utility.frequency.fromMidi(48)
 
   let synths = []
 
@@ -17,21 +17,21 @@ content.audio.music = (() => {
     synths.push(
       content.audio.music.synth.create({
         destination: input,
-        // ...
+        index: 0,
       })
     )
 
     synths.push(
       content.audio.music.synth.create({
         destination: input,
-        // ...
+        index: 1,
       })
     )
 
     synths.push(
       content.audio.music.synth.create({
         destination: input,
-        // ...
+        index: 2,
       })
     )
   }
@@ -50,8 +50,8 @@ content.audio.music = (() => {
 
     const strength = engine.utility.clamp(engine.utility.scale(z - terrain, 0, fadeAltitude, 0, 1), 0, 1)
 
-    const frequency = engine.utility.lerpExp(rootFrequency, engine.const.maxFrequency, strength, 2),
-      gain = engine.utility.fromDb(engine.utility.lerp(-6, 0, strength))
+    const frequency = engine.utility.lerpExp(rootFrequency, rootFrequency * 4, strength, 0.5),
+      gain = engine.utility.fromDb(engine.utility.lerp(-3, 0, strength))
 
     engine.audio.ramp.set(filter.frequency, frequency)
     engine.audio.ramp.set(input.gain, gain)

@@ -2,12 +2,10 @@
 ## Issues
 - Audio
   - All materials should duck on notification sounds
-
-## Planned features
-- Soundtrack
-  - Ambient synths
-  - Spatial and temporal frequency selection
-  - Ride fader based on altitude above
+  - Music frequencies hiccup between note changes
+- Movement
+  - Collisions while descending steep slopes
+  - Rare launches off ground while moving
 
 ## Wishlist features
 - Terrain generation
