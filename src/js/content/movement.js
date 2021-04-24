@@ -166,8 +166,7 @@ content.movement = (() => {
       return
     }
 
-    // Kill jets if out of fuel or close to ground
-    if (isJetActive && jetDelta >= model.jetCapacity) {
+    if (jetDelta >= model.jetCapacity) {
       isJetActive = false
       return
     }
