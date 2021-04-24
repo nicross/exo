@@ -1,7 +1,6 @@
 # TODO
 ## Issues
 - Audio
-  - Scanner higher painful frequencies should be rolled off
   - All materials should duck on notification sounds
 
 ## Planned features

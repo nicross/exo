@@ -5,6 +5,18 @@ content.audio.scan = (() => {
 
   bus.gain.value = engine.utility.fromDb(-9)
 
+  const lowpass = context.createBiquadFilter(),
+    notch = context.createBiquadFilter()
+
+  lowpass.frequency.value = 10000
+
+  notch.frequency.value = rootFrequency
+  notch.Q.value = 5
+  notch.type = 'notch'
+
+  lowpass.connect(notch)
+  notch.connect(bus)
+
   function render(scan) {
     const now = engine.audio.time()
 
@@ -50,15 +62,11 @@ content.audio.scan = (() => {
     const panner = context.createStereoPanner()
 
     panner.pan.value = pan
-    panner.connect(bus)
+    panner.connect(lowpass)
 
     const synth = engine.audio.synth.createSimple({
       frequency: rootFrequency,
       when,
-    }).filtered({
-      frequency: rootFrequency,
-      Q: 5,
-      type: 'notch',
     }).connect(panner)
 
     const count = group.length
