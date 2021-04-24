@@ -2,7 +2,6 @@
 ## Issues
 - Audio
   - All materials should duck on notification sounds
-  - Music frequencies hiccup between note changes
 - Movement
   - Collisions while descending steep slopes
   - Rare launches off ground while moving

@@ -45,18 +45,47 @@ content.audio.music.chord = (() => {
     .manage(inversionField)
 
   function generate(index = 0) {
+    // Determine chords and harmonics
     const t = content.time.value() / timeScale,
       t0 = Math.floor(t),
       t1 = t0 + 1,
-      tDelta = Math.sin((t - t0) * Math.PI/2),
       z = engine.position.getVector().z / zScale,
       z0 = Math.floor(z),
-      z1 = z0 + 1,
-      zDelta = Math.sin((z - z0) * Math.PI/2)
+      z1 = z0 + 1
 
     const t0Chord = getChord(t0),
       t1Chord = getChord(t1)
 
+    const t0z0 = t0Chord[index] * getHarmonic(t0, z0, index),
+      t0z1 = t0Chord[index] * getHarmonic(t0, z1, index),
+      t1z0 = t1Chord[index] * getHarmonic(t1, z0, index),
+      t1z1 = t1Chord[index] * getHarmonic(t1, z1, index)
+
+    // Swap values on even/odd so synths line up and don't hiccup on abrupt changes
+    const swapT = t0 % 2 == 1,
+      swapZ = z0 % 2 == 1
+
+    const values = [
+      t0z0,
+      t0z1,
+      t1z0,
+      t1z1,
+    ]
+
+    let tDelta = Math.sin((t - t0) * Math.PI/2),
+      zDelta = Math.sin((z - z0) * Math.PI/2)
+
+    if (swapT) {
+      [values[0], values[1], values[2], values[3]] = [values[2], values[3], values[0], values[1]]
+      tDelta = 1 - tDelta
+    }
+
+    if (swapZ) {
+      [values[0], values[1], values[2], values[3]] = [values[1], values[0], values[3], values[2]]
+      zDelta = 1 - zDelta
+    }
+
+    // Return swapped values
     return {
       debug: {
         t0,
@@ -67,12 +96,12 @@ content.audio.music.chord = (() => {
         t1Chord,
       },
       t0: {
-        z0: t0Chord[index] * getHarmonic(t0, z0, index),
-        z1: t0Chord[index] * getHarmonic(t0, z1, index),
+        z0: values[0],
+        z1: values[1],
       },
       t1: {
-        z0: t1Chord[index] * getHarmonic(t1, z0, index),
-        z1: t1Chord[index] * getHarmonic(t1, z1, index),
+        z0: values[2],
+        z1: values[3],
       },
       t0Mix: 1 - tDelta,
       t1Mix: tDelta,
@@ -113,7 +142,7 @@ content.audio.music.chord = (() => {
       value = chordField.value(time / chordScale)
 
     return engine.utility.choose(chords, value).map((note, index) => {
-      note += (4 * 12) + (inversion[index] * 12)
+      note += (octave * 12) + (inversion[index] * 12)
       return content.utility.frequency.fromMidi(note)
     })
   }
