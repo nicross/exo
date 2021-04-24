@@ -236,10 +236,15 @@ content.movement = (() => {
   }
 
   function calculateNextLateralVelocity() {
-    // TODO: only scale if slope is against normalThrust (i.e. full speed down slopes)
     const dot = normalThrust.dotProduct(slope.up())
-    const scaleFactor = (1 - (Math.abs(dot / normalThrust.distance()) || 0)) ** 2
+    const cos = dot / normalThrust.distance() || 0
 
+    // Apply scaling when moving uphill
+    const scaleFactor = cos > 0
+      ? 1
+      : (1 - Math.abs(cos)) ** 2
+
+    // Rotate scaled thrust along slope with existing yaw
     const appliedThrust = thrust.scale(scaleFactor).rotateQuaternion(
       engine.utility.quaternion.fromEuler({
         pitch: slope.pitch,

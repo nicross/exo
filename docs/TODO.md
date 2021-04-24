@@ -3,8 +3,6 @@
 - Audio
   - Scanner higher painful frequencies should be rolled off
   - All materials should duck on notification sounds
-- Movement
-  - Slope shouldn't affect downhill velocity
 
 ## Planned features
 - Soundtrack
