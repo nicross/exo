@@ -1,7 +1,7 @@
 content.audio.rcs = (() => {
   const bus = content.audio.createBus(),
     context = engine.audio.context(),
-    firstBurnDuration = 1/8,
+    firstBurnDuration = 1/4,
     pubsub = engine.utility.pubsub.create()
 
   let synth
@@ -27,8 +27,9 @@ content.audio.rcs = (() => {
       buffer: engine.audio.buffer.noise.white(),
       carrierGain: 1,
       modDepth: 0,
-      modFrequency: 20,
+      modFrequency: engine.utility.random.float(28, 22),
     }).filtered({
+      detune: engine.utility.random.float(-25, 25),
       frequency: 500,
       Q: 0.01,
       type: 'bandpass',
@@ -41,13 +42,14 @@ content.audio.rcs = (() => {
     const end = now + firstBurnDuration
 
     synth.param.gain.linearRampToValueAtTime(1, now + 1/16)
-    synth.param.gain.linearRampToValueAtTime(1/4, end)
+    synth.param.gain.linearRampToValueAtTime(1/8, end)
 
     synth.param.carrierGain.linearRampToValueAtTime(5/6, end)
+    synth.filter.detune.linearRampToValueAtTime(0, end)
     synth.filter.frequency.exponentialRampToValueAtTime(1000, end)
     synth.filter.Q.linearRampToValueAtTime(1, end)
     synth.param.mod.depth.linearRampToValueAtTime(1/6, end)
-    synth.param.mod.frequency.linearRampToValueAtTime(8, end)
+    synth.param.mod.frequency.linearRampToValueAtTime(engine.utility.random.float(6, 10), end)
   }
 
   function destroySynth() {
