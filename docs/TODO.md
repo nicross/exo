@@ -20,8 +20,6 @@
   - Correlate vehicle sounds to upgrade progress
   - Ice creaks
 - Upgrades
-  - Gyroscopes
-    - Increased velocity on slopes
   - Recycler
     - When inventory is full, earn currency that persists between games
     - Shop screen to buy materials

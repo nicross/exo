@@ -126,6 +126,7 @@ content.movement = (() => {
     model.jetVelocity *= 1 + content.upgrades.combustors.getBonus()
     model.jumpForce *= 1 + content.upgrades.pneumatics.getBonus()
     model.rcsVelocity = content.upgrades.rcsThrusters.getBonus()
+    model.slopeFactor = content.upgrades.gyroscopes.getBonus()
 
     return model
   }
@@ -242,7 +243,7 @@ content.movement = (() => {
     // Apply scaling when moving uphill
     const scaleFactor = cos > 0
       ? 1
-      : (1 - Math.abs(cos)) ** 2
+      : (1 - Math.abs(cos)) ** model.slopeFactor
 
     // Rotate scaled thrust along slope with existing yaw
     const appliedThrust = thrust.scale(scaleFactor).rotateQuaternion(
