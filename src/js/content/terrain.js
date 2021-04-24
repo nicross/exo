@@ -16,8 +16,7 @@ content.terrain = (() => {
     {x: 4/5, y: 1/3, name: 'hoodoos', command: hoodoos}, {x: 4/5, y: 2/3, name: 'rough', command: rough},
   ]
 
-  const biomeCache = engine.utility.quadtree.create(),
-    cache = engine.utility.quadtree.create()
+  const cache = engine.utility.quadtree.create()
 
   let current
 
@@ -251,7 +250,6 @@ content.terrain = (() => {
       return current
     },
     debug: (position = engine.position.getVector()) => ({
-      biomeCache,
       biomes: getWeightedBiomes(position.x, position.y),
       cache,
       value: getValue(position.x, position.y),
@@ -261,7 +259,6 @@ content.terrain = (() => {
       return this
     },
     reset: function () {
-      biomeCache.clear()
       cache.clear()
       current = undefined
       return this
