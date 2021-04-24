@@ -8,6 +8,21 @@ content.upgrades = (() => {
 
   return engine.utility.pubsub.decorate({
     all: () => Array.from(registry.values()),
+    debug: () => ({
+      totalCost: Array.from(registry.values()).reduce((total, upgrade) => {
+        for (const level of upgrade.levels) {
+          for (const [key, value] of Object.entries(level.cost)) {
+            if (!total[key]) {
+              total[key] = 0
+            }
+
+            total[key] += value
+          }
+        }
+
+        return total
+      }, {}),
+    }),
     export: () => {
       const data = {}
 
