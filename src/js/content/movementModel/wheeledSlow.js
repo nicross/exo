@@ -4,7 +4,7 @@ content.movementModel.wheeledSlow = {
       angularAcceleration: Math.PI / 2,
       angularDeceleration: engine.const.tau,
       angularVelocity: Math.PI / 2,
-      collisionVelocity: 5,
+      collisionVelocity: 10,
       depth: 2,
       height: 1,
       jetAcceleration: 5,
