@@ -74,7 +74,8 @@ content.upgrades = (() => {
         upgrade.level = data[upgrade.key] || 0
       }
 
-      resetAvailable()
+      // XXX: setTimeout solves race condition with inventory system
+      setTimeout(resetAvailable, 0)
 
       return this
     },
