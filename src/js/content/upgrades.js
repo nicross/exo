@@ -65,6 +65,7 @@ content.upgrades = (() => {
       }
 
       content.movement.recalculate()
+      resetAvailable()
 
       return this
     },

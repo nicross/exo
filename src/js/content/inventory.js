@@ -48,6 +48,9 @@ content.inventory = (() => {
 
       cargo = data
 
+      // XXX: Called directly
+      content.upgrades.onCollect()
+
       return this
     },
     import: function (data = {}) {
