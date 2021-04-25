@@ -5,6 +5,7 @@ content.movement = (() => {
     'angularAcceleration',
     'angularDeceleration',
     'angularVelocity',
+    'collisionVelocity',
     'depth',
     'height',
     'jetAcceleration',
@@ -143,8 +144,6 @@ content.movement = (() => {
       jetDelta = Math.max(jetDelta - delta, 0)
       return
     }
-
-    // TODO: vectoring
 
     const {z} = engine.position.getVector()
     const terrain = content.terrain.current()
@@ -412,12 +411,23 @@ content.movement = (() => {
       return false
     }
 
-    // Glue on low angles
-    const dot = velocity.dotProduct(slope.up()),
-      theta = Math.acos(dot / distance)
+    // Glue on short falls
+    if (gravity && gravity > -(model.jumpForce * 1.5)) {
+      return false
+    }
 
-    const range = engine.utility.clamp(engine.utility.scale(distance, 0, content.const.maxWheeledVelocity, Math.PI/3, Math.PI/6), 0, Math.PI/2)
-    return !engine.utility.between(theta, Math.PI/2 - range, Math.PI/2 + range)
+    // Glue on low angles
+    const dot = velocity.dotProduct(slope.up())
+    const cos = dot / velocity.distance() || 0
+
+    // Ignore downhill
+    if (cos < 0 && gravity > -engine.const.gravity) {
+      return false
+    }
+
+    // Scale reflection threshold by model collision velocity
+    const threshold = engine.utility.scale(engine.utility.clamp(distance / model.collisionVelocity, 0, 1), 0, 1, Math.PI/2, Math.PI/4)
+    return Math.abs(cos) > Math.sin(threshold)
   }
 
   return engine.utility.pubsub.decorate({

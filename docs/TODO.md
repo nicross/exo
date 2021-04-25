@@ -3,7 +3,6 @@
 - Audio
   - All materials should duck on notification sounds
 - Movement
-  - Collisions while descending steep slopes
   - Rare launches off ground while moving
 
 ## Wishlist features
