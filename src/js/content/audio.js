@@ -2,7 +2,7 @@ content.audio = (() => {
   const bus = engine.audio.mixer.createBus(),
     context = engine.audio.context(),
     reverbGain = engine.audio.mixer.auxiliary.reverb.param.gain,
-    reverbGainValue = engine.utility.fromDb(-4.5),
+    reverbGainValue = engine.utility.fromDb(-12),
     reverbInput = context.createGain(),
     reverbSend = syngen.audio.mixer.send.reverb.create()
 

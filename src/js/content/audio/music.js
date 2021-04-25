@@ -4,6 +4,7 @@ content.audio.music = (() => {
     fadeAltitude = 100,
     filter = context.createBiquadFilter(),
     input = context.createGain(),
+    output = context.createGain(),
     reverb = content.audio.reverb(),
     rootFrequency = content.utility.frequency.fromMidi(48)
 
@@ -12,11 +13,12 @@ content.audio.music = (() => {
     synths = []
 
   input.connect(filter)
-  filter.connect(bus)
+  filter.connect(output)
   filter.connect(reverb)
+  output.connect(bus)
 
-  // Internal gain, bus is ormalized at 0 dB and set via this.setGain()
-  input.gain.value = engine.utility.fromDb(-9)
+  // Internal gain, bus is normalized at 0 dB and set via this.setGain()
+  output.gain.value = engine.utility.fromDb(-9)
 
   function createSynths() {
     synths.push(
