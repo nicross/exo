@@ -54,11 +54,11 @@ content.materials.chunk.prototype = {
     this.cluster = {
       angle: srand(0, engine.const.tau),
       count,
-      density: srand(1, 4),
+      density: srand(0.5, 2),
       distance: srand(0, 1/4),
     }
 
-    this.cluster.radius = 1/2 - this.cluster.distance
+    this.cluster.radius = 1 - (this.cluster.distance * 2)
 
     for (let i = 0; i < count; i += 1) {
       if (!this.collected.has(i)) {
