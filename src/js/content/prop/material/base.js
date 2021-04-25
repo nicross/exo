@@ -50,8 +50,8 @@ content.prop.material.base = engine.prop.base.invent({
 
     return this
   },
-  maxFrequency: content.utility.frequency.fromMidi(68),
-  minFrequency: content.utility.frequency.fromMidi(56),
+  maxFrequency: content.utility.frequency.fromMidi(72),
+  minFrequency: content.utility.frequency.fromMidi(60),
   resolveFrequency: function () {
     const index = this.index % 3
 
