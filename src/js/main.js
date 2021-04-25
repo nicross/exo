@@ -12,5 +12,5 @@ engine.ready(() => {
 
   // Basic reverb
   engine.audio.mixer.auxiliary.reverb.param.gain.value = engine.utility.fromDb(-3)
-  engine.audio.mixer.auxiliary.reverb.setImpulse(engine.audio.buffer.impulse.large())
+  engine.audio.mixer.auxiliary.reverb.setImpulse(content.audio.buffer.reverb())
 })

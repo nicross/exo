@@ -17,6 +17,7 @@ content.audio = (() => {
   }
 
   return {
+    buffer: {},
     bus: () => bus,
     createBus: () => createBus(),
     createBypass: () => {

@@ -12,7 +12,7 @@ content.audio.music = (() => {
 
   input.connect(filter)
   filter.connect(bus)
-  bus.connect(reverb)
+  filter.connect(reverb)
 
   bus.gain.value = engine.utility.fromDb(-9)
 
