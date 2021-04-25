@@ -1,9 +1,12 @@
 content.audio = (() => {
   const bus = engine.audio.mixer.createBus(),
     context = engine.audio.context(),
+    reverbGain = engine.audio.mixer.auxiliary.reverb.param.gain,
+    reverbGainValue = engine.utility.fromDb(-4.5),
     reverbInput = context.createGain(),
     reverbSend = syngen.audio.mixer.send.reverb.create()
 
+  reverbGain.value = reverbGainValue
   reverbSend.from(reverbInput).update({
     x: 0,
     y: 0,
@@ -30,10 +33,14 @@ content.audio = (() => {
       bus.gain.setValueAtTime(1/64, now + duration/2)
       bus.gain.exponentialRampToValueAtTime(1, now + duration)
 
+      reverbGain.setValueAtTime(reverbGainValue/64, now + duration/2)
+      reverbGain.exponentialRampToValueAtTime(reverbGainValue, now + duration)
+
       return this
     },
     onScanTrigger: function () {
       engine.audio.ramp.exponential(bus.gain, 1/64, 1/4)
+      engine.audio.ramp.exponential(reverbGain, reverbGainValue/64, 1/4)
       return this
     },
     reverb: () => reverbInput,
