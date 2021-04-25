@@ -74,7 +74,7 @@ content.upgrades.cargoRacks = content.upgrades.invent({
         'exotic/neodymium': 5,
         'exotic/thorium': 5,
         'exotic/uranium': 5,
-        'xenotech/artifact': 1,
+        'xenotech/tesseract': 1,
       },
       name: 'Cargo Racks +4',
     },

@@ -151,6 +151,6 @@ content.materials.types.register({
 
 content.materials.types.register({
   group: 'Xenotech',
-  name: 'Artifact',
+  name: 'Tesseract',
   protons: 666,
 })
