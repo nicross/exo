@@ -4,6 +4,7 @@ content.audio.music = (() => {
     fadeAltitude = 100,
     filter = context.createBiquadFilter(),
     input = context.createGain(),
+    reverb = content.audio.reverb(),
     rootFrequency = content.utility.frequency.fromMidi(48)
 
   let idleProgress = 0,
@@ -11,6 +12,7 @@ content.audio.music = (() => {
 
   input.connect(filter)
   filter.connect(bus)
+  bus.connect(reverb)
 
   bus.gain.value = engine.utility.fromDb(-9)
 
