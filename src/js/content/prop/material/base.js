@@ -50,11 +50,25 @@ content.prop.material.base = engine.prop.base.invent({
 
     return this
   },
-  resolveFrequency: function (offset = 0) {
-    return content.utility.frequency.fromMidi(this.resolveNote() + offset)
-  },
-  resolveNote: function () {
-    const index = this.index / (this.chunk.count + 1)
-    return engine.utility.choose([67, 70, 72, 75], index)
+  maxFrequency: content.utility.frequency.fromMidi(68),
+  minFrequency: content.utility.frequency.fromMidi(56),
+  resolveFrequency: function () {
+    const index = this.index % 3
+
+    const chord = content.audio.music.chord.getIndex(index)
+
+    let frequency = chord.tDelta < 0.5
+      ? (chord.zDelta < 0.5 ? chord.t0.z0 : chord.t0.z1)
+      : (chord.zDelta < 0.5 ? chord.t1.z0 : chord.t1.z1)
+
+    while (frequency > this.maxFrequency) {
+      frequency /= 2
+    }
+
+    while (frequency < this.minFrequency) {
+      frequency *= 2
+    }
+
+    return frequency
   },
 })
