@@ -2,7 +2,7 @@ content.audio.landing = (() => {
   const bus = content.audio.createBus(),
     pubsub = engine.utility.pubsub.create()
 
-  bus.gain.value = engine.utility.fromDb(-9)
+  bus.gain.value = engine.utility.fromDb(-7.5)
 
   function play() {
     const velocity = engine.position.getVelocity()
@@ -13,7 +13,7 @@ content.audio.landing = (() => {
     const synth = engine.audio.synth.createBuffer({
       buffer: engine.audio.buffer.noise.brown(),
     }).filtered({
-      frequency: engine.utility.lerpExp(75, 150, strength, 2),
+      frequency: engine.utility.lerpExp(80, 160, strength, 2),
     }).connect(bus)
 
     const duration = engine.utility.lerpExp(2, 4, strength, 0.5),
