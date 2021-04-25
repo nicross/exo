@@ -3,6 +3,8 @@ app.stats.materials = (() => {
     collectedTypes = {}
 
   return app.stats.invent('materials', {
+    collectedCount: () => collectedCount,
+    collectedTypes: () => ({...collectedTypes}),
     get: () => ({
       collected: {
         collectedCount,
@@ -29,7 +31,6 @@ app.stats.materials = (() => {
       collectedTypes = collected.type ? {...collected.type} : {}
       return this
     },
-    total: () => count,
   })
 })()
 
