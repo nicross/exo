@@ -367,10 +367,18 @@ content.movement = (() => {
   }
 
   function land() {
+    const velocity = engine.position.getVelocity()
+
+    // Rotate velocity toward slope pitch
     engine.position.setVelocity(
-      engine.position.getVelocity().subtract({
-        z: gravity,
-      })
+      slope.forward().normalize().scale(
+        velocity.subtract({z: gravity}).distance()
+      ).rotateQuaternion(
+        engine.utility.vector3d.create({
+          x: velocity.x,
+          y: velocity.y,
+        }).quaternion()
+      )
     )
 
     pubsub.emit('land')
