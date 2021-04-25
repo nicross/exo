@@ -177,6 +177,19 @@
         white-space: nowrap;
       }
 
+      .redacted {
+        background-color: #000000;
+        color: #DD4A9B;
+        font-family: FiraMonoRegular, monospace;
+        text-transform: lowercase;
+      }
+        .redacted::after {
+          content: "]";
+        }
+        .redacted::before {
+          content: "[";
+        }
+
       @media (min-width: 20rem) {
         :root {
           font-size: calc(1rem + ((1vw - 0.2rem) * 0.25));
@@ -214,8 +227,8 @@
 
     <main>
       <section>
-        <h2>&hellip;</h2>
-        <p>&hellip;</p>
+        <h2>Welcome to <span class="redacted">redacted</span></h2>
+        <p>You stand solid in your E.X.O., an experimental military exosuit designed for exploring extraterrestrial terrain. Moments before, you touched down on an icy exomoon in the periphery of <span class="redacted">redacted</span> space. Your mission is to scout and collect the materials for a forward base.</p>
       </section>
 
       <section>
@@ -256,7 +269,8 @@
 
       <section>
         <h2>How to Play</h2>
-        <p>&hellip;</p>
+        <p>The E.X.O. is a versatile exosuit capable of traversing the most extreme terrain in the galaxy. It can transform seamlessly between bipedal and wheeled modes to handle unique demands. Equipped with jump jets, it can take short controlled flights through most atmospheres.</p>
+        <p>This model is also equipped with a printer that can synthesize raw materials into spare parts. Conveniently this icy exomoon is littered with free elements. Collect and synthesize them to customize your exosuit. A fully upgraded exosuit can overcome any obstacle.</p>
       </section>
 
       <section>
@@ -545,7 +559,7 @@
         <p>The E.X.O. can produce certain strobing patterns when moving at high velocities. Please navigate to the <strong>Graphics</strong> screen to make adjustments or disable them entirely.</p>
 
         <h3>Graphical Description</h3>
-        <p>&hellip;</p>
+        <p>The bright white light reflecting off the ice and falling snow makes it difficult to see. Overhead the colossal silhouette of the primary gas giant hangs tidally locked in the east. The E.X.O. visually reconstructs nearby terrain as black points on your heads-up-display. They suggest a relatively young surface with recent geological activity.</p>
       </section>
 
       <section>
