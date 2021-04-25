@@ -426,7 +426,7 @@ content.movement = (() => {
     }
 
     // Scale reflection threshold by model collision velocity
-    const threshold = engine.utility.scale(engine.utility.clamp(distance / model.collisionVelocity, 0, 1), 0, 1, Math.PI/2, Math.PI/4)
+    const threshold = engine.utility.scale(engine.utility.clamp(distance / model.collisionVelocity, 0, 1), 0, 1, Math.PI/2, Math.PI/6)
     return Math.abs(cos) > Math.sin(threshold)
   }
 
