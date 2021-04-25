@@ -68,7 +68,8 @@ app.screen.stats = (() => {
   }
 
   function updateStats() {
-    const materialsCollected = app.stats.materials.collectedCount(),
+    const idleTime = app.stats.idleTime.get(),
+      materialsCollected = app.stats.materials.collectedCount(),
       materialsConsumed = app.stats.materials.consumedCount(),
       maxAltitude = app.stats.maxAltitude.get(),
       maxDistance = app.stats.maxDistance.get(),
@@ -76,6 +77,7 @@ app.screen.stats = (() => {
       totalTime = app.stats.totalTime.get(),
       upgrades = app.stats.upgrades.count()
 
+    root.querySelector('.a-stats--metric-idleTime').innerHTML = app.utility.format.time(idleTime)
     root.querySelector('.a-stats--metric-maxAltitude').innerHTML = app.utility.format.number(maxAltitude)
     root.querySelector('.a-stats--metric-maxDistance').innerHTML = app.utility.format.number(maxDistance)
     root.querySelector('.a-stats--metric-totalDistance').innerHTML = app.utility.format.number(totalDistance)
