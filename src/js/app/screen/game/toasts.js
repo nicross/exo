@@ -76,15 +76,15 @@ engine.ready(() => {
   // Material collect
   content.materials.on('collect', (prop) => {
     app.screen.game.toasts.toast(`<strong>${prop.type.name}</strong> collected`)
-
-    // TODO: track upgrades to prevent excessive notifications
-    if (content.upgrades.getAvailable().length) {
-      app.screen.game.toasts.toast('Upgrades available')
-    }
   })
 
   // Material storage full
   content.inventory.on('full', (prop) => {
     app.screen.game.toasts.toast(`<strong>${prop.type.name}</strong> storage full`)
+  })
+
+  // Upgrade available
+  content.upgrades.on('available', (upgrade) => {
+    app.screen.game.toasts.toast(`<strong>${upgrade.name}</strong> upgrade available`)
   })
 })

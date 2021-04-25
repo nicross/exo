@@ -17,4 +17,3 @@
   - Recycler
     - When inventory is full, earn currency that persists between games
     - Shop screen to buy materials
-  - Improved upgrade available notifications
