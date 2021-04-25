@@ -51,7 +51,7 @@ content.audio.music = (() => {
     const strength = engine.utility.clamp(engine.utility.scale(z - terrain, 0, fadeAltitude, 0, 1), 0, 1)
 
     const frequency = engine.utility.lerpExp(rootFrequency, rootFrequency * 4, strength, 0.5),
-      gain = engine.utility.fromDb(engine.utility.lerp(-3, 0, strength))
+      gain = engine.utility.fromDb(engine.utility.lerp(-1.5, 0, strength))
 
     engine.audio.ramp.set(filter.frequency, frequency)
     engine.audio.ramp.set(input.gain, gain)

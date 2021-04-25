@@ -6,7 +6,7 @@ content.audio.rcs = (() => {
 
   let synth
 
-  bus.gain.value = engine.utility.fromDb(-15)
+  bus.gain.value = engine.utility.fromDb(-16.5)
 
   function calculateParameters() {
     const rcsThrust = content.movement.rcsThrust()
@@ -42,7 +42,7 @@ content.audio.rcs = (() => {
     const end = now + firstBurnDuration
 
     synth.param.gain.linearRampToValueAtTime(1, now + 1/16)
-    synth.param.gain.linearRampToValueAtTime(1/8, end)
+    synth.param.gain.linearRampToValueAtTime(1/4, end)
 
     synth.param.carrierGain.linearRampToValueAtTime(5/6, end)
     synth.filter.detune.linearRampToValueAtTime(0, end)

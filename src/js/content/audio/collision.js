@@ -23,10 +23,11 @@ content.audio.collision = (() => {
       .to(bus)
 
     const duration = engine.utility.lerpExp(1, 4, strength, 0.5),
+      gain = engine.utility.fromDb(engine.utility.lerp(0, -3, strength)),
       now = engine.audio.time()
 
     synth.param.gain.setValueAtTime(engine.const.zeroGain, now)
-    synth.param.gain.exponentialRampToValueAtTime(1, now + 1/32)
+    synth.param.gain.exponentialRampToValueAtTime(gain, now + 1/32)
     synth.param.gain.exponentialRampToValueAtTime(engine.const.zeroGain, now + duration)
 
     pubsub.emit('trigger', strength)
