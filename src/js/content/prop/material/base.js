@@ -48,12 +48,6 @@ content.prop.material.base = engine.prop.base.invent({
     content.inventory.onFull(this)
     this.collectErrorTimer = 10
 
-    const now = engine.audio.time()
-
-    this.output.gain.setValueAtTime(1, now)
-    this.output.gain.exponentialRampToValueAtTime(1/256, now + 1/32)
-    this.output.gain.exponentialRampToValueAtTime(1, now + 1)
-
     return this
   },
   resolveFrequency: function (offset = 0) {

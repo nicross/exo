@@ -1,7 +1,5 @@
 # TODO
 ## Issues
-- Audio
-  - All materials should duck on notification sounds
 - Movement
   - Rare launches off ground while moving
 

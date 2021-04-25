@@ -85,6 +85,7 @@ content.materials.chunk.prototype = {
 
     const options = {
       chunk: this,
+      destination: content.audio.materials.bus(),
       index,
       type,
       x,

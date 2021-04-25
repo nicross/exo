@@ -1,5 +1,6 @@
 content.audio.notifications = (() => {
-  const bus = content.audio.createBus()
+  const bus = content.audio.createBus(),
+    pubsub = engine.utility.pubsub.create()
 
   bus.gain.value = engine.utility.fromDb(-18)
 
@@ -80,16 +81,18 @@ content.audio.notifications = (() => {
     })
   }
 
-  return {
+  return engine.utility.pubsub.decorate({
     materialCollect: function () {
+      this.emit('duck')
       materialCollect()
       return this
     },
     materialFull: function () {
+      this.emit('duck')
       materialFull()
       return this
     },
-  }
+  }, pubsub)
 })()
 
 engine.ready(() => {
