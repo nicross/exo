@@ -14,7 +14,8 @@ content.audio.music = (() => {
   filter.connect(bus)
   filter.connect(reverb)
 
-  bus.gain.value = engine.utility.fromDb(-9)
+  // Internal gain, bus is ormalized at 0 dB and set via this.setGain()
+  input.gain.value = engine.utility.fromDb(-9)
 
   function createSynths() {
     synths.push(
@@ -47,7 +48,7 @@ content.audio.music = (() => {
     synths.length = 0
   }
 
-  function updateFader() {
+  function updateFilter() {
     const {z} = engine.position.getVector()
     const terrain = content.terrain.current()
 
@@ -68,7 +69,6 @@ content.audio.music = (() => {
 
   return {
     bus: () => bus,
-    synths: () => [...synths],
     import: function () {
       createSynths()
       return this
@@ -82,10 +82,15 @@ content.audio.music = (() => {
 
       return this
     },
+    setGain: function (value) {
+      engine.audio.ramp.set(bus.gain, value)
+      return this
+    },
+    synths: () => [...synths],
     update: function () {
       idleProgress = content.utility.accelerate.value(idleProgress, content.idle.progress(), 1)
 
-      updateFader()
+      updateFilter()
       updateSynths()
 
       return this

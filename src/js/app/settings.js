@@ -26,6 +26,13 @@ app.settings = (() => {
       compute: (rawValue) => engine.utility.fromDb(engine.utility.lerpLog(engine.const.zeroDb, 0, rawValue, 66666)),
       default: 1,
     },
+    musicVolume: {
+      compute: (rawValue) => engine.utility.fromDb(engine.utility.lerpLog(engine.const.zeroDb, 0, rawValue, 4294000000)),
+      default: 1,
+      update: (computedValue) => {
+        content.audio.music.setGain(computedValue)
+      },
+    },
     mouseSensitivity: {
       compute: (rawValue) => engine.utility.lerp(10, 100, rawValue),
       default: 0.5,

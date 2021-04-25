@@ -72,6 +72,7 @@ app.screen.audio = (() => {
   function hydrateSliders() {
     [
       ['.a-audio--mainVolume', app.settings.raw.mainVolume, app.settings.setMainVolume],
+      ['.a-audio--musicVolume', app.settings.raw.musicVolume, app.settings.setMusicVolume],
       ['.a-audio--streamerLimit', app.settings.raw.streamerLimit, app.settings.setStreamerLimit],
       ['.a-audio--streamerRadius', app.settings.raw.streamerRadius, app.settings.setStreamerRadius],
     ].forEach(([selector, initialValue, setter]) => {
