@@ -1,13 +1,4 @@
 # TODO
-## Outstanding tasks
-- Manual placeholder text
-- Itch page content
-- ???
-
-## Issues
-- Movement
-  - Rare launches off ground while moving
-
 ## Wishlist features
 - Terrain generation
   - Crater generation
