@@ -1,28 +1,32 @@
 app.stats.materials = (() => {
-  let count = 0,
-    types = {}
+  let collectedCount = 0,
+    collectedTypes = {}
 
   return app.stats.invent('materials', {
     get: () => ({
-      count,
-      type: {...types},
+      collected: {
+        collectedCount,
+        type: {...collectedTypes},
+      },
     }),
     onCollect: function (prop) {
       const key = prop.type.key
 
-      count += 1
+      collectedCount += 1
 
-      if (types[key]) {
-        types[key] += 1
+      if (collectedTypes[key]) {
+        collectedTypes[key] += 1
       } else {
-        types[key] = 1
+        collectedTypes[key] = 1
       }
 
       return this
     },
-    set: function (data = {}) {
-      count = data.count || 0
-      types = data.type ? {...data.type} : {}
+    set: function ({
+      collected = {},
+    } = {}) {
+      collectedCount = collected.count || 0
+      collectedTypes = collected.type ? {...collected.type} : {}
       return this
     },
     total: () => count,
