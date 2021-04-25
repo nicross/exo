@@ -30,6 +30,7 @@ app.settings = (() => {
       compute: (rawValue) => engine.utility.fromDb(engine.utility.lerpLog(engine.const.zeroDb, 0, rawValue, 4294000000)),
       default: 1,
       update: (computedValue) => {
+        content.audio.music.setActive(computedValue != engine.const.zeroGain, app.state.game.state != 'none')
         content.audio.music.setGain(computedValue)
       },
     },

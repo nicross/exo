@@ -8,6 +8,7 @@ content.audio.music = (() => {
     rootFrequency = content.utility.frequency.fromMidi(48)
 
   let idleProgress = 0,
+    isActive = true,
     synths = []
 
   input.connect(filter)
@@ -70,14 +71,31 @@ content.audio.music = (() => {
   return {
     bus: () => bus,
     import: function () {
-      createSynths()
+      if (isActive) {
+        createSynths()
+      }
+
       return this
     },
+    isActive: () => isActive,
     reset: function () {
       idleProgress = 0
 
       if (synths.length) {
         destroySynths()
+      }
+
+      return this
+    },
+    setActive: function (value, isRunning = false) {
+      isActive = Boolean(value)
+
+      if (isRunning) {
+        if (isActive && !synths.length) {
+          createSynths()
+        } else if (!isActive && synths.length) {
+          destroySynths()
+        }
       }
 
       return this
@@ -88,6 +106,10 @@ content.audio.music = (() => {
     },
     synths: () => [...synths],
     update: function () {
+      if (!isActive) {
+        return this
+      }
+
       idleProgress = content.utility.accelerate.value(idleProgress, content.idle.progress(), 1)
 
       updateFilter()
