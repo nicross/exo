@@ -73,7 +73,8 @@ app.screen.stats = (() => {
       maxAltitude = app.stats.maxAltitude.get(),
       maxDistance = app.stats.maxDistance.get(),
       totalDistance = app.stats.totalDistance.get(),
-      totalTime = app.stats.totalTime.get()
+      totalTime = app.stats.totalTime.get(),
+      upgrades = app.stats.upgrades.count()
 
     root.querySelector('.a-stats--metric-maxAltitude').innerHTML = app.utility.format.number(maxAltitude)
     root.querySelector('.a-stats--metric-maxDistance').innerHTML = app.utility.format.number(maxDistance)
@@ -81,6 +82,7 @@ app.screen.stats = (() => {
     root.querySelector('.a-stats--metric-materialsCollected').innerHTML = app.utility.format.number(materialsCollected)
     root.querySelector('.a-stats--metric-materialsConsumed').innerHTML = app.utility.format.number(materialsConsumed)
     root.querySelector('.a-stats--metric-totalTime').innerHTML = app.utility.format.time(totalTime)
+    root.querySelector('.a-stats--metric-upgrades').innerHTML = app.utility.format.number(upgrades)
   }
 
   return {}
