@@ -7,7 +7,7 @@ content.prop.material.metal = content.prop.material.base.invent({
       carrierFrequency: this.rootFrequency,
       carrierGain: 7/8,
       gain: 2/3,
-      modDepth: 1/8,
+      modDepth: 1/4,
       modFrequency: 60,
       modType: 'square',
     }).filtered({
@@ -15,7 +15,7 @@ content.prop.material.metal = content.prop.material.base.invent({
     }).connect(this.output)
 
     const lfoDepth = engine.audio.synth.createLfo({
-      depth: 1/32,
+      depth: 1/16,
       frequency: engine.utility.lerp(1, 8, protons),
     }).connect(this.synth.param.mod.depth)
 
