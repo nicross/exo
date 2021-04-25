@@ -368,18 +368,25 @@ content.movement = (() => {
 
   function land() {
     const velocity = engine.position.getVelocity()
+      .subtract({z: gravity})
 
-    // Rotate velocity toward slope pitch
-    engine.position.setVelocity(
-      slope.forward().normalize().scale(
-        velocity.subtract({z: gravity}).distance()
-      ).rotateQuaternion(
+    const glued = slope.forward()
+      .normalize()
+      .scale(velocity.distance())
+      .rotateQuaternion(
         engine.utility.vector3d.create({
           x: velocity.x,
           y: velocity.y,
         }).quaternion()
       )
-    )
+
+    const centroid = engine.utility.vector3d.create({
+      x: (velocity.x + glued.x) / 2,
+      y: (velocity.y + glued.y) / 2,
+      z: (velocity.z + glued.z) / 2,
+    })
+
+    engine.position.setVelocity(centroid)
 
     pubsub.emit('land')
   }
