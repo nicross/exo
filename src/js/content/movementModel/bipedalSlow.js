@@ -4,7 +4,7 @@ content.movementModel.bipedalSlow = {
       angularAcceleration: Math.PI / 2,
       angularDeceleration: engine.const.tau,
       angularVelocity: Math.PI / 2,
-      collisionVelocity: 2,
+      collisionVelocity: 5,
       depth: 1,
       height: 2,
       jetAcceleration: 5,
