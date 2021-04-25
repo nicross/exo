@@ -63,6 +63,12 @@ app.state.game.on('before-none-new', () => {
     seed: Math.random(),
   })
 
+  // Start on terrain
+  engine.position.setVector({
+    ...engine.position.getVector(),
+    z: content.terrain.current(),
+  })
+
   app.autosave.trigger()
 })
 
