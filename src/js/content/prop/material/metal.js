@@ -5,7 +5,7 @@ content.prop.material.metal = content.prop.material.base.invent({
 
     this.synth = engine.audio.synth.createAm({
       carrierFrequency: this.rootFrequency,
-      carrierGain: 7/8,
+      carrierGain: 3/4,
       gain: 2/3,
       modDepth: 1/4,
       modFrequency: 60,
