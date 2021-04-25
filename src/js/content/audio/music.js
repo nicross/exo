@@ -6,7 +6,8 @@ content.audio.music = (() => {
     input = context.createGain(),
     rootFrequency = content.utility.frequency.fromMidi(48)
 
-  let synths = []
+  let idleProgress = 0,
+    synths = []
 
   input.connect(filter)
   filter.connect(bus)
@@ -48,7 +49,10 @@ content.audio.music = (() => {
     const {z} = engine.position.getVector()
     const terrain = content.terrain.current()
 
-    const strength = engine.utility.clamp(engine.utility.scale(z - terrain, 0, fadeAltitude, 0, 1), 0, 1)
+    const altitude = engine.utility.scale(z - terrain, 0, fadeAltitude, 0, 1),
+      idle = (idleProgress ** 2) * 0.0625, // up a fifth when idle
+      strength = engine.utility.clamp(altitude + idle, 0, 1)
+
     const frequency = engine.utility.lerpExp(rootFrequency, rootFrequency * 4, strength, 0.5)
 
     engine.audio.ramp.set(filter.frequency, frequency)
@@ -68,6 +72,8 @@ content.audio.music = (() => {
       return this
     },
     reset: function () {
+      idleProgress = 0
+
       if (synths.length) {
         destroySynths()
       }
@@ -75,8 +81,11 @@ content.audio.music = (() => {
       return this
     },
     update: function () {
+      idleProgress = content.utility.accelerate.value(idleProgress, content.idle.progress(), 1)
+
       updateFader()
       updateSynths()
+
       return this
     },
   }
