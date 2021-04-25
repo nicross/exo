@@ -1,6 +1,21 @@
 content.upgrades = (() => {
-  const pubsub = engine.utility.pubsub.create(),
+  const available = new Set(),
+    pubsub = engine.utility.pubsub.create(),
     registry = new Map()
+
+  function calculateAvailable() {
+    return Array.from(registry.values()).filter((upgrade) => upgrade.canUpgrade())
+  }
+
+  function resetAvailable() {
+    const upgrades = calculateAvailable()
+
+    available.clear()
+
+    for (const upgrade of upgrades) {
+      available.add(upgrade)
+    }
+  }
 
   function toSlug(value) {
     return value.toLowerCase().replace(/\W/g, '-')
@@ -34,7 +49,7 @@ content.upgrades = (() => {
     },
     get: (key) => registry.get(key),
     getApplied: () => Array.from(registry.values()).filter((upgrade) => upgrade.level),
-    getAvailable: () => Array.from(registry.values()).filter((upgrade) => upgrade.canUpgrade()),
+    getAvailable: () => Array.from(available),
     getPending: () => Array.from(registry.values()).filter((upgrade) => {
       for (const key of Object.keys(upgrade.getNextCost())) {
         if (content.inventory.get(key)) {
@@ -58,6 +73,8 @@ content.upgrades = (() => {
         upgrade.level = data[upgrade.key] || 0
       }
 
+      resetAvailable()
+
       return this
     },
     invent: (definition = {}) => {
@@ -73,10 +90,24 @@ content.upgrades = (() => {
 
       return upgrade
     },
+    onCollect: function () {
+      const upgrades = calculateAvailable()
+
+      for (const upgrade of upgrades) {
+        if (!available.has(upgrade)) {
+          pubsub.emit('available', upgrade)
+          available.add(upgrade)
+        }
+      }
+
+      return this
+    },
     reset: function () {
       for (const upgrade of registry.values()) {
         upgrade.level = 0
       }
+
+      available.clear()
 
       return this
     },
@@ -86,12 +117,17 @@ content.upgrades = (() => {
       if (upgrade && upgrade.canUpgrade()) {
         upgrade.level += 1
         pubsub.emit('upgrade', upgrade)
+        resetAvailable()
       }
 
       return this
     },
   }, pubsub)
 })()
+
+engine.ready(() => {
+  content.materials.on('collect', () => content.upgrades.onCollect())
+})
 
 engine.state.on('export', (data = {}) => data.upgrades = content.upgrades.export())
 engine.state.on('import', ({upgrades}) => content.upgrades.import(upgrades))
