@@ -49,9 +49,9 @@ gulp dev
 #### Command line flags
 | Flag | Description |
 | - | - |
-| `--debug` | Suppresses minification, enabled cheats. |
+| `--debug` | Suppresses minification, enables cheats. |
 
-#### Cheats
+##### Cheats
 Cheats are enabled while the `--debug` command line flag is active:
 
 | Console command | Description |

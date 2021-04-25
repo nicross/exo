@@ -1,4 +1,9 @@
 # TODO
+## Outstanding tasks
+- Manual placeholder text
+- Itch page content
+- ???
+
 ## Issues
 - Movement
   - Rare launches off ground while moving
