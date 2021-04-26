@@ -78,6 +78,11 @@ engine.ready(() => {
     app.screen.game.toasts.toast(`<strong>${prop.type.name}</strong> collected`)
   })
 
+  // Material recycle
+  content.materials.on('recycle', (prop) => {
+    app.screen.game.toasts.toast(`<strong>${prop.type.name}</strong> recycled`)
+  })
+
   // Material storage full
   content.inventory.on('full', (prop) => {
     app.screen.game.toasts.toast(`<strong>${prop.type.name}</strong> storage full`)
