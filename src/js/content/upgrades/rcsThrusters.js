@@ -20,7 +20,7 @@ content.upgrades.rcsThrusters = content.upgrades.invent({
         'metal/copper': 1,
         'metal/gold': 1,
       },
-      name: 'RCS Thrusters +1',
+      name: 'RCS Thrusters',
     },
     {
       bonus: Math.PI / 8,
@@ -32,7 +32,7 @@ content.upgrades.rcsThrusters = content.upgrades.invent({
         'exotic/uranium': 1,
         'xenotech/tesseract': 1,
       },
-      name: 'RCS Thrusters +2',
+      name: 'RCS Thrusters +1',
     },
     {
       bonus: Math.PI / 4,
@@ -44,7 +44,7 @@ content.upgrades.rcsThrusters = content.upgrades.invent({
         'exotic/uranium': 5,
         'xenotech/tesseract': 2,
       },
-      name: 'RCS Thrusters +3',
+      name: 'RCS Thrusters +2',
     },
   ],
 })
