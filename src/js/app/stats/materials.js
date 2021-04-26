@@ -2,7 +2,9 @@ app.stats.materials = (() => {
   let collectedCount = 0,
     collectedTypes = {},
     consumedCount = 0,
-    consumedTypes = {}
+    consumedTypes = {},
+    recycledCount = 0,
+    recycledTypes = {}
 
   return app.stats.invent('materials', {
     collectedCount: () => collectedCount,
@@ -18,6 +20,10 @@ app.stats.materials = (() => {
         count: consumedCount,
         type: {...consumedTypes},
       },
+      recycled: {
+        count: recycledCount,
+        type: {...recycledTypes},
+      },
     }),
     onCollect: function (prop) {
       const key = prop.type.key
@@ -28,6 +34,19 @@ app.stats.materials = (() => {
         collectedTypes[key] += 1
       } else {
         collectedTypes[key] = 1
+      }
+
+      return this
+    },
+    onRecycle: function (prop) {
+      const key = prop.type.key
+
+      recycledCount += 1
+
+      if (recycledTypes[key]) {
+        recycledTypes[key] += 1
+      } else {
+        recycledTypes[key] = 1
       }
 
       return this
@@ -47,6 +66,8 @@ app.stats.materials = (() => {
 
       return this
     },
+    recycledCount: () => recycledCount,
+    recycledTypes: () => ({...recycledTypes}),
     set: function ({
       collected = {},
       consumed = {},
@@ -61,4 +82,5 @@ app.stats.materials = (() => {
 })()
 
 content.materials.on('collect', (...args) => app.stats.materials.onCollect(...args))
+content.materials.on('recycle', (...args) => app.stats.materials.onRecycle(...args))
 content.upgrades.on('upgrade', (...args) => app.stats.materials.onUpgrade(...args))
