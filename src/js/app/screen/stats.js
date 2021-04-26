@@ -84,7 +84,7 @@ app.screen.stats = (() => {
     root.querySelector('.a-stats--metric-totalDistance').innerHTML = app.utility.format.number(totalDistance)
     root.querySelector('.a-stats--metric-materialsCollected').innerHTML = app.utility.format.number(materialsCollected)
     root.querySelector('.a-stats--metric-materialsConsumed').innerHTML = app.utility.format.number(materialsConsumed)
-    root.querySelector('.a-stats--metric-materialsCRecycled).innerHTML = app.utility.format.number(materialsRecycled)
+    root.querySelector('.a-stats--metric-materialsRecycled').innerHTML = app.utility.format.number(materialsRecycled)
     root.querySelector('.a-stats--metric-totalTime').innerHTML = app.utility.format.time(totalTime)
     root.querySelector('.a-stats--metric-upgrades').innerHTML = app.utility.format.number(upgrades)
   }
