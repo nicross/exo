@@ -61,7 +61,12 @@ content.materials = (() => {
     chunks: () => [...chunks],
     chunkTree: () => chunkTree,
     collect: function (prop) {
-      pubsub.emit('collect', prop)
+      if (content.inventory.canCollect(prop.type.key)) {
+        pubsub.emit('collect', prop)
+      } else if (content.upgrades.recycler.isActive()) {
+        pubsub.emit('recycle', prop)
+      }
+
       return this
     },
     export: () => ({

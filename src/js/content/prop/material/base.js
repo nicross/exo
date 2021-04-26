@@ -22,7 +22,7 @@ content.prop.material.base = engine.prop.base.invent({
     }
 
     if (engine.utility.round(this.distance, 3) <= 0) {
-      if (content.inventory.canCollect(this.type.key)) {
+      if (content.inventory.canCollect(this.type.key) || content.upgrades.recycler.isActive()) {
         this.collect()
       } else {
         this.error()
