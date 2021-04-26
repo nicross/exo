@@ -63,21 +63,33 @@ content.audio.notifications = (() => {
     const now = engine.audio.time()
 
     createNote({
-      frequency: content.utility.frequency.fromMidi(63),
+      frequency: content.utility.frequency.fromMidi(70),
       when: now,
       off: now + 0.0625,
     })
 
     createNote({
-      frequency: content.utility.frequency.fromMidi(62),
+      frequency: content.utility.frequency.fromMidi(67),
       when: now + 0.0625,
       off: now + 0.125,
     })
 
     createNote({
-      frequency: content.utility.frequency.fromMidi(55),
+      frequency: content.utility.frequency.fromMidi(63),
       when: now + 0.125,
       off: now + 0.1875,
+    })
+
+    createNote({
+      frequency: content.utility.frequency.fromMidi(62),
+      when: now + 0.1875,
+      off: now + 0.25,
+    })
+
+    createNote({
+      frequency: content.utility.frequency.fromMidi(55),
+      when: now + 0.25,
+      off: now + 0.3125,
     })
   }
 
@@ -85,31 +97,31 @@ content.audio.notifications = (() => {
     const now = engine.audio.time()
 
     createNote({
-      frequency: content.utility.frequency.fromMidi(75),
+      frequency: content.utility.frequency.fromMidi(60),
       when: now,
       off: now + 0.0625,
     })
 
     createNote({
-      frequency: content.utility.frequency.fromMidi(70),
+      frequency: content.utility.frequency.fromMidi(63),
       when: now + 0.0625,
       off: now + 0.125,
     })
 
     createNote({
-      frequency: content.utility.frequency.fromMidi(67),
+      frequency: content.utility.frequency.fromMidi(65),
       when: now + 0.125,
       off: now + 0.1875,
     })
 
     createNote({
-      frequency: content.utility.frequency.fromMidi(63),
+      frequency: content.utility.frequency.fromMidi(67),
       when: now + 0.1875,
       off: now + 0.25,
     })
 
     createNote({
-      frequency: content.utility.frequency.fromMidi(60),
+      frequency: content.utility.frequency.fromMidi(70),
       when: now + 0.25,
       off: now + 0.3125,
     })
