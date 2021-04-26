@@ -11,7 +11,7 @@ content.audio.materials = (() => {
 
       engine.audio.ramp.hold(bus.gain)
       bus.gain.exponentialRampToValueAtTime(gain/256, now + 1/32)
-      bus.gain.exponentialRampToValueAtTime(gain, now + 1)
+      bus.gain.exponentialRampToValueAtTime(gain, now + 0.5)
 
       return this
     },
