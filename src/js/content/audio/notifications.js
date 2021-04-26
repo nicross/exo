@@ -81,6 +81,40 @@ content.audio.notifications = (() => {
     })
   }
 
+  function materialRecycle() {
+    const now = engine.audio.time()
+
+    createNote({
+      frequency: content.utility.frequency.fromMidi(75),
+      when: now,
+      off: now + 0.0625,
+    })
+
+    createNote({
+      frequency: content.utility.frequency.fromMidi(70),
+      when: now + 0.0625,
+      off: now + 0.125,
+    })
+
+    createNote({
+      frequency: content.utility.frequency.fromMidi(67),
+      when: now + 0.125,
+      off: now + 0.1875,
+    })
+
+    createNote({
+      frequency: content.utility.frequency.fromMidi(63),
+      when: now + 0.1875,
+      off: now + 0.25,
+    })
+
+    createNote({
+      frequency: content.utility.frequency.fromMidi(60),
+      when: now + 0.25,
+      off: now + 0.3125,
+    })
+  }
+
   return engine.utility.pubsub.decorate({
     materialCollect: function () {
       this.emit('duck')
@@ -92,10 +126,16 @@ content.audio.notifications = (() => {
       materialFull()
       return this
     },
+    materialRecycle: function () {
+      this.emit('duck')
+      materialRecycle()
+      return this
+    },
   }, pubsub)
 })()
 
 engine.ready(() => {
   content.inventory.on('full', () => content.audio.notifications.materialFull())
   content.materials.on('collect', () => content.audio.notifications.materialCollect())
+  content.materials.on('recycle', () => content.audio.notifications.materialRecycle())
 })
