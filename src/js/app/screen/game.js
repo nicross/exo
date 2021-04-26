@@ -1,5 +1,8 @@
 app.screen.game = (() => {
-  let root,
+  const preventControlsDuration = 500
+
+  let preventControls,
+    root,
     turboState = false
 
   engine.ready(() => {
@@ -13,6 +16,10 @@ app.screen.game = (() => {
   })
 
   function handleControls({paused}) {
+    if (preventControls) {
+      return
+    }
+
     const access = app.controls.access(),
       game = app.controls.game(),
       ui = app.controls.ui()
@@ -59,6 +66,9 @@ app.screen.game = (() => {
 
     app.utility.focus.set(root)
     engine.loop.on('frame', onFrame)
+
+    preventControls = true
+    setTimeout(() => preventControls = false, preventControlsDuration)
   }
 
   function onExit() {
