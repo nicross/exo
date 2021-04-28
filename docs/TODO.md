@@ -1,20 +1,34 @@
 # TODO
 ## v1.1.0
 - Audio cues
+  - Attractors
   - Dust particles
   - Jump jet recharge
+  - Material scanner cues (all materials ahead in 100m radius, tones play in sequence with scanner results)
   - Wind at extreme velocities
+- Documentation
+  - More explanation in How to Play
 - Space and atmosphere
-  - Gravity decreases from surface
+  - Gravity and wind decreases with distance from sea level
   - Jump jet recharge rate slows
-  - Time scale of music slows (amod and chord)
+  - Time scale of music slows, a parallel timebase (amod and chord)
   - Highpass music at extreme altitudes
   - Fade in sub bass, two sound sources producing a binaural beat, panned to gas giant
   - Increase z-scale of music exponentially
-  - Fade graphics to black with stars
+  - Fade graphics to black with procedural stars, total eclipse of main star behind gas giant
 - Status and access hotkeys
-  - Relative altitude
-  - Velocity
+  - Add z-coordinate to coordinates hotkey
+  - Relative altitude (height above surface)
+  - Velocity (speed and compass direction)
+- Synthesis UI
+  - Use `aria-disabled` instead of `disabled` so upgrade button is still focusable
+  - Asertive success indicator
+- Upgrades
+  - Attractors
+    - Unlocks autoloot
+    - Props in spherical radius accelerate at constant rate toward player
+    - Upgrades extend radius of attraction
+  - Level 4 upgrades
 
 ## Wishlist features
 - Terrain generation
@@ -28,4 +42,4 @@
   - Ice creaks
 - Upgrades
   - Recycler
-    - Shop screen to buy materials
+    - Shop screen to buy materials from recycler
