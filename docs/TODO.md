@@ -1,5 +1,6 @@
 # TODO
 ## Known issues
+- Access hotkeys click first item when not focused
 - Rotation quaternion math doesn't work as expected
   - RCS Thrusters begin slowing and turning opposite direction at higher speeds
   - Colliding with ground when turning at higher speeds results in abrupt turns in unexpected directions
@@ -34,6 +35,11 @@
     - Props in spherical radius accelerate at constant rate toward player
     - Upgrades extend radius of attraction
   - Level 4 upgrades
+- User interface
+  - Screen before clearing save on new game
+    - New Game+
+    - Overwrite Save
+    - Back
 
 ## Wishlist features
 - Terrain generation
