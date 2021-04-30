@@ -24,7 +24,8 @@ content.movement = (() => {
     'yScale',
   ]
 
-  const gravityLeeway = 1/128,
+  const angularVelocityLimit = Math.PI,
+    gravityLeeway = 1/128,
     groundLeeway = 1/16,
     reflectionRate = 1/4,
     transitionRate = 1
@@ -323,6 +324,19 @@ content.movement = (() => {
     return engine.utility.clamp(distance / (Math.PI / 2), 0, 1)
   }
 
+  function enforceSanity() {
+    const angularVelocity = engine.position.getAngularVelocity(),
+      angularVelocityMagnitude = angularVelocity.distance()
+
+    if (angularVelocityMagnitude < angularVelocityLimit) {
+      return
+    }
+
+    engine.position.setAngularVelocity(
+      angularVelocity.scale(angularVelocityLimit / angularVelocityMagnitude)
+    )
+  }
+
   function glueZ() {
     const position = engine.position.getVector(),
       terrain = content.terrain.current()
@@ -602,6 +616,8 @@ content.movement = (() => {
       if (isGravityApplied) {
         applyGravity()
       }
+
+      enforceSanity()
 
       return this
     },
