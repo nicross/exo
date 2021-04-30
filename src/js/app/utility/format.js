@@ -41,7 +41,7 @@ app.utility.format.angle = function (radians = 0) {
     label += '<abbr aria-label="north-northwest">NNW</abbr>'
   }
 
-  label += ` (${Math.round(degrees)}<abbr aria-label=" degrees">°</abbr>)`;
+  label += ` (${Math.round(degrees) % 360}<abbr aria-label=" degrees">°</abbr>)`;
 
   return label
 }
