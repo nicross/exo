@@ -13,8 +13,6 @@
   - Jump jet recharge
   - Material scanner cues (all materials ahead in 100m radius, tones play in sequence with scanner results)
   - Wind at extreme velocities
-- Documentation
-  - More explanation in How to Play
 - Space and atmosphere
   - Gravity and wind decreases with distance from sea level
   - Jump jet recharge rate slows
