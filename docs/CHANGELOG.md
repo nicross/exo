@@ -3,4 +3,6 @@
 - Accessibility
   - Fixed digit hotkeys not working as documented
 - Movement
-  - Prevented extreme rotational velocities from corrupting game state by enforcing a speed limit
+  - Prevented extreme rotational velocities by enforcing a speed limit
+- Miscellaneous
+  - Fixed saves corrupted by extreme rotational velocities
