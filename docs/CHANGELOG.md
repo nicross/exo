@@ -4,6 +4,7 @@
   - Added velocity access hotkey
   - Added velocity to Status screen
   - Added z-coordinate to coordinates hotkey
+  - Rearranged coordinates and heading on Status screen
 - Materials
   - Reweight spawn chances based on cost demands
 - Upgrades

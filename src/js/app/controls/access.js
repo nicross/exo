@@ -5,12 +5,12 @@ app.controls.access = () => {
     return false
   }
 
-  if (keys.Digit1 || keys.KeyC) {
-    return 'coordinates'
+  if (keys.Digit1 || keys.KeyH) {
+    return 'heading'
   }
 
-  if (keys.Digit2 || keys.KeyH) {
-    return 'heading'
+  if (keys.Digit2 || keys.KeyC) {
+    return 'coordinates'
   }
 
   if (keys.Digit3 || keys.KeyZ) {
