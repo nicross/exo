@@ -1,8 +1,8 @@
 # E.X.O. Changelog
 ## v1.1.0
 - Accessibility
-  - Added velocity access hotkey
-  - Added velocity to Status screen
+  - Added access hotkeys for height and velocity
+  - Added height and velocity to Status screen
   - Added z-coordinate to coordinates hotkey
   - Rearranged coordinates and heading on Status screen
 - Materials

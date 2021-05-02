@@ -8,6 +8,12 @@ app.access = (() => {
       const {yaw} = engine.position.getEuler()
       return app.utility.format.angle(yaw)
     },
+    height: () => {
+      const {z} = engine.position.getVector()
+      const terrain = content.terrain.current()
+      const height = Math.max(z - terrain, 0)
+      return app.utility.format.number(height)
+    },
     velocity: () => {
       const velocity = engine.position.getVelocity()
       return app.utility.format.velocity(velocity)

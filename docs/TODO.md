@@ -21,8 +21,6 @@
   - Fade in sub bass, two sound sources producing a binaural beat, panned to gas giant
   - Increase z-scale of music exponentially
   - Fade graphics to black with procedural stars, total eclipse of main star behind gas giant
-- Status and access hotkeys
-  - Relative altitude (height above surface)
 - Synthesis UI
   - Use `aria-disabled` instead of `disabled` so upgrade button is still focusable
   - Asertive success indicator
