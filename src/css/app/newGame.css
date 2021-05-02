@@ -1,0 +1,5 @@
+.a-newGame {}
+  .a-newGame--warning {
+    font-size: 1.5em;
+    margin: 0.5rem 0 1rem 0;
+  }
