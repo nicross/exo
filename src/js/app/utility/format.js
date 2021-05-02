@@ -49,15 +49,17 @@ app.utility.format.angle = function (radians = 0) {
 app.utility.format.coordinates = function ({
   x = 0,
   y = 0,
+  z = 0,
 } = {}) {
   x = Math.round(x)
   y = Math.round(y)
-
-  if (!x && !y) {
-    return 'Origin'
-  }
+  z = Math.round(z)
 
   let label = ''
+
+  if (!x && !y) {
+    label += 'Origin'
+  }
 
   if (y > 0) {
     label += `${this.number(y)} <abbr aria-label="North">N</abbr>`
@@ -73,6 +75,14 @@ app.utility.format.coordinates = function ({
     label += `${this.number(x)} <abbr aria-label="East">E</abbr>`
   } else if (x < 0) {
     label += `${this.number(Math.abs(x))} <abbr aria-label="West">W</abbr>`
+  }
+
+  if (z && (x || y)) {
+    label += ', '
+  }
+
+  if (z) {
+    label += this.number(z)
   }
 
   return label

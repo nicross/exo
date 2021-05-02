@@ -22,7 +22,6 @@
   - Increase z-scale of music exponentially
   - Fade graphics to black with procedural stars, total eclipse of main star behind gas giant
 - Status and access hotkeys
-  - Add z-coordinate to coordinates hotkey
   - Relative altitude (height above surface)
   - Velocity (speed and compass direction)
 - Synthesis UI

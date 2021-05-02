@@ -11,12 +11,20 @@ app.access = (() => {
     x: () => {
       const {x} = engine.position.getVector()
 
-      return x >= 0
+      if (!Math.round(x)) {
+        return 0
+      }
+
+      return x > 0
         ? `${app.utility.format.number(x)} east`
         : `${app.utility.format.number(-x)} west`
     },
     y: () => {
       const {y} = engine.position.getVector()
+
+      if (!Math.round(z)) {
+        return 0
+      }
 
       return y >= 0
         ? `${app.utility.format.number(y)} north`
@@ -24,7 +32,7 @@ app.access = (() => {
     },
     z: () => {
       const {z} = engine.position.getVector()
-      return `${app.utility.format.number(z)} meters`
+      return app.utility.format.number(z)
     },
   }
 
