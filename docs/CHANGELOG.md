@@ -2,6 +2,7 @@
 ## v1.1.0
 - Accessibility
   - Added velocity access hotkey
+  - Added velocity to Status screen
   - Added z-coordinate to coordinates hotkey
 - Materials
   - Reweight spawn chances based on cost demands

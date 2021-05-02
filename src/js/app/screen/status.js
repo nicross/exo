@@ -72,12 +72,14 @@ app.screen.status = (() => {
 
     const coordinates = {x, y},
       time = content.time.value(),
+      velocity = engine.position.getVelocity(),
       yaw = engine.position.getEuler().yaw
 
     root.querySelector('.a-status--metric-altitude').innerHTML = app.utility.format.number(z)
     root.querySelector('.a-status--metric-coordinates').innerHTML = app.utility.format.coordinates(coordinates)
     root.querySelector('.a-status--metric-heading').innerHTML = app.utility.format.angle(yaw)
     root.querySelector('.a-status--metric-time').innerHTML = app.utility.format.time(time)
+    root.querySelector('.a-status--metric-velocity').innerHTML = app.utility.format.velocity(velocity)
   }
 
   return {}
