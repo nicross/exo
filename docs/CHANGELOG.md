@@ -1,5 +1,7 @@
 # E.X.O. Changelog
 ## v1.1.0
+- Materials
+  - Reweight spawn chances based on cost demands
 - Upgrades
   - Added level 4 upgrades for most upgrade tracks
 - User interface

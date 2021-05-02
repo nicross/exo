@@ -10,9 +10,9 @@ content.materials.types = (() => {
   }
 
   const weights = {
-    Common: 20,
-    Exotic: 5,
-    Metal: 10,
+    Common: 10,
+    Exotic: 2.5,
+    Metal: 6.66,
     Xenotech: 2.5,
   }
 
