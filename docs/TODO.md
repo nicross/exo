@@ -23,7 +23,6 @@
   - Fade graphics to black with procedural stars, total eclipse of main star behind gas giant
 - Status and access hotkeys
   - Relative altitude (height above surface)
-  - Velocity (speed and compass direction)
 - Synthesis UI
   - Use `aria-disabled` instead of `disabled` so upgrade button is still focusable
   - Asertive success indicator

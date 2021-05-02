@@ -17,6 +17,10 @@ app.controls.access = () => {
     return 'z'
   }
 
+  if (keys.Digit5 || keys.KeyV) {
+    return 'velocity'
+  }
+
   if (keys.KeyX) {
     return 'x'
   }

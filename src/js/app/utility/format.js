@@ -82,7 +82,7 @@ app.utility.format.coordinates = function ({
   }
 
   if (z) {
-    label += this.number(z)
+    label += `${this.number(z)} Z`
   }
 
   return label
@@ -142,4 +142,9 @@ app.utility.format.time = (time = 0) => {
   label += `${seconds} <abbr aria-label="second${seconds == 1 ? '' : 's'}">s</abbr>`
 
   return label
+}
+
+app.utility.format.velocity = function (vector = {}) {
+  const distance = engine.utility.distance(vector)
+  return `${this.number(distance)} <abbr aria-label="meters per second">m/s</abbr>`
 }

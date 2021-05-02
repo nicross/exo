@@ -1,6 +1,7 @@
 # E.X.O. Changelog
 ## v1.1.0
 - Accessibility
+  - Added velocity access hotkey
   - Added z-coordinate to coordinates hotkey
 - Materials
   - Reweight spawn chances based on cost demands

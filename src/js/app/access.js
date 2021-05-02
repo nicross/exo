@@ -8,6 +8,10 @@ app.access = (() => {
       const {yaw} = engine.position.getEuler()
       return app.utility.format.angle(yaw)
     },
+    velocity: () => {
+      const velocity = engine.position.getVelocity()
+      return app.utility.format.velocity(velocity)
+    },
     x: () => {
       const {x} = engine.position.getVector()
 
