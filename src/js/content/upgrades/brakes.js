@@ -42,5 +42,17 @@ content.upgrades.brakes = content.upgrades.invent({
       },
       name: 'Brakes +3',
     },
+    {
+      bonus: 1.5,
+      cost: {
+        'common/nitrogen': 20,
+        'common/lithium': 20,
+        'metal/copper': 10,
+        'metal/gold': 10,
+        'exotic/neodymium': 5,
+        'xenotech/tesseract': 2,
+      },
+      name: 'Brakes +4',
+    },
   ],
 })

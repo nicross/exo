@@ -1,11 +1,18 @@
 content.upgrades.gyroscopes = content.upgrades.invent({
   name: 'Gyroscopes',
   describe: function (level = this.level) {
-    if (!level) {
-      return 'Normal slope acceleration'
+    switch (level) {
+      case 0:
+        return 'Normal slope acceleration'
+      case 1:
+        return '+25% slope acceleration'
+      case 2:
+        return '+50% slope acceleration'
+      case 3:
+        return '+75% slope acceleration'
+      case 4:
+        return 'Maximum slope acceleration'
     }
-
-    return `+${(engine.utility.scale(this.levels[level].bonus, 1.5, 0.5, 0.5, 2)) * 100}% slope acceleration`
   },
   levels: [
     {
@@ -41,6 +48,18 @@ content.upgrades.gyroscopes = content.upgrades.invent({
         'xenotech/tesseract': 2,
       },
       name: 'Gyroscopes +3',
+    },
+    {
+      bonus: 0,
+      cost: {
+        'common/hydrogen': 25,
+        'common/lithium': 25,
+        'metal/iron': 20,
+        'metal/silver': 20,
+        'exotic/neodymium': 10,
+        'xenotech/tesseract': 3,
+      },
+      name: 'Gyroscopes +4',
     },
   ],
 })

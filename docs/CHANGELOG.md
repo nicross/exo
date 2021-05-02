@@ -1,4 +1,11 @@
 # E.X.O. Changelog
+## v1.1.0
+- Upgrades
+  - Added level 4 upgrades for most upgrade tracks
+- User interface
+  - Added confirmation when starting a new game
+  - Added New Game Plus to keep upgrades when starting a new game
+
 ## v1.0.1
 - Accessibility
   - Fixed digit hotkeys not working as documented

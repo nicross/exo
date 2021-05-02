@@ -42,5 +42,17 @@ content.upgrades.combustors = content.upgrades.invent({
       },
       name: 'Combustors +3',
     },
+    {
+      bonus: 1,
+      cost: {
+        'common/nitrogen': 25,
+        'common/oxygen': 25,
+        'metal/gold': 20,
+        'metal/silver': 20,
+        'exotic/uranium': 10,
+        'xenotech/tesseract': 3,
+      },
+      name: 'Combustors +4',
+    },
   ],
 })

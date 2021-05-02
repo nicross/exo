@@ -42,5 +42,17 @@ content.upgrades.heatSinks = content.upgrades.invent({
       },
       name: 'Heat Sinks +3',
     },
+    {
+      bonus: 3,
+      cost: {
+        'common/nitrogen': 25,
+        'common/silicon': 25,
+        'metal/aluminum': 20,
+        'metal/copper': 20,
+        'exotic/thorium': 10,
+        'xenotech/tesseract': 3,
+      },
+      name: 'Heat Sinks +4',
+    },
   ],
 })

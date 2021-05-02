@@ -35,7 +35,7 @@ content.upgrades.vectors = content.upgrades.invent({
       name: 'Vectors +1',
     },
     {
-      bonus: Math.PI / 2,
+      bonus: Math.PI / 2.675,
       cost: {
         'common/carbon': 20,
         'common/oxygen': 20,
@@ -45,6 +45,18 @@ content.upgrades.vectors = content.upgrades.invent({
         'xenotech/tesseract': 2,
       },
       name: 'Vectors +2',
+    },
+    {
+      bonus: Math.PI / 2,
+      cost: {
+        'common/carbon': 25,
+        'common/oxygen': 25,
+        'metal/aluminum': 20,
+        'metal/silver': 20,
+        'exotic/uranium': 10,
+        'xenotech/tesseract': 3,
+      },
+      name: 'Vectors +3',
     },
   ],
 })

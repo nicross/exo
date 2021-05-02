@@ -42,5 +42,17 @@ content.upgrades.actuators = content.upgrades.invent({
       },
       name: 'Actuators +3',
     },
+    {
+      bonus: 3/4,
+      cost: {
+        'common/hydrogen': 25,
+        'common/lithium': 25,
+        'metal/copper': 20,
+        'metal/iron': 20,
+        'exotic/neodymium': 10,
+        'xenotech/tesseract': 3,
+      },
+      name: 'Actuators +4',
+    },
   ],
 })

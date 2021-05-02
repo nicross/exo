@@ -42,5 +42,17 @@ content.upgrades.pneumatics = content.upgrades.invent({
       },
       name: 'Pneumatics +3',
     },
+    {
+      bonus: 1,
+      cost: {
+        'common/carbon': 25,
+        'common/hydrogen': 25,
+        'metal/aluminum': 20,
+        'metal/iron': 20,
+        'exotic/thorium': 10,
+        'xenotech/tesseract': 3,
+      },
+      name: 'Pneumatics +4',
+    },
   ],
 })

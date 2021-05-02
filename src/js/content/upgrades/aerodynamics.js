@@ -42,5 +42,17 @@ content.upgrades.aerodynamics = content.upgrades.invent({
       },
       name: 'Aerodynamics +3',
     },
+    {
+      bonus: 1.5,
+      cost: {
+        'common/carbon': 25,
+        'common/silicon': 25,
+        'metal/aluminum': 20,
+        'metal/silver': 20,
+        'exotic/thorium': 10,
+        'xenotech/tesseract': 3,
+      },
+      name: 'Aerodynamics +4',
+    },
   ],
 })

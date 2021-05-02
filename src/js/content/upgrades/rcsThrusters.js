@@ -9,11 +9,11 @@ content.upgrades.rcsThrusters = content.upgrades.invent({
       return 'Air turning online'
     }
 
-    return `+${Math.round(this.levels[level].bonus / (Math.PI / 4) * 100)}% air turning`
+    return `+${Math.round(this.levels[level].bonus / (Math.PI / 2) * 100)}% air turning`
   },
   levels: [
     {
-      bonus: Math.PI / 16,
+      bonus: Math.PI / 8,
       cost: {
         'common/oxygen': 5,
         'common/silicon': 5,
@@ -23,7 +23,7 @@ content.upgrades.rcsThrusters = content.upgrades.invent({
       name: 'RCS Thrusters',
     },
     {
-      bonus: Math.PI / 8,
+      bonus: Math.PI / 4,
       cost: {
         'common/oxygen': 10,
         'common/silicon': 10,
@@ -35,7 +35,7 @@ content.upgrades.rcsThrusters = content.upgrades.invent({
       name: 'RCS Thrusters +1',
     },
     {
-      bonus: Math.PI / 4,
+      bonus: Math.PI / 2.675,
       cost: {
         'common/oxygen': 20,
         'common/silicon': 20,
@@ -45,6 +45,18 @@ content.upgrades.rcsThrusters = content.upgrades.invent({
         'xenotech/tesseract': 2,
       },
       name: 'RCS Thrusters +2',
+    },
+    {
+      bonus: Math.PI / 2,
+      cost: {
+        'common/oxygen': 25,
+        'common/silicon': 25,
+        'metal/copper': 20,
+        'metal/gold': 20,
+        'exotic/uranium': 10,
+        'xenotech/tesseract': 3,
+      },
+      name: 'RCS Thrusters +3',
     },
   ],
 })
