@@ -93,6 +93,9 @@ app.state.screen = engine.utility.machine.create({
       new: function () {
         this.change('game')
       },
+      plus: function () {
+        this.change('game')
+      },
     },
     none: {
       activate: function () {

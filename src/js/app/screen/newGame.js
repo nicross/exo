@@ -10,6 +10,7 @@ app.screen.newGame = (() => {
     Object.entries({
       back: root.querySelector('.a-newGame--back'),
       new: root.querySelector('.a-newGame--new'),
+      plus: root.querySelector('.a-newGame--plus'),
     }).forEach(([event, element]) => {
       element.addEventListener('click', () => app.state.screen.dispatch(event))
     })
@@ -49,6 +50,22 @@ app.screen.newGame = (() => {
     }
   }
 
+  function hasNewGamePlus() {
+    const game = app.storage.getGame()
+
+    if (!game.upgrades) {
+      return false
+    }
+
+    for (const level of Object.values(game.upgrades)) {
+      if (level > 0) {
+        return true
+      }
+    }
+
+    return false
+  }
+
   function onEngineLoopFrame(e) {
     handleControls(e)
   }
@@ -59,9 +76,11 @@ app.screen.newGame = (() => {
       window.requestAnimationFrame(() => {
         app.state.screen.dispatch('new')
       })
-      
+
       return
     }
+
+    root.querySelector('.a-newGame--action-plus').hidden = !hasNewGamePlus()
 
     engine.loop.on('frame', onEngineLoopFrame)
     app.utility.focus.setWithin(root)

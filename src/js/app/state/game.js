@@ -13,6 +13,9 @@ app.state.game = engine.utility.machine.create({
       new: function () {
         this.change('running')
       },
+      plus: function () {
+        this.change('running')
+      },
     },
     paused: {
       exit: function () {
@@ -40,6 +43,7 @@ engine.ready(() => {
   app.state.screen.on('before-gameMenu-resume', () => app.state.game.dispatch('resume'))
   app.state.screen.on('before-mainMenu-continue', () => app.state.game.dispatch('load'))
   app.state.screen.on('before-newGame-new', () => app.state.game.dispatch('new'))
+  app.state.screen.on('before-newGame-plus', () => app.state.game.dispatch('plus'))
 
   app.state.game.dispatch('activate')
 })
@@ -61,6 +65,31 @@ app.state.game.on('before-none-new', () => {
       z: 0,
     },
     seed: Math.random(),
+  })
+
+  // Start on terrain
+  engine.position.setVector({
+    ...engine.position.getVector(),
+    z: content.terrain.current(),
+  })
+
+  app.autosave.trigger()
+})
+
+app.state.game.on('before-none-plus', () => {
+  const previous = app.storage.getGame()
+
+  app.storage.clearGame()
+
+  engine.state.import({
+    position: {
+      quaternion: engine.utility.quaternion.identity(),
+      x: 0,
+      y: 0,
+      z: 0,
+    },
+    seed: Math.random(),
+    upgrades: previous.upgrades,
   })
 
   // Start on terrain

@@ -35,7 +35,6 @@
     - Props in spherical radius accelerate at constant rate toward player
     - Upgrades extend radius of attraction
   - Level 4 upgrades
-- New Game+
 
 ## Wishlist features
 - Terrain generation
