@@ -36,6 +36,7 @@ app.canvas = (() => {
   }
 
   function draw() {
+    app.canvas.atmosphere.draw()
     app.canvas.planet.draw()
     app.canvas.terrain.draw()
     app.canvas.grain.draw()
