@@ -27,10 +27,14 @@ app.canvas.grain = (() => {
   }
 
   function update() {
+    const value = Math.round(255 * content.environment.atmosphere())
+
     for (let i = 0; i < patternDataLength; i += 4) {
-      patternData.data[i] = 255
-      patternData.data[i + 1] = 255
-      patternData.data[i + 2] = 255
+      const random = engine.utility.random.integer(-5, 5)
+
+      patternData.data[i] = engine.utility.clamp(value + random, 0, 255)
+      patternData.data[i + 1] = engine.utility.clamp(value + random, 0, 255)
+      patternData.data[i + 2] = engine.utility.clamp(value + random, 0, 255)
       patternData.data[i + 3] = engine.utility.random.integer(0, 64)
     }
 
