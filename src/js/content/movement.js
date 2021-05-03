@@ -76,7 +76,7 @@ content.movement = (() => {
   function applyGravity() {
     // TODO: apply slippage on steep slopes when wheeled
 
-    const deltaGravity = engine.const.gravity * engine.loop.delta(),
+    const deltaGravity = content.environment.gravity() * engine.loop.delta(),
       velocity = engine.position.getVelocity()
 
     // Only track when gravity results in negative z-velocity
@@ -450,7 +450,7 @@ content.movement = (() => {
     const cos = dot / velocity.distance() || 0
 
     // Ignore downhill
-    if (cos < 0 && gravity > -engine.const.gravity) {
+    if (cos < 0 && gravity > -content.environment.gravity()) {
       return false
     }
 

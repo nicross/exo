@@ -1,4 +1,5 @@
 content.const = {
+  g: 6.67 * (10 ** -11),
   maxAngularVelocity: Math.PI/2, // For audio, not movement models
   maxBipedalVelocity: 10, // For audio, not movement models
   maxWheeledVelocity: 20, // For audio, not movement models
