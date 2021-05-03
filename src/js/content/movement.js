@@ -24,8 +24,7 @@ content.movement = (() => {
     'yScale',
   ]
 
-  const angularVelocityLimit = Math.PI,
-    gravityLeeway = 1/128,
+  const gravityLeeway = 1/128,
     groundLeeway = 1/16,
     reflectionRate = 1/4,
     transitionRate = 1
@@ -325,15 +324,9 @@ content.movement = (() => {
   }
 
   function enforceSanity() {
-    const angularVelocity = engine.position.getAngularVelocity(),
-      angularVelocityMagnitude = angularVelocity.distance()
-
-    if (angularVelocityMagnitude < angularVelocityLimit) {
-      return
-    }
-
-    engine.position.setAngularVelocity(
-      angularVelocity.scale(angularVelocityLimit / angularVelocityMagnitude)
+    // Prevent quaternion from becoming extreme from too many turns
+    engine.position.setQuaternion(
+      engine.position.getQuaternion().normalize()
     )
   }
 
