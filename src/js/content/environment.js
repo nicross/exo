@@ -6,15 +6,25 @@ content.environment = (() => {
   let atmosphere = 0,
     gravity = 0
 
+  function getAtmosphere(z = 0) {
+    return 1 - (engine.utility.clamp(z / troposphere, 0, 1) ** 0.75)
+  }
+
+  function getGravity(z = 0) {
+    return content.const.g * mass / ((radius + z) ** 2)
+  }
+
   function recalculate() {
     const {z} = engine.position.getVector()
 
-    atmosphere = 1 - (engine.utility.clamp(z / troposphere, 0, 1) ** 0.75)
-    gravity = content.const.g * mass / ((radius + z) ** 2)
+    atmosphere = getAtmosphere(z)
+    gravity = getGravity(z)
   }
 
   return {
     atmosphere: () => atmosphere,
+    getAtmosphere,
+    getGravity,
     gravity: () => gravity,
     import: function () {
       recalculate()
