@@ -4,6 +4,7 @@
   - Added access hotkeys for height and velocity
   - Added height and velocity to Status screen
   - Added z-coordinate to coordinates hotkey
+  - Exposed unavailable upgrades to screen readers
   - Rearranged coordinates and heading on Status screen
 - Graphics
   - Added procedurally generated stars

@@ -90,7 +90,7 @@ app.screen.synthesis = (() => {
   function onUpgradeClick() {
     // XXX: this is current component
     app.state.screen.dispatch('upgrade', {
-      upgrade: this.upgrade
+      upgrade: this.upgrade,
     })
   }
 

@@ -81,6 +81,10 @@ app.screen.upgrade = (() => {
   }
 
   function onUpgradeClick() {
+    if (this.getAttribute('aria-disabled') == 'true') {
+      return
+    }
+
     content.upgrades.upgrade(upgrade.key)
     update()
     app.utility.focus.set(root)
@@ -91,7 +95,7 @@ app.screen.upgrade = (() => {
     root.querySelector('.a-upgrade--cost').scrollTop = 0
     root.querySelector('.a-upgrade--description').innerHTML = upgrade.describe()
     root.querySelector('.a-upgrade--name').innerHTML = upgrade.name
-    root.querySelector('.a-upgrade--upgrade').disabled = !upgrade.canUpgrade()
+    root.querySelector('.a-upgrade--upgrade').ariaDisabled = upgrade.canUpgrade() ? 'false' : 'true'
     root.querySelector('.a-upgrade--upgrade').innerHTML = upgrade.describeNext()
 
     updateTable(upgrade.getNextCost())

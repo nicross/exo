@@ -21,7 +21,6 @@
   - Fade in sub bass, two sound sources producing a binaural beat, panned to gas giant
   - Increase z-scale of music exponentially
 - Synthesis UI
-  - Use `aria-disabled` instead of `disabled` so upgrade button is still focusable
   - Asertive success indicator
 
 ## Wishlist features
