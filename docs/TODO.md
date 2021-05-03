@@ -25,7 +25,6 @@
   - Asertive success indicator
 - Upgrades
   - Attractors
-    - Unlocks autoloot
     - Props in spherical radius accelerate at constant rate toward player
     - Upgrades extend radius of attraction
 
