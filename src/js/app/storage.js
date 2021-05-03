@@ -15,6 +15,28 @@ app.storage = (() => {
     statsKey = 'exo_stats',
     versionKey = 'exo_version'
 
+  function filterGame(game = {}) {
+    // Prevent garbage in / garbage out with game saves
+    if (game.position && game.position.quaternion) {
+      game.position.quaternion = filterGameQuaternion(game.position.quaternion)
+    }
+
+    return game
+  }
+
+  function filterGameQuaternion(quaternion = {}) {
+    // Prevent bad quaternions
+    quaternion = engine.utility.quaternion.create(quaternion)
+
+    const distance = quaternion.distance()
+
+    quaternion = distance && isFinite(distance)
+      ? quaternion.scale(1 / distance)
+      : engine.utility.quaternion.identity()
+
+    return {...quaternion}
+  }
+
   function get(key) {
     try {
       const value = storage.getItem(key)
@@ -37,13 +59,13 @@ app.storage = (() => {
       remove(gameKey)
       return this
     },
-    getGame: () => get(gameKey) || {},
+    getGame: () => filterGame(get(gameKey) || {}),
     getSettings: () => get(settingsKey) || {},
     getStats: () => get(statsKey) || {},
     getVersion: () => get(versionKey) || '0.0.0',
     hasGame: () => Boolean(get(gameKey)),
     setGame: function (value) {
-      set(gameKey, value)
+      set(gameKey, filterGame(value))
       return this
     },
     setStats: function (value) {
