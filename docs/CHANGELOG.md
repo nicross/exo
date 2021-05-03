@@ -5,6 +5,10 @@
   - Added height and velocity to Status screen
   - Added z-coordinate to coordinates hotkey
   - Rearranged coordinates and heading on Status screen
+- Graphics
+  - Added procedurally generated stars
+  - Added total eclipse of main star behind parent planet
+  - Faded out background to black on high altitudes
 - Materials
   - Reweight spawn chances based on cost demands
 - Upgrades

@@ -1,7 +1,7 @@
 app.canvas.planet= (() => {
   const canvas = document.createElement('canvas'),
     context = canvas.getContext('2d'),
-    horizonDistance = 5000,
+    horizonDistance = 10000,
     main = app.canvas
 
   let radius
@@ -42,11 +42,18 @@ app.canvas.planet= (() => {
       return
     }
 
-    context.fillStyle = '#D0D0D0'
+    const value = Math.round(content.environment.atmosphere() * 255)
+
+    context.fillStyle = `rgb(${value}, ${value}, ${value})`
+    context.lineWidth = 2
+    context.shadowBlur = radius
+    context.shadowColor = '#FFFFFF'
+    context.strokeStyle = '#FFFFFF'
 
     context.beginPath()
     context.arc(position.x, position.y, radius, 0, Math.PI * 2)
     context.fill()
+    context.stroke()
   }
 
   return {
