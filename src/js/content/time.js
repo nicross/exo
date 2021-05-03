@@ -1,4 +1,6 @@
 content.time = (() => {
+  const yearDuration = 30 * 60
+
   let time = 0
 
   return {
@@ -13,6 +15,7 @@ content.time = (() => {
       time += value
       return this
     },
+    year: () => (time / yearDuration) % 1,
     value: () => time,
   }
 })()
