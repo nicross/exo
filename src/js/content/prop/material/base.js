@@ -27,6 +27,8 @@ content.prop.material.base = engine.prop.base.invent({
       } else {
         this.error()
       }
+    } else {
+      this.handleAttractors()
     }
   },
   createSynth: function () {
@@ -48,6 +50,28 @@ content.prop.material.base = engine.prop.base.invent({
 
     content.inventory.onFull(this)
     this.collectErrorTimer = 10
+
+    return this
+  },
+  handleAttractors: function () {
+    const attraction = content.upgrades.attractors.getBonus()
+
+    if (!attraction) {
+      return this
+    }
+
+    const distance = engine.utility.lerp(0, 20, attraction)
+
+    if (this.distance > distance) {
+      return this
+    }
+
+    const velocity = engine.position.getVector()
+      .subtract(this.vector())
+      .normalize()
+      .scale(distance / (this.distance ** 2))
+
+    this.velocity = content.utility.accelerate.vector(this.velocity, velocity, 1)
 
     return this
   },

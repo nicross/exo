@@ -10,8 +10,10 @@
   - Added total eclipse of main star behind parent planet
   - Faded out background to black on high altitudes
 - Materials
+  - Added attraction when attractors are online
   - Reweight spawn chances based on cost demands
 - Upgrades
+  - Added attractors upgrade
   - Added level 4 upgrades for most upgrade tracks
 - User interface
   - Added confirmation when starting a new game

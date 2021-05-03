@@ -23,10 +23,6 @@
 - Synthesis UI
   - Use `aria-disabled` instead of `disabled` so upgrade button is still focusable
   - Asertive success indicator
-- Upgrades
-  - Attractors
-    - Props in spherical radius accelerate at constant rate toward player
-    - Upgrades extend radius of attraction
 
 ## Wishlist features
 - Terrain generation
