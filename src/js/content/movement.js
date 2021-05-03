@@ -142,7 +142,7 @@ content.movement = (() => {
     if (!controls.z) {
       isJetActive = false
       isJumpActive = false
-      jetDelta = Math.max(jetDelta - delta, 0)
+      jetDelta = Math.max(jetDelta - (delta * content.environment.atmosphere()), 0)
       return
     }
 

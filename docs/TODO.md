@@ -15,7 +15,6 @@
   - Wind at extreme velocities
 - Space and atmosphere
   - Gravity and wind decreases with distance from sea level
-  - Jump jet recharge rate slows
   - Time scale of music slows, a parallel timebase (amod and chord)
   - Highpass music at extreme altitudes
   - Fade in sub bass, two sound sources producing a binaural beat, panned to gas giant

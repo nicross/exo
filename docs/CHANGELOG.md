@@ -13,6 +13,8 @@
 - Materials
   - Added attraction when attractors are online
   - Reweight spawn chances based on cost demands
+- Movement
+  - Reduced recharge of jump jets at lower atmospheric pressures
 - Upgrades
   - Added attractors upgrade
   - Added level 4 upgrades for most upgrade tracks
