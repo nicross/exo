@@ -1,7 +1,7 @@
 content.environment = (() => {
   const mass = 8.3226 * (10 ** 22),
     radius = 1666 * 1000,
-    troposphere = 10 * 1000
+    troposphere = 5 * 1000
 
   let atmosphere = 0,
     gravity = 0
