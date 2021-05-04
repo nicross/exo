@@ -22,7 +22,7 @@ content.prop.material.base = engine.prop.base.invent({
     }
 
     if (engine.utility.round(this.distance, 3) <= 0) {
-      if (content.inventory.canCollect(this.type.key) || content.upgrades.recycler.isActive()) {
+      if (this.canCollect()) {
         this.collect()
       } else {
         this.error()
@@ -31,17 +31,20 @@ content.prop.material.base = engine.prop.base.invent({
       this.handleAttractors()
     }
   },
-  createSynth: function () {
-    this.synth = engine.audio.synth.createSimple({
-      carrierFrequency: this.rootFrequency,
-      gain: 1,
-    }).connect(this.output)
+  canCollect: function () {
+    return content.inventory.canCollect(this.type.key) || content.upgrades.recycler.isActive()
   },
   collect: function () {
     this.isCollected = true
     engine.audio.ramp.exponential(this.output.gain, engine.const.zeroGain, 1/8)
     this.chunk.collect(this)
     return this
+  },
+  createSynth: function () {
+    this.synth = engine.audio.synth.createSimple({
+      carrierFrequency: this.rootFrequency,
+      gain: 1,
+    }).connect(this.output)
   },
   error: function () {
     if (this.collectErrorTimer > 0) {
@@ -56,7 +59,7 @@ content.prop.material.base = engine.prop.base.invent({
   handleAttractors: function () {
     const attraction = content.upgrades.attractors.getBonus()
 
-    if (!attraction) {
+    if (!attraction || !this.canCollect()) {
       return this
     }
 
