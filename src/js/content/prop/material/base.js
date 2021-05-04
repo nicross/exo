@@ -21,14 +21,18 @@ content.prop.material.base = engine.prop.base.invent({
       this.collectErrorTimer -= delta
     }
 
+    const canCollect = this.canCollect()
+
     if (engine.utility.round(this.distance, 3) <= 0) {
-      if (this.canCollect()) {
+      if (canCollect) {
         this.collect()
       } else {
         this.error()
       }
-    } else {
+    } else if (canCollect) {
       this.handleAttractors()
+    } else {
+      this.halt()
     }
   },
   canCollect: function () {
@@ -59,11 +63,11 @@ content.prop.material.base = engine.prop.base.invent({
   handleAttractors: function () {
     const attraction = content.upgrades.attractors.getBonus()
 
-    if (!attraction || !this.canCollect()) {
+    if (!attraction) {
       return this
     }
 
-    const distance = engine.utility.lerp(0, 20, attraction)
+    const distance = engine.utility.lerp(0, 25, attraction)
 
     if (this.distance > distance) {
       return this
@@ -74,7 +78,17 @@ content.prop.material.base = engine.prop.base.invent({
       .normalize()
       .scale(distance / (this.distance ** 2))
 
-    this.velocity = content.utility.accelerate.vector(this.velocity, velocity, 1)
+    this.velocity = content.utility.accelerate.vector(this.velocity, velocity, distance)
+
+    return this
+  },
+  halt: function () {
+    if (this.velocity.isZero()) {
+      return this
+    }
+
+    const velocity = engine.utility.vector3d.create()
+    this.velocity = content.utility.accelerate.vector(this.velocity, velocity, 5)
 
     return this
   },
