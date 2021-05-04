@@ -22,6 +22,10 @@
   - Added confirmation when starting a new game
   - Added New Game Plus to keep upgrades when starting a new game
 
+## v1.0.2
+- Continuously normalized position to prevent bad states
+- Prevented saving and loading known bad game states
+
 ## v1.0.1
 - Accessibility
   - Fixed digit hotkeys not working as documented
