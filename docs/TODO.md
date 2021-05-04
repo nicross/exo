@@ -15,10 +15,14 @@
   - Wind at extreme velocities
 - Space and atmosphere
   - Gravity and wind decreases with distance from sea level
-  - Time scale of music slows, a parallel timebase (amod and chord)
+  - Time scale of music slows, a parallel timebase (affects amod frequency, amod depth, and notes)
   - Highpass music at extreme altitudes
   - Fade in sub bass, two sound sources producing a binaural beat, panned to gas giant
   - Increase z-scale of music exponentially
+  - Add slight drag to flight based on atmosphere 
+- Statistics
+  - Collected materials broken down by type (Commons, Metals, Exotics, Xenotech)
+  - Grounded and flight times
 - Synthesis UI
   - Asertive success indicator
 
