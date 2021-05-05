@@ -7,7 +7,8 @@ content.environment = (() => {
     gravity = 0
 
   function getAtmosphere(z = 0) {
-    return 1 - (engine.utility.clamp(z / troposphere, 0, 1) ** 0.75)
+    const value = 1 - engine.utility.clamp(z / troposphere, 0, 1)
+    return smooth(value)
   }
 
   function getGravity(z = 0) {
@@ -19,6 +20,11 @@ content.environment = (() => {
 
     atmosphere = getAtmosphere(z)
     gravity = getGravity(z)
+  }
+
+  function smooth(value) {
+    // generalized logistic function
+    return 1 / (1 + (Math.E ** (-5 * (value - 0.5))))
   }
 
   return {
