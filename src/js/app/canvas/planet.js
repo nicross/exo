@@ -42,7 +42,7 @@ app.canvas.planet= (() => {
       return
     }
 
-    const value = Math.round(content.environment.atmosphere() * 255)
+    const value = Math.round(engine.utility.lerp(0, 223, content.environment.atmosphere()))
 
     context.fillStyle = `rgb(${value}, ${value}, ${value})`
     context.lineWidth = 2
