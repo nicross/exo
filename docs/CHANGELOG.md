@@ -15,6 +15,8 @@
   - Reweight spawn chances based on cost demands
 - Movement
   - Reduced recharge of jump jets at lower atmospheric pressures
+- Terrain
+  - Increased overall detail of generated terrain
 - Upgrades
   - Added attractors upgrade
   - Added level 4 upgrades for most upgrade tracks

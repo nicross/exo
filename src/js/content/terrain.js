@@ -1,14 +1,14 @@
 content.terrain = (() => {
-  const amplitudeField = engine.utility.perlin2d.create('terrain', 'amplitude'),
+  const amplitudeField = engine.utility.createPerlinWithOctaves(engine.utility.perlin2d, ['terrain', 'amplitude'], 2),
     amplitudeScale = 1000,
     biomeXField = engine.utility.perlin2d.create('terrain', 'biomeX'),
     biomeYField = engine.utility.perlin2d.create('terrain', 'biomeY'),
     biomeScale = 5000,
-    exponentField = engine.utility.perlin2d.create('terrain', 'exponent'),
+    exponentField = engine.utility.createPerlinWithOctaves(engine.utility.perlin2d, ['terrain', 'exponent'], 2),
     exponentScale = 1000,
-    noiseField = engine.utility.createPerlinWithOctaves(engine.utility.perlin2d, 'terrain', 2),
+    noiseField = engine.utility.createPerlinWithOctaves(engine.utility.perlin2d, 'terrain', 4),
     sauceField = engine.utility.perlin2d.create('terrain', 'sauce'),
-    wildcardField = engine.utility.perlin2d.create('terrain', 'wildcard'),
+    wildcardField = engine.utility.createPerlinWithOctaves(engine.utility.perlin2d, ['terrain', 'wildcard'], 2),
     wildcardScale = 1000
 
   const biomes = [
