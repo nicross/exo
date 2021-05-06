@@ -186,7 +186,7 @@ content.terrain = (() => {
   function mountains({amplitude, exponent, x, y}) {
     const noise = noiseField.value(x / 1000, y / 1000)
     amplitude = engine.utility.lerp(500, 2000, amplitude)
-    exponent = engine.utility.lerp(1/4, 1, exponent)
+    exponent = engine.utility.lerpExp(1/2, 2, exponent, 2)
     return amplitude * (noise ** exponent)
   }
 
