@@ -16,6 +16,7 @@
 - Movement
   - Reduced recharge of jump jets at lower atmospheric pressures
 - Terrain
+  - Added low and high biomes for better extremes
   - Adjusted range of mountain slopes
   - Increased overall detail of generated terrain
 - Upgrades
