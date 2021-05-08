@@ -6,8 +6,10 @@
   - Added z-coordinate to coordinates hotkey
   - Exposed unavailable upgrades to screen readers
   - Rearranged coordinates and heading on Status screen
+- Audio
+  - Added cues for nearby material when sonifying terrain
 - Graphics
-  - Added material cues
+  - Added nearby material cues
   - Added procedurally generated stars
   - Added total eclipse of main star behind parent planet
   - Faded out background to black on high altitudes

@@ -30,17 +30,17 @@ content.audio = (() => {
       const duration = 2,
         now = engine.audio.time()
 
-      bus.gain.setValueAtTime(1/64, now + duration/2)
+      bus.gain.setValueAtTime(1/128, now + duration/2)
       bus.gain.exponentialRampToValueAtTime(1, now + duration)
 
-      reverbGain.setValueAtTime(reverbGainValue/64, now + duration/2)
+      reverbGain.setValueAtTime(reverbGainValue/128, now + duration/2)
       reverbGain.exponentialRampToValueAtTime(reverbGainValue, now + duration)
 
       return this
     },
     onScanTrigger: function () {
-      engine.audio.ramp.exponential(bus.gain, 1/64, 1/4)
-      engine.audio.ramp.exponential(reverbGain, reverbGainValue/64, 1/4)
+      engine.audio.ramp.exponential(bus.gain, 1/128, 1/4)
+      engine.audio.ramp.exponential(reverbGain, reverbGainValue/128, 1/4)
       return this
     },
     reverb: () => reverbInput,
