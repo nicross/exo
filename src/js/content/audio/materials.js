@@ -1,6 +1,6 @@
 content.audio.materials = (() => {
-  const bus = content.audio.createBypass(),
-    gain = engine.utility.fromDb(-1.5)
+  const bus = content.audio.createBus(),
+    gain = engine.utility.fromDb(0)
 
   bus.gain.value = gain
 
