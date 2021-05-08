@@ -3,6 +3,9 @@ content.environment = (() => {
     radius = 1666 * 1000,
     troposphere = 5 * 1000
 
+  const maxGravity = getGravity(0)
+  const maxGravitationalVelocity = maxGravity * Math.sqrt(2 * troposphere / maxGravity)
+
   let atmosphere = 0,
     gravity = 0
 
@@ -36,6 +39,8 @@ content.environment = (() => {
       recalculate()
       return this
     },
+    maxGravity: () => maxGravity,
+    maxGravitationalVelocity: () => maxGravitationalVelocity,
     reset: function () {
       atmosphere = 0
       gravity = 0
