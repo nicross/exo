@@ -29,12 +29,28 @@ content.materials.nearby = (() => {
 
       return this
     },
+    debug: function (radius = 100) {
+      const position = engine.position.getVector()
+
+      return {
+        items: this.retrieveAll({
+          depth: radius * 2,
+          height: radius * 2,
+          width: radius * 2,
+          x: position.x - radius,
+          y: position.y - radius,
+          z: position.z - radius,
+        }),
+        map,
+        tree,
+      }
+    },
     reset: function () {
       return this
     },
     retrieve: (...args) => tree.retrieve(...args),
-    retrieveAll: function () {
-      return this.retrieveAllTokens().map((token) => {
+    retrieveAll: function (...args) {
+      return this.retrieveAllTokens(...args).map((token) => {
         const prop = engine.streamer.getStreamedProp(token)
 
         if (prop) {
