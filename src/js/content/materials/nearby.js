@@ -1,0 +1,70 @@
+content.materials.nearby = (() => {
+  const map = new Map(),
+    tree = engine.utility.octree.create()
+
+  return {
+    chunk: function (chunk) {
+      for (const token of chunk.tokens.keys()) {
+        const {options} = engine.streamer.getRegisteredProp(token)
+
+        const item = {
+          token,
+          type: options.type,
+          x: options.x,
+          y: options.y,
+          z: options.z,
+        }
+
+        map.set(token, item)
+        tree.insert(item)
+      }
+
+      return this
+    },
+    collect: function (prop) {
+      const item = map.get(prop.token)
+
+      map.delete(prop.token)
+      tree.remove(item)
+
+      return this
+    },
+    reset: function () {
+      return this
+    },
+    retrieve: (...args) => tree.retrieve(...args),
+    retrieveAll: function () {
+      return this.retrieveAllTokens().map((token) => {
+        const prop = engine.streamer.getStreamedProp(token)
+
+        if (prop) {
+          return {
+            token,
+            type: prop.type,
+            x: prop.x,
+            y: prop.y,
+            z: prop.z,
+          }
+        }
+
+        const item = map.get(token)
+
+        return {...item}
+      })
+    },
+    retrieveAllTokens: (...args) => {
+      const tokens = new Set(
+        [
+          ...engine.streamer.getStreamedProps(),
+          ...tree.retrieve(...args),
+        ].map(({token}) => token)
+      )
+
+      return Array.from(tokens.values())
+    },
+  }
+})()
+
+content.materials.on('chunk', (...args) => content.materials.nearby.chunk(...args))
+content.materials.on('collect', (...args) => content.materials.nearby.collect(...args))
+engine.state.on('reset', () => content.materials.nearby.reset())

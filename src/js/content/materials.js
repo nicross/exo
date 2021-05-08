@@ -31,6 +31,8 @@ content.materials = (() => {
 
     chunks.push(chunk)
     chunkTree.insert(chunk)
+
+    pubsub.emit('chunk', chunk)
   }
 
   function getChunk(x, y) {
