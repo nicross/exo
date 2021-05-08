@@ -83,4 +83,6 @@ content.materials.nearby = (() => {
 
 content.materials.on('chunk', (...args) => content.materials.nearby.chunk(...args))
 content.materials.on('collect', (...args) => content.materials.nearby.collect(...args))
+content.materials.on('recycle', (...args) => content.materials.nearby.collect(...args))
+
 engine.state.on('reset', () => content.materials.nearby.reset())
