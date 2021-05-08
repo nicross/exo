@@ -40,6 +40,7 @@ app.canvas = (() => {
     app.canvas.stars.draw()
     app.canvas.planet.draw()
     app.canvas.terrain.draw()
+    app.canvas.materials.draw()
     app.canvas.grain.draw()
   }
 
@@ -84,6 +85,10 @@ app.canvas = (() => {
     height: () => height,
     hfov: () => hfov,
     toRelative: (vector) => {
+      if (!engine.utility.vector3d.prototype.isPrototypeOf(vector)) {
+        vector = engine.utility.vector3d.create(vector)
+      }
+
       return vector
         .subtract(cameraVector)
         .rotateQuaternion(cameraQuaternion)

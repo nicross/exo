@@ -13,8 +13,6 @@
   - Jump jet recharge
   - Material scanner cues (all materials ahead in 100m radius, tones play in sequence with scanner results)
   - Wind at extreme velocities
-- Graphics
-  - Material visual cues so game can be played entirely without sound
 - Space and atmosphere
   - Gravity and wind decreases with distance from sea level
   - Time scale of music slows, a parallel timebase (affects amod frequency, amod depth, and notes)

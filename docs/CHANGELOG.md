@@ -7,6 +7,7 @@
   - Exposed unavailable upgrades to screen readers
   - Rearranged coordinates and heading on Status screen
 - Graphics
+  - Added material cues
   - Added procedurally generated stars
   - Added total eclipse of main star behind parent planet
   - Faded out background to black on high altitudes
