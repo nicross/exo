@@ -27,7 +27,19 @@ content.environment = (() => {
 
   function smooth(value) {
     // generalized logistic function
-    return 1 / (1 + (Math.E ** (-5 * (value - 0.5))))
+    const smoothed = 1 / (1 + (Math.E ** (-5 * (value - 0.5))))
+
+    if (value > 7/8) {
+      const scalar = engine.utility.scale(value, 7/8, 1, 0, 1)
+      return engine.utility.lerp(smoothed, 1, scalar)
+    }
+
+    if (value < 1/8) {
+      const scalar = engine.utility.scale(value, 0, 1/8, 0, 1)
+      return engine.utility.lerp(0, smoothed, scalar)
+    }
+
+    return smoothed
   }
 
   return {
