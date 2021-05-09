@@ -76,7 +76,7 @@ content.prop.material.base = engine.prop.base.invent({
     const velocity = engine.position.getVector()
       .subtract(this.vector())
       .normalize()
-      .scale(distance / (this.distance ** 2))
+      .scale(distance / this.distance)
 
     this.velocity = content.utility.accelerate.vector(this.velocity, velocity, distance)
 
