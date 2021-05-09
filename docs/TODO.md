@@ -1,9 +1,6 @@
 # TODO
 ## Known issues
 - Access hotkeys click first item when not focused
-- Rotation quaternion math doesn't work as expected
-  - RCS Thrusters begin slowing and turning opposite direction at higher speeds
-  - Colliding with ground when turning at higher speeds results in abrupt turns in unexpected directions
 
 ## Planned versions
 ### v1.1.0

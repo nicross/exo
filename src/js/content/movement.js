@@ -110,13 +110,18 @@ content.movement = (() => {
       return
     }
 
-    engine.position.setAngularVelocity(
-      engine.position.getAngularVelocity().multiply(
-        engine.utility.quaternion.fromEuler({
-          yaw: rcsThrust * model.rcsVelocity,
-        }).lerpFrom({w: 1}, engine.loop.delta())
-      )
+    const target = engine.position.getAngularVelocity().multiply(
+      engine.utility.quaternion.fromEuler({
+        yaw: rcsThrust * model.rcsVelocity,
+      }).lerpFrom({w: 1}, engine.loop.delta())
     )
+
+    // Prevent large velocities going negative
+    if (target.w < 0) {
+      return
+    }
+
+    engine.position.setAngularVelocity(target)
   }
 
   function applyUpgrades(model) {
@@ -327,6 +332,10 @@ content.movement = (() => {
     // Prevent quaternion from becoming extreme from too many turns
     engine.position.setQuaternion(
       engine.position.getQuaternion().normalize()
+    )
+
+    engine.position.setAngularVelocity(
+      engine.position.getAngularVelocity().normalize()
     )
   }
 
