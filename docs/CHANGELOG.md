@@ -7,7 +7,8 @@
   - Exposed unavailable upgrades to screen readers
   - Rearranged coordinates and heading on Status screen
 - Audio
-  - Added cues for nearby material when sonifying terrain
+  - Added cues for nearby materials when sonifying terrain
+  - Added support for wind at extreme velocities
 - Graphics
   - Added nearby material cues
   - Added procedurally generated stars
@@ -18,6 +19,8 @@
   - Reweight spawn chances based on cost demands
 - Movement
   - Reduced recharge of jump jets at lower atmospheric pressures
+- Simulation
+  - Simulate atmospheric pressure and gravity as functions of altitude
 - Terrain
   - Added low and high biomes for better extremes
   - Adjusted range of mountain slopes

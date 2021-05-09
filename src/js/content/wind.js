@@ -1,6 +1,7 @@
 content.wind = (() => {
-  const field = engine.utility.createPerlinWithOctaves(engine.utility.perlin1d, 'wind', 4),
-    timeScale = 8
+  const amplitude = 10,
+    field = engine.utility.createPerlinWithOctaves(engine.utility.perlin1d, 'wind', 4),
+    timeScale = 1/2
 
   content.utility.ephemeralNoise.manage(field)
 
@@ -10,7 +11,7 @@ content.wind = (() => {
     },
     value: function () {
       const x = content.time.value() / timeScale
-      return field.value(x)
+      return field.value(x) * amplitude
     },
   }
 })()

@@ -2,13 +2,13 @@ content.audio.wind = (() => {
   const binaural = engine.audio.binaural.create(),
     bus = content.audio.createBus()
 
-  const maxFrequency = 120,
-    minFrequency = 4
+  const maxFrequency = 500,
+    minFrequency = 10
 
   let synth
 
   binaural.to(bus)
-  bus.gain.value = engine.utility.fromDb(-9)
+  bus.gain.value = engine.utility.fromDb(-12)
 
   function createSynth() {
     synth = engine.audio.synth.createBuffer({
@@ -30,11 +30,10 @@ content.audio.wind = (() => {
 
   function getVector() {
     const movement = engine.position.getVelocity()
-      .scale(1 / 20)
       .rotateQuaternion(engine.position.getQuaternion().conjugate())
 
     const wind = engine.utility.vector3d.create({x: -1})
-      .scale(content.wind.value() / 8)
+      .scale(content.wind.value())
       .rotateQuaternion(engine.position.getQuaternion())
 
     return movement.add(wind)
@@ -42,10 +41,10 @@ content.audio.wind = (() => {
 
   function updateSynth() {
     const vector = getVector()
-    const strength = engine.utility.clamp(vector.distance(), 0, 1)
+    const strength = engine.utility.clamp(vector.distance() / content.environment.maxGravitationalVelocity() * content.environment.atmosphere(), 0, 1)
 
     const frequency = engine.utility.lerpExp(minFrequency, maxFrequency, strength, 2),
-      gain = engine.utility.fromDb(engine.utility.lerp(0, -9, strength))
+      gain = engine.utility.fromDb(engine.utility.lerp(0, -6, strength)) * (strength ** 0.25)
 
     engine.audio.ramp.set(synth.filter.frequency, frequency)
     engine.audio.ramp.set(synth.param.gain, gain)
