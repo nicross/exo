@@ -1,9 +1,15 @@
 app.screen.upgrade = (() => {
-  let root,
-    upgrade
+  let invisibleIndicator,
+    root,
+    upgrade,
+    visibleIndicator
 
   engine.ready(() => {
     root = document.querySelector('.a-upgrade')
+    invisibleIndicator = root.querySelector('.a-upgrade--invisibleIndicator')
+    visibleIndicator = root.querySelector('.a-upgrade--visibleIndicator')
+
+    visibleIndicator.addEventListener('animationend', onVisibleIndicatorAnimationend)
 
     app.state.screen.on('enter-upgrade', onEnter)
     app.state.screen.on('exit-upgrade', onExit)
@@ -58,6 +64,10 @@ app.screen.upgrade = (() => {
     }
   }
 
+  function hideInvisibleIndicator() {
+    invisibleIndicator.hidden = true
+  }
+
   function onBackClick() {
     app.state.screen.dispatch('back')
   }
@@ -77,6 +87,7 @@ app.screen.upgrade = (() => {
   }
 
   function onExit() {
+    hideInvisibleIndicator()
     engine.loop.off('frame', onEngineLoopFrame)
   }
 
@@ -87,7 +98,21 @@ app.screen.upgrade = (() => {
 
     content.upgrades.upgrade(upgrade.key)
     update()
+    showInvisibleIndicator()
+    triggerVisibleIndicator()
     app.utility.focus.set(root)
+  }
+
+  function onVisibleIndicatorAnimationend() {
+    visibleIndicator.hidden = true
+  }
+
+  function showInvisibleIndicator() {
+    invisibleIndicator.hidden = false
+  }
+
+  function triggerVisibleIndicator() {
+    visibleIndicator.hidden = false
   }
 
   function update() {

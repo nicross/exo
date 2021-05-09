@@ -34,3 +34,27 @@
   .a-upgrade--table:hover tr:hover {
     opacity: 1;
   }
+  .a-upgrade--visibleIndicator {
+    animation: a-upgrade--visibleIndicator-active 2s ease 0s 1 normal both;
+    display: inline-block;
+    font-family: RobotoLight;
+    font-weight: 400;
+    margin: 0 0 0 0.5em;
+    white-space: nowrap;
+  }
+    .a-upgrade--visibleIndicator[hidden] {
+      animation: none;
+      display: none;
+    }
+
+@keyframes a-upgrade--visibleIndicator-active {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

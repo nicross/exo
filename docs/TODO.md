@@ -7,8 +7,6 @@
   - Jump jet recharge
 - Space and atmosphere
   - Add slight drag to flight based on atmosphere
-- Synthesis UI
-  - Asertive success indicator
 
 ## Wishlist features
 - Terrain generation

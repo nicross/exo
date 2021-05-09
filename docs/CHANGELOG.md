@@ -3,6 +3,7 @@
 - Accessibility
   - Added access hotkeys for height and velocity
   - Added height and velocity to Status screen
+  - Added cue for when synthesis is complete
   - Added z-coordinate to coordinates hotkey
   - Exposed unavailable upgrades to screen readers
   - Fixed access hotkeys clicking first item instead of focusing
