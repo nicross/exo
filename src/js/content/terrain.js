@@ -105,7 +105,7 @@ content.terrain = (() => {
       ? cache.find({x, y}, engine.const.zero)
       : undefined
 
-    if (result && result.value) {
+    if (result && 'value' in result) {
       return result.value
     }
 
