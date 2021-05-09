@@ -12,7 +12,6 @@
   - Dust particles
   - Jump jet recharge
 - Space and atmosphere
-  - Time scale of music slows, a parallel timebase (affects amod frequency, amod depth, and notes)
   - Highpass music at extreme altitudes
   - Fade in sub bass, two sound sources producing a binaural beat, panned to gas giant
   - Increase z-scale of music exponentially

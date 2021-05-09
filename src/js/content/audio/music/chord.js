@@ -46,7 +46,7 @@ content.audio.music.chord = (() => {
 
   function generate(index = 0) {
     // Determine chords and harmonics
-    const t = content.time.value() / timeScale,
+    const t = content.time.relative() / timeScale,
       t0 = Math.floor(t),
       t1 = t0 + 1,
       z = engine.position.getVector().z / zScale,
