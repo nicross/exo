@@ -46,6 +46,8 @@ content.materials.nearby = (() => {
       }
     },
     reset: function () {
+      map.clear()
+      tree.clear()
       return this
     },
     retrieve: (...args) => tree.retrieve(...args),
