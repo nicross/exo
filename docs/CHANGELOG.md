@@ -32,6 +32,7 @@
   - Added level 4 upgrades for most upgrade tracks
 - User interface
   - Added confirmation when starting a new game
+  - Added Level to Status screen
   - Added New Game Plus to keep upgrades when starting a new game
 
 ## v1.0.2
