@@ -29,7 +29,7 @@ app.controls = (() => {
     uiDelta = {}
 
     for (const key in values) {
-      if (!uiCache[key]) {
+      if (!(key in uiCache)) {
         uiDelta[key] = values[key]
       }
     }

@@ -1,7 +1,4 @@
 # TODO
-## Known issues
-- Access hotkeys click first item when not focused
-
 ## Planned versions
 ### v1.1.0
 - Audio cues

@@ -5,6 +5,7 @@
   - Added height and velocity to Status screen
   - Added z-coordinate to coordinates hotkey
   - Exposed unavailable upgrades to screen readers
+  - Fixed access hotkeys clicking first item instead of focusing
   - Rearranged coordinates and heading on Status screen
 - Audio
   - Added cues for nearby materials when sonifying terrain
