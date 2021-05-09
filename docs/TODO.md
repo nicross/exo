@@ -14,7 +14,6 @@
 - Space and atmosphere
   - Highpass music at extreme altitudes
   - Fade in sub bass, two sound sources producing a binaural beat, panned to gas giant
-  - Increase z-scale of music exponentially
   - Add slight drag to flight based on atmosphere
 - Statistics
   - Collected materials broken down by type (Commons, Metals, Exotics, Xenotech)

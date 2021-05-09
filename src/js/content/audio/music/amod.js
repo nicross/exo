@@ -10,14 +10,14 @@ content.audio.music.amod = (() => {
 
   return {
     depth: function (index) {
-      const scale = content.time.relativeSpeed(),
+      const scale = content.time.relativity(),
         time = content.time.relative() / depthScale,
         value = depthField.value(time, index + 0.5)
 
       return engine.utility.lerp(0, 0.5, value) * scale
     },
     frequency: function (index) {
-      const scale = content.time.relativeSpeed(),
+      const scale = content.time.relativity(),
         time = content.time.relative() / frequencyScale,
         value = frequencyField.value(time, index + 0.5)
 

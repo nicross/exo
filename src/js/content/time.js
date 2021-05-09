@@ -4,6 +4,14 @@ content.time = (() => {
   let relative = 0,
     time = 0
 
+  function getRelativity() {
+    // Sinusoidal scaling of z from [0, maxAltitude] to [1, 0]
+    const maxAltitude = 10000 // double toposphere
+    const {z} = engine.position.getVector()
+    const linear = engine.utility.clamp(z / maxAltitude, 0, 1)
+    return Math.cos(Math.PI/2 * (linear ** 0.5))
+  }
+
   return {
     export: () => ({
       relative,
@@ -15,12 +23,12 @@ content.time = (() => {
       return this
     },
     increment: function (value) {
-      relative += value * this.relativeSpeed()
+      relative += value * getRelativity()
       time += value
       return this
     },
     relative: () => relative,
-    relativeSpeed: () => content.environment.atmosphere(),
+    relativity: getRelativity,
     year: () => (time / yearDuration) % 1,
     value: () => time,
   }
