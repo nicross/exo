@@ -4,11 +4,10 @@ content.audio.music.chord = (() => {
     chordScale = 15,
     harmonicsField = engine.utility.perlin3d.create('music', 'harmonics'),
     harmonicsTimeScale = 1,
-    harmonicsZScale = 6,
+    harmonicsZScale = 1,
     inversionField = engine.utility.perlin1d.create('music', 'inversion'),
     inversionScale = 5,
-    timeScale = 12,
-    zScale = 50
+    timeScale = 12
 
   const chords = [
     [-9, -5, -2],
@@ -49,7 +48,7 @@ content.audio.music.chord = (() => {
     const t = content.time.relative() / timeScale,
       t0 = Math.floor(t),
       t1 = t0 + 1,
-      z = engine.position.getVector().z / zScale,
+      z = scaleZ(engine.position.getVector().z),
       z0 = Math.floor(z),
       z1 = z0 + 1
 
@@ -62,8 +61,8 @@ content.audio.music.chord = (() => {
       t1z1 = t1Chord[index] * getHarmonic(t1, z1, index)
 
     // Swap values on even/odd so synths line up and don't hiccup on abrupt changes
-    const swapT = t0 % 2 == 1,
-      swapZ = z0 % 2 == 1
+    const swapT = Math.abs(t0 % 2) == 1,
+      swapZ = Math.abs(z0 % 2) == 1
 
     const values = [
       t0z0,
@@ -145,6 +144,25 @@ content.audio.music.chord = (() => {
       note += (octave * 12) + (inversion[index] * 12)
       return content.utility.frequency.fromMidi(note)
     })
+  }
+
+  function scaleZ(z) {
+    // A000124, but with N-sized steps
+    const step = 10
+
+    let i = 0,
+      max = step,
+      min = 0,
+      range = max - min
+
+    while (z > max) {
+      i += 1
+      range += step
+      min = max
+      max += range
+    }
+
+    return engine.utility.scale(z, min, max, i, i + 1)
   }
 
   return {
