@@ -9,6 +9,7 @@
   - Fixed access hotkeys clicking first item instead of focusing
   - Rearranged coordinates and heading on Status screen
 - Audio
+  - Added cue for jets running out of fuel
   - Added cues for nearby materials when sonifying terrain
   - Added binaural sub bass that fades in at extreme altitudes
   - Added support for wind at extreme velocities

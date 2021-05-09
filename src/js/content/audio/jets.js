@@ -19,9 +19,9 @@ content.audio.jets = (() => {
 
     return {
       carrierGain: 1 - modDepth,
-      filterFrequency: engine.utility.lerpExp(500, 100, progress, 2),
+      filterFrequency: engine.utility.lerpExp(500, 125, progress, 2),
       filterQ: engine.utility.lerp(0.01, 1, progress),
-      gain: engine.utility.fromDb(engine.utility.lerp(0, -1.5, progress)),
+      gain: 1,
       modDepth,
       modFrequency: engine.utility.lerp(20, 4, progress),
       pan: vector.y * 0.5,
@@ -61,9 +61,12 @@ content.audio.jets = (() => {
 
   function destroySynth() {
     const now = engine.audio.time(),
-      release = 1/4
+      release = 1/8
 
     engine.audio.ramp.linear(synth.param.gain, engine.const.zeroGain, release)
+    engine.audio.ramp.exponential(synth.filter.frequency, engine.const.maxFrequency, release)
+    engine.audio.ramp.linear(synth.filter.Q, 0.01, release)
+
     synth.stop(now + release)
 
     firstBurn = false
