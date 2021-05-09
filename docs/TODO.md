@@ -6,8 +6,6 @@
   - Dust particles
   - Jump jet recharge
 - Space and atmosphere
-  - Highpass music at extreme altitudes
-  - Fade in sub bass, two sound sources producing a binaural beat, panned to gas giant
   - Add slight drag to flight based on atmosphere
 - Statistics
   - Collected materials broken down by type (Commons, Metals, Exotics, Xenotech)

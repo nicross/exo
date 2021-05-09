@@ -109,6 +109,23 @@ content.audio.music.chord = (() => {
     }
   }
 
+  function generateChord(time) {
+    const inversion = getInversion(time),
+      octave = 4,
+      value = chordField.value(time / chordScale)
+
+    return engine.utility.choose(chords, value).map((note, index) => {
+      note += (octave * 12) + (inversion[index] * 12)
+      return content.utility.frequency.fromMidi(note)
+    })
+  }
+
+  function generateRoot(time) {
+    const value = chordField.value(time / chordScale)
+    const chord = engine.utility.choose(chords, value)
+    return content.utility.frequency.fromMidi(chord[0] + (4 * 12))
+  }
+
   function getChord(time) {
     if (chordCache.has(time)) {
       return chordCache.get(time)
@@ -133,17 +150,6 @@ content.audio.music.chord = (() => {
   function getInversion(time = 0) {
     const value = inversionField.value(time / inversionScale)
     return engine.utility.choose(inversions, value)
-  }
-
-  function generateChord(time) {
-    const inversion = getInversion(time),
-      octave = 4,
-      value = chordField.value(time / chordScale)
-
-    return engine.utility.choose(chords, value).map((note, index) => {
-      note += (octave * 12) + (inversion[index] * 12)
-      return content.utility.frequency.fromMidi(note)
-    })
   }
 
   function scaleZ(z) {
@@ -174,6 +180,32 @@ content.audio.music.chord = (() => {
       ]
     },
     getIndex: (index = 0) => generate(index),
+    getRoots: function () {
+      const t = content.time.relative() / timeScale,
+        t0 = Math.floor(t),
+        t1 = t0 + 1
+
+      return {
+        tDelta: Math.sin((t - t0) * Math.PI/2),
+        t0: generateRoot(t0),
+        t1: generateRoot(t1),
+      }
+    },
+    getSub: function () {
+      const roots = this.getRoots()
+
+      let frequency = engine.utility.lerp(roots.t0, roots.t1, roots.tDelta)
+
+      while (frequency > 80) {
+        frequency /= 2
+      }
+
+      while (frequency < 40) {
+        frequency *= 2
+      }
+
+      return frequency
+    },
     reset: function () {
       chordCache.clear()
       return this

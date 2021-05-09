@@ -9,6 +9,7 @@
   - Rearranged coordinates and heading on Status screen
 - Audio
   - Added cues for nearby materials when sonifying terrain
+  - Added binaural sub bass that fades in at extreme altitudes
   - Added support for wind at extreme velocities
 - Graphics
   - Added nearby material cues
