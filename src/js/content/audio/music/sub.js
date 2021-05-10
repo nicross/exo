@@ -4,7 +4,8 @@ content.audio.music.sub = (() => {
     maxAltitude = 7500,
     minAltitude = 2500
 
-  let left,
+  let hasSynths = false,
+    left,
     leftBinaural,
     right,
     rightBinaural
@@ -12,6 +13,8 @@ content.audio.music.sub = (() => {
   bus.gain.value = engine.const.zeroGain
 
   function createSynths() {
+    hasSynths = true
+
     left = engine.audio.synth.createSimple({
       frequency: 0,
       gain: 0.5,
@@ -28,6 +31,8 @@ content.audio.music.sub = (() => {
   }
 
   function destroySynths() {
+    hasSynths = false
+
     const now = engine.audio.time(),
       release = 1/16
 
@@ -71,10 +76,15 @@ content.audio.music.sub = (() => {
   }
 
   return {
+    reset: function () {
+      if (hasSynths) {
+        destroySynths()
+      }
+
+      return this
+    },
     update: function () {
       const {z} = engine.position.getVector()
-
-      const hasSynths = left || right
 
       if (z > minAltitude) {
         if (!hasSynths) {
@@ -98,3 +108,5 @@ engine.loop.on('frame', ({paused}) => {
 
   content.audio.music.sub.update()
 })
+
+engine.state.on('reset', () => content.audio.music.sub.reset())
