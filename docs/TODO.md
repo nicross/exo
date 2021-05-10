@@ -1,14 +1,7 @@
 # TODO
-## Planned versions
-### v1.1.0
-- Audio cues
-  - Attractors
-  - Dust particles
-  - Jump jet recharge
-- Space and atmosphere
-  - Add slight drag to flight based on atmosphere
-
 ## Wishlist features
+- Physics
+  - Add slight drag to flight based on atmosphere
 - Terrain generation
   - Crater generation
     - Chunked
@@ -22,8 +15,10 @@
     - Track internal state and send combined haptic events each frame
     - Listen to certain buses with an FFT and use audio levels for haptic strength
 - Audio cues
+  - Attractors
+  - Dust particles
+  - Jump jet recharge
   - Correlate vehicle sounds to upgrade progress
   - Ice creaks
 - Upgrades
-  - Recycler
-    - Shop screen to buy materials from recycler
+  - Shop screen to buy materials from recycler
