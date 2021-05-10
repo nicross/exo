@@ -1,14 +1,7 @@
 # TODO
-## Planned versions
-### v1.1.0
-- Audio cues
-  - Attractors
-  - Dust particles
-  - Jump jet recharge
-- Space and atmosphere
-  - Add slight drag to flight based on atmosphere
-
 ## Wishlist features
+- Physics
+  - Add slight drag to flight based on atmosphere
 - Terrain generation
   - Crater generation
     - Chunked
@@ -16,14 +9,19 @@
     - Raised edges
     - Central peak
 - Better haptics
-  - Current implementation allows events to override previous events
-  - This blocks adding wind at high velocities
+  - Current implementation allows new events to override active events
+  - This blocks adding wind at high velocities and other simultaneous feedback
   - Two options
     - Track internal state and send combined haptic events each frame
-    - Listen to certain buses with an FFT and use audio levels for haptic strength
+    - Listen to certain buses with an FFT and use audio levels for haptic strengths
 - Audio cues
+  - Attractors
+  - Dust particles
+  - Jump jet recharge
   - Correlate vehicle sounds to upgrade progress
   - Ice creaks
+- Status and Statistics
+  - Materials collected and recycled by type
+  - Time spent broken down by activity
 - Upgrades
-  - Recycler
-    - Shop screen to buy materials from recycler
+  - Shop screen to buy materials from recycler
