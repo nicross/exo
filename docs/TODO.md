@@ -24,4 +24,6 @@
   - Materials collected and recycled by type
   - Time spent broken down by activity
 - Upgrades
+  - Downgrade upgrades, recycle their materials
   - Shop screen to buy materials from recycler
+  - Shocks, reduce collision bounce
