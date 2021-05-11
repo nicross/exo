@@ -194,17 +194,26 @@ content.audio.music.chord = (() => {
     getSub: function () {
       const roots = this.getRoots()
 
-      let frequency = engine.utility.lerp(roots.t0, roots.t1, roots.tDelta)
+      let f1 = roots.t0,
+        f2 = roots.t1
 
-      while (frequency > 80) {
-        frequency /= 2
+      while (f1 > 80) {
+        f1 /= 2
       }
 
-      while (frequency < 40) {
-        frequency *= 2
+      while (f1 < 40) {
+        f1 *= 2
       }
 
-      return frequency
+      while (f2 > 80) {
+        f2 /= 2
+      }
+
+      while (f2 < 40) {
+        f2 *= 2
+      }
+
+      return engine.utility.lerpExp(f1, f2, roots.tDelta, 2)
     },
     reset: function () {
       chordCache.clear()
