@@ -23,21 +23,65 @@ content.upgrades = (() => {
 
   return engine.utility.pubsub.decorate({
     all: () => Array.from(registry.values()),
-    debug: () => ({
-      totalCost: Array.from(registry.values()).reduce((total, upgrade) => {
+    debug: () => {
+      const costs = Array.from(registry.values()).reduce((costs, upgrade) => {
         for (const level of upgrade.levels) {
           for (const [key, value] of Object.entries(level.cost)) {
-            if (!total[key]) {
-              total[key] = 0
+            if (!costs[key]) {
+              costs[key] = 0
             }
 
-            total[key] += value
+            costs[key] += value
+          }
+        }
+
+        return costs
+      }, {})
+
+      const costsByType = Array.from(registry.values()).reduce((costs, upgrade) => {
+        for (const level of upgrade.levels) {
+          for (let [key, value] of Object.entries(level.cost)) {
+            key = key.split('/')[0]
+
+            if (!costs[key]) {
+              costs[key] = 0
+            }
+
+            costs[key] += value
+          }
+        }
+
+        return costs
+      }, {})
+
+      const totalCost = Array.from(registry.values()).reduce((total, upgrade) => {
+        for (const level of upgrade.levels) {
+          for (const [key, value] of Object.entries(level.cost)) {
+            total += value
           }
         }
 
         return total
-      }, {}),
-    }),
+      }, 0)
+
+      const weights = Array.from(Object.entries(costs)).reduce((weights, [key, value]) => {
+        weights[key] = value / totalCost
+        return weights
+      }, {})
+
+      const weightsByType = Array.from(Object.entries(costsByType)).reduce((weights, [key, value]) => {
+        weights[key] = value / totalCost
+        return weights
+      }, {})
+
+      return {
+        costs,
+        costsByType,
+        totalCost,
+        weights,
+        weightsByType,
+      }
+    },
     export: () => {
       const data = {}
 
