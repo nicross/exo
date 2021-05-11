@@ -1,5 +1,6 @@
 content.audio.music.sub = (() => {
-  const beat = 4,
+  const beatField = engine.utility.perlin1d.create('music', 'sub', 'beat'),
+    beatScale = 20,
     bus = content.audio.createBus(),
     maxAltitude = 7500,
     minAltitude = 2500
@@ -11,6 +12,8 @@ content.audio.music.sub = (() => {
     rightBinaural
 
   bus.gain.value = engine.const.zeroGain
+
+  content.utility.ephemeralNoise.manage(beatField)
 
   function createSynths() {
     hasSynths = true
@@ -54,7 +57,10 @@ content.audio.music.sub = (() => {
   }
 
   function updateSynths(z) {
-    const frequency = content.audio.music.chord.getSub()
+    const frequency = content.audio.music.chord.getSub(),
+      time = content.time.relative()
+
+    const beat = engine.utility.lerp(2, 6, beatField.value(time / beatScale))
 
     engine.audio.ramp.set(left.param.frequency, frequency - beat/2)
     engine.audio.ramp.set(right.param.frequency, frequency + beat/2)
