@@ -79,7 +79,7 @@ app.canvas.materials = (() => {
       context.fillStyle = `rgba(0, 0, 0, ${alpha})`
       context.lineWidth = radius / 16
       context.shadowBlur = radius / 4
-      context.shadowColor = '#000000'
+      context.shadowColor = '#FFFFFF'
       context.strokeStyle = '#FFFFFF'
 
       context.beginPath()
