@@ -2,12 +2,15 @@ content.prop.material.base = engine.prop.base.invent({
   radius: 4,
   reverb: false,
   onConstruct: function (options = {}, ...args) {
+    const context = engine.audio.context()
+
     this.chunk = options.chunk
     this.index = options.index
     this.rootFrequency = this.resolveFrequency()
     this.type = options.type
 
     this.createSynth()
+    this.synth.chainAssign('compensator', context.createGain())
   },
   onDestroy: function () {
     this.synth.stop()
@@ -16,6 +19,8 @@ content.prop.material.base = engine.prop.base.invent({
     if (this.isCollected || paused) {
       return this
     }
+
+    this.updateCompensator()
 
     if (this.collectErrorTimer > 0) {
       this.collectErrorTimer -= delta
@@ -114,5 +119,10 @@ content.prop.material.base = engine.prop.base.invent({
     }
 
     return frequency
+  },
+  updateCompensator: function () {
+    const gain = engine.utility.fromDb(engine.utility.lerp(0, 6, engine.utility.clamp(this.distance / 10, 0, 1)))
+    engine.audio.ramp.set(this.synth.compensator.gain, 1 + gain)
+    return this
   },
 })
