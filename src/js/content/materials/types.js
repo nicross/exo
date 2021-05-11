@@ -9,11 +9,18 @@ content.materials.types = (() => {
     Xenotech: content.prop.material.xenotech,
   }
 
+  const sortWeights = {
+    Common: 0,
+    Metal: 1,
+    Exotic: 2,
+    Xenotech: 3,
+  }
+
   const weights = {
-    Common: 10,
-    Exotic: 2.5,
-    Metal: 6.66,
-    Xenotech: 2.5,
+    Common: 1518/2571/6,
+    Metal: 813/2571/5,
+    Exotic: 183/2571/3 * 2,
+    Xenotech: 57/2571 * 3,
   }
 
   function toSlug(value) {
@@ -57,7 +64,7 @@ content.materials.types = (() => {
           return aType.name.localeCompare(bType.name)
         }
 
-        return weights[bType.group] - weights[aType.group]
+        return sortWeights[aType.group] - sortWeights[bType.group]
       })
 
       return result
