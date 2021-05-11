@@ -72,7 +72,7 @@ content.prop.material.base = engine.prop.base.invent({
     const distance = engine.utility.lerp(0, 25, attraction)
 
     if (this.distance > distance) {
-      return this
+      return this.halt()
     }
 
     const velocity = engine.position.getVector()
