@@ -11,7 +11,7 @@ content.prop.material.exotic = content.prop.material.base.invent({
       carrierFrequency: this.rootFrequency,
       carrierType: 'triangle',
       fmodDepth: this.rootFrequency,
-      fmodFrequency: this.rootFrequency / 2,
+      fmodFrequency: this.rootFrequency * 2,
       fmodType: 'triangle',
       gain: 2/3,
     }).filtered({
