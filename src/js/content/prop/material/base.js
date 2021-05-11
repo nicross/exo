@@ -39,9 +39,11 @@ content.prop.material.base = engine.prop.base.invent({
     return content.inventory.canCollect(this.type.key) || content.upgrades.recycler.isActive()
   },
   collect: function () {
+    this.fadeOutDuration = 1/32
     this.isCollected = true
-    engine.audio.ramp.exponential(this.output.gain, engine.const.zeroGain, 1/8)
+
     this.chunk.collect(this)
+
     return this
   },
   createSynth: function () {
