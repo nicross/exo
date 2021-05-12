@@ -7,6 +7,14 @@ content.inventory = (() => {
     return 5 + content.upgrades.cargoRacks.getBonus()
   }
 
+  function clearExcess() {
+    const capacity = calculateCapacity()
+
+    for (const [key, value] of Object.entries(cargo)) {
+      cargo[key] = Math.min(value, capacity)
+    }
+  }
+
   return engine.utility.pubsub.decorate({
     capacity: () => calculateCapacity(),
     canCollect: (key) => !cargo[key] || cargo[key] < calculateCapacity(),
@@ -68,6 +76,26 @@ content.inventory = (() => {
 
       return this
     },
+    onDowngrade: function (upgrade) {
+      const current = upgrade.getCost(),
+        next = upgrade.getNextCost()
+
+      // Gain back the difference in costs (some loss)
+      for (const key of Object.keys(next)) {
+        const difference = next[key] - (current[key] || 0)
+
+        if (cargo[key]) {
+          cargo[key] += difference
+        } else {
+          cargo[key] = difference
+        }
+      }
+
+      // Materials can exceed capacity, which can also get downgraded here
+      clearExcess()
+
+      return this
+    },
     onFull: function (prop) {
       // XXX: Called directly by props
       pubsub.emit('full', prop)
@@ -96,6 +124,7 @@ content.inventory = (() => {
 engine.ready(() => {
   // XXX: source ordering
   content.materials.on('collect', (...args) => content.inventory.onCollect(...args))
+  content.upgrades.on('downgrade', (...args) => content.inventory.onDowngrade(...args))
   content.upgrades.on('upgrade', (...args) => content.inventory.onUpgrade(...args))
 })
 

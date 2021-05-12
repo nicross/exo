@@ -39,6 +39,7 @@
   - Added fifth level cargo racks
   - Added fourth level upgrades for most upgrade tracks
   - Fixed recycled materials not saving correctly
+  - Recoup some material costs when downgrading upgrades
 - User interface
   - Added confirmation when starting a new game
   - Added Level to Status screen
