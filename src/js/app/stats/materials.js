@@ -71,11 +71,14 @@ app.stats.materials = (() => {
     set: function ({
       collected = {},
       consumed = {},
+      recycled = {},
     } = {}) {
       collectedCount = collected.count || 0
       collectedTypes = collected.type ? {...collected.type} : {}
       consumedCount = consumed.count || 0
       consumedTypes = consumed.type ? {...consumed.type} : {}
+      recycledCount = recycled.count || 0
+      recycledTypes = recycled.type ? {...recycled.type} : {}
       return this
     },
   })

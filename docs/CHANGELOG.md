@@ -32,6 +32,7 @@
 - Upgrades
   - Added attractors upgrade
   - Added level 4 upgrades for most upgrade tracks
+  - Fixed recycled materials not saving correctly
 - User interface
   - Added confirmation when starting a new game
   - Added Level to Status screen
