@@ -13,14 +13,16 @@
   - Added cues for nearby materials when sonifying terrain
   - Added binaural sub bass that fades in at extreme altitudes
   - Added support for wind at extreme velocities
+  - Boosted faraway material sounds
+  - Tweaked some material sounds for clarity
 - Graphics
   - Added nearby material cues
   - Added procedurally generated stars
   - Added total eclipse of main star behind parent planet
   - Faded out background to black on high altitudes
 - Materials
-  - Added attraction when attractors are online
-  - Reweight spawn chances based on cost demands
+  - Added material attraction when attractors are online
+  - Reweighted spawn chances based on cost demands
 - Movement
   - Reduced recharge of jump jets at lower atmospheric pressures
 - Simulation
