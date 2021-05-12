@@ -21,7 +21,7 @@
   - Added total eclipse of main star behind parent planet
   - Faded out background to black on high altitudes
 - Materials
-  - Added material attraction when attractors are online
+  - Added gravitation toward player when attractors are online
   - Reweighted spawn chances based on cost demands
 - Movement
   - Reduced recharge of jump jets at lower atmospheric pressures
@@ -32,8 +32,9 @@
   - Adjusted range of mountain slopes
   - Increased overall detail of generated terrain
 - Upgrades
-  - Added attractors upgrade
-  - Added level 4 upgrades for most upgrade tracks
+  - Added attractors upgrade which attracts nearby materials
+  - Added fifth level cargo racks
+  - Added fourth level upgrades for most upgrade tracks
   - Fixed recycled materials not saving correctly
 - User interface
   - Added confirmation when starting a new game
