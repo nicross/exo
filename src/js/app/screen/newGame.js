@@ -83,7 +83,7 @@ app.screen.newGame = (() => {
     root.querySelector('.a-newGame--action-plus').hidden = !hasNewGamePlus()
 
     engine.loop.on('frame', onEngineLoopFrame)
-    app.utility.focus.setWithin(root)
+    app.utility.focus.set(root)
   }
 
   function onExit() {
