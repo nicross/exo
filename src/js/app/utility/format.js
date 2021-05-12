@@ -57,10 +57,6 @@ app.utility.format.coordinates = function ({
 
   let label = ''
 
-  if (!x && !y) {
-    label += 'Origin'
-  }
-
   if (y > 0) {
     label += `${this.number(y)} <abbr aria-label="North">N</abbr>`
   } else if (y < 0) {
@@ -77,13 +73,11 @@ app.utility.format.coordinates = function ({
     label += `${this.number(Math.abs(x))} <abbr aria-label="West">W</abbr>`
   }
 
-  if (z && (x || y)) {
-    label += ', '
+  if (!x && !y) {
+    label += 'Origin'
   }
 
-  if (z) {
-    label += `${this.number(z)} Z`
-  }
+  label += `, ${this.number(z)} meters`
 
   return label
 }

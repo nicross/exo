@@ -7,6 +7,7 @@
   - Added z-coordinate to coordinates hotkey
   - Exposed unavailable upgrades to screen readers
   - Fixed access hotkeys clicking first item instead of focusing
+  - Improved verbosity of access hotkey alerts
   - Rearranged coordinates and heading on Status screen
 - Audio
   - Added cue for jets running out of fuel
