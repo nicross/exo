@@ -1,11 +1,11 @@
 content.upgrades.cargoRacks = content.upgrades.invent({
   name: 'Cargo Racks',
   describe: function (level = this.level) {
-    if (!level) {
-      return 'Normal cargo capacity'
-    }
+    const base = 5,
+      bonus = this.levels[level].bonus || 0,
+      total = base + bonus
 
-    return `+${this.levels[level].bonus} cargo capacity`
+    return `${total} cargo capacity`
   },
   levels: [
     {
