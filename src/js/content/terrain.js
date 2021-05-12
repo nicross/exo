@@ -12,12 +12,12 @@ content.terrain = (() => {
     wildcardScale = 1000
 
   const biomes = [
-    {x: 0, y: 0.5, name: 'low', command: low},
+    {x: 0, y: 0.5, name: 'lowlands', command: lowlands},
     {x: 1/5, y: 1/3, name: 'flat', command: flat}, {x: 1/5, y: 2/3, name: 'waves', command: waves},
     {x: 2/5, y: 1/3, name: 'plains', command: plains}, {x: 2/5, y: 2/3, name: 'rolling', command: rolling},
     {x: 3/5, y: 1/3, name: 'plateau', command: plateau}, {x: 3/5, y: 2/3, name: 'mountains', command: mountains},
     {x: 4/5, y: 1/3, name: 'hoodoos', command: hoodoos}, {x: 4/5, y: 2/3, name: 'rough', command: rough},
-    {x: 1, y: 0.5, name: 'high', command: high},
+    {x: 1, y: 0.5, name: 'highlands', command: highlands},
   ]
 
   const cache = engine.utility.quadtree.create({
@@ -170,7 +170,7 @@ content.terrain = (() => {
     return wildcardField.value(x / wildcardScale, y / wildcardScale)
   }
 
-  function high() {
+  function highlands() {
     return 2500
   }
 
@@ -189,7 +189,7 @@ content.terrain = (() => {
     return v0 + delta
   }
 
-  function low() {
+  function lowlands() {
     return 0
   }
 

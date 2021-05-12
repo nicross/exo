@@ -26,7 +26,7 @@
 - Simulation
   - Simulate atmospheric pressure and gravity as functions of altitude
 - Terrain
-  - Added low and high biomes for better extremes
+  - Added lowland and highland biomes for better extremes
   - Adjusted range of mountain slopes
   - Increased overall detail of generated terrain
 - Upgrades
