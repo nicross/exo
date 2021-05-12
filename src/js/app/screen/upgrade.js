@@ -1,20 +1,27 @@
 app.screen.upgrade = (() => {
-  let invisibleIndicator,
+  let invisibleIndicatorDowngrade,
+    invisibleIndicatorUpgrade,
     root,
     upgrade,
-    visibleIndicator
+    visibleIndicatorDowngrade,
+    visibleIndicatorUpgrade
 
   engine.ready(() => {
     root = document.querySelector('.a-upgrade')
-    invisibleIndicator = root.querySelector('.a-upgrade--invisibleIndicator')
-    visibleIndicator = root.querySelector('.a-upgrade--visibleIndicator')
 
-    visibleIndicator.addEventListener('animationend', onVisibleIndicatorAnimationend)
+    invisibleIndicatorDowngrade = root.querySelector('.a-upgrade--invisibleIndicator-downgrade')
+    invisibleIndicatorUpgrade = root.querySelector('.a-upgrade--invisibleIndicator-upgrade')
+    visibleIndicatorDowngrade = root.querySelector('.a-upgrade--visibleIndicator-downgrade')
+    visibleIndicatorUpgrade = root.querySelector('.a-upgrade--visibleIndicator-upgrade')
+
+    visibleIndicatorDowngrade.addEventListener('animationend', onVisibleIndicatorAnimationend)
+    visibleIndicatorUpgrade.addEventListener('animationend', onVisibleIndicatorAnimationend)
 
     app.state.screen.on('enter-upgrade', onEnter)
     app.state.screen.on('exit-upgrade', onExit)
 
     root.querySelector('.a-upgrade--back').addEventListener('click', onBackClick)
+    root.querySelector('.a-upgrade--downgrade').addEventListener('click', onDowngradeClick)
     root.querySelector('.a-upgrade--upgrade').addEventListener('click', onUpgradeClick)
 
     app.utility.focus.trap(root)
@@ -64,12 +71,36 @@ app.screen.upgrade = (() => {
     }
   }
 
-  function hideInvisibleIndicator() {
-    invisibleIndicator.hidden = true
+  function hideInvisibleIndicators() {
+    invisibleIndicatorDowngrade.hidden = true
+    invisibleIndicatorUpgrade.hidden = true
+  }
+
+  function hideInvisibleIndicatorsOnBlur() {
+    root.addEventListener('blur', function hideOnBlur() {
+      hideInvisibleIndicators()
+      root.removeEventListener('blur', hideOnBlur)
+    })
   }
 
   function onBackClick() {
     app.state.screen.dispatch('back')
+  }
+
+  function onDowngradeClick() {
+    if (this.getAttribute('aria-disabled') == 'true') {
+      return
+    }
+
+    content.upgrades.downgrade(upgrade.key)
+    update()
+
+    showInvisibleIndicator(invisibleIndicatorDowngrade)
+    triggerVisibleIndicator(visibleIndicatorDowngrade)
+
+    app.utility.focus.set(root)
+
+    hideInvisibleIndicatorsOnBlur()
   }
 
   function onEngineLoopFrame(e) {
@@ -87,7 +118,7 @@ app.screen.upgrade = (() => {
   }
 
   function onExit() {
-    hideInvisibleIndicator()
+    hideInvisibleIndicators()
     engine.loop.off('frame', onEngineLoopFrame)
   }
 
@@ -98,30 +129,40 @@ app.screen.upgrade = (() => {
 
     content.upgrades.upgrade(upgrade.key)
     update()
-    showInvisibleIndicator()
-    triggerVisibleIndicator()
+
+    showInvisibleIndicator(invisibleIndicatorUpgrade)
+    triggerVisibleIndicator(visibleIndicatorUpgrade)
+
     app.utility.focus.set(root)
+
+    hideInvisibleIndicatorsOnBlur()
   }
 
   function onVisibleIndicatorAnimationend() {
-    visibleIndicator.hidden = true
+    this.hidden = true
   }
 
-  function showInvisibleIndicator() {
-    invisibleIndicator.hidden = false
+  function showInvisibleIndicator(element) {
+    hideInvisibleIndicators()
+    element.hidden = false
   }
 
-  function triggerVisibleIndicator() {
-    visibleIndicator.hidden = false
+  function triggerVisibleIndicator(element) {
+    element.hidden = false
   }
 
   function update() {
+    const next = upgrade.getNextLevel(),
+      previous = upgrade.getPreviousLevel()
+
     root.querySelector('.a-upgrade--cost').hidden = !upgrade.getNextLevel()
     root.querySelector('.a-upgrade--cost').scrollTop = 0
+    root.querySelector('.a-upgrade--downgrade').ariaDisabled = upgrade.canDowngrade() ? 'false' : 'true'
+    root.querySelector('.a-upgrade--downgrade').innerHTML = previous ? `Downgrade to <strong>${upgrade.describePrevious()}</strong>` : 'Cannot downgrade'
     root.querySelector('.a-upgrade--description').innerHTML = upgrade.describe()
     root.querySelector('.a-upgrade--name').innerHTML = upgrade.name
     root.querySelector('.a-upgrade--upgrade').ariaDisabled = upgrade.canUpgrade() ? 'false' : 'true'
-    root.querySelector('.a-upgrade--upgrade').innerHTML = upgrade.describeNext()
+    root.querySelector('.a-upgrade--upgrade').innerHTML = next ? `Upgrade to <strong>${upgrade.describeNext()}</strong>` : 'Fully upgraded'
 
     updateTable(upgrade.getNextCost())
   }

@@ -23,6 +23,17 @@ content.upgrades = (() => {
 
   return engine.utility.pubsub.decorate({
     all: () => Array.from(registry.values()),
+    downgrade: function (key) {
+      const upgrade = registry.get(key)
+
+      if (upgrade && upgrade.canDowngrade()) {
+        upgrade.level -= 1
+        pubsub.emit('downgrade', upgrade)
+        resetAvailable()
+      }
+
+      return this
+    },
     debug: () => {
       const costs = Array.from(registry.values()).reduce((costs, upgrade) => {
         for (const level of upgrade.levels) {

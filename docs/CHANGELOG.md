@@ -34,6 +34,7 @@
   - Adjusted range of mountain slopes
   - Increased overall detail of generated terrain
 - Upgrades
+  - Added ability to downgrade upgrades
   - Added attractors upgrade which attracts nearby materials
   - Added fifth level cargo racks
   - Added fourth level upgrades for most upgrade tracks

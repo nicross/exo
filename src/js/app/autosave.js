@@ -59,5 +59,6 @@ app.autosave = (() => {
 
 engine.ready(() => {
   content.materials.on('collect', () => app.autosave.trigger())
+  content.upgrades.on('downgrade', () => app.autosave.trigger())
   content.upgrades.on('upgrade', () => app.autosave.trigger())
 })

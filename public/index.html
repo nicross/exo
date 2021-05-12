@@ -426,7 +426,8 @@
       <div class="a-app--screen a-app--upgrade">
         <section class="c-screen a-upgrade" aria-labelledby="a-upgrade--title" tabindex="-1">
           <div id="a-upgrade--title">
-            <span class="a-upgrade--invisibleIndicator u-screenReader" hidden>Synthesis complete.</span>
+            <span class="a-upgrade--invisibleIndicator a-upgrade--invisibleIndicator-downgrade u-screenReader" hidden>Downgrade complete.</span>
+            <span class="a-upgrade--invisibleIndicator a-upgrade--invisibleIndicator-upgrade u-screenReader" hidden>Synthesis complete.</span>
             <h1 class="c-screen--title a-upgrade--name">Upgrade Name</h1>
             <p class="a-upgrade--description">Upgrade description</p>
           </div>
@@ -438,7 +439,11 @@
           <ul class="c-screen--actions">
             <li class="c-screen--action">
               <button class="c-menuButton a-upgrade--upgrade" type="button">Upgrade</button>
-              <span class="a-upgrade--visibleIndicator" aria-hidden="true" role="presentation" hidden>✓ Synthesis complete</span>
+              <span class="a-upgrade--visibleIndicator a-upgrade--visibleIndicator-upgrade" aria-hidden="true" role="presentation" hidden>▲ Synthesis complete</span>
+            </li>
+            <li class="c-screen--action">
+              <button class="c-menuButton a-upgrade--downgrade" type="button">Downgrade</button>
+              <span class="a-upgrade--visibleIndicator a-upgrade--visibleIndicator-downgrade" aria-hidden="true" role="presentation" hidden>▼ Downgrade complete</span>
             </li>
             <li class="c-screen--action">
               <button class="c-menuButton a-upgrade--back" type="button">Back</button>
