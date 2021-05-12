@@ -42,8 +42,9 @@
   - Recoup some material costs when downgrading upgrades
 - User interface
   - Added confirmation when starting a new game
-  - Added Level to Status screen
-  - Added New Game Plus to keep upgrades when starting a new game
+  - Added exosuit level to Status screen
+  - Added New Game Plus option to keep upgrades when starting a new game
+  - Added downgrades to Statistics screen
 
 ## v1.0.2
 - Continuously normalized position to prevent bad states
