@@ -17,10 +17,10 @@ content.materials.types = (() => {
   }
 
   const weights = {
-    Common: 1518/2571/6,
-    Metal: 813/2571/5,
-    Exotic: 183/2571/3 * 2,
-    Xenotech: 57/2571 * 2,
+    Common: 1668/2856/6,
+    Metal: 913/2856/5,
+    Exotic: 213/2856/3 * 2,
+    Xenotech: 62/2856 * 2,
   }
 
   function toSlug(value) {
