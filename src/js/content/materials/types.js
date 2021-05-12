@@ -20,7 +20,7 @@ content.materials.types = (() => {
     Common: 1518/2571/6,
     Metal: 813/2571/5,
     Exotic: 183/2571/3 * 2,
-    Xenotech: 57/2571 * 3,
+    Xenotech: 57/2571 * 2,
   }
 
   function toSlug(value) {

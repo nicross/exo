@@ -2,7 +2,7 @@ content.prop.material.xenotech = content.prop.material.base.invent({
   name: 'material/xenotech',
   createSynth: function () {
     this.synth = engine.audio.synth.createAm({
-      carrierDetune: 600,
+      carrierDetune: 0,
       carrierFrequency: this.rootFrequency,
       carrierGain: 1/2,
       carrierType: 'square',
@@ -11,7 +11,7 @@ content.prop.material.xenotech = content.prop.material.base.invent({
       modFrequency: 0,
       modType: 'square',
     }).filtered({
-      detune: 600,
+      detune: 0,
       frequency: this.rootFrequency,
       Q: 5,
       type: 'bandpass',
