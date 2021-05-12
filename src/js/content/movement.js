@@ -72,6 +72,31 @@ content.movement = (() => {
     })
   }
 
+  function applyDrag() {
+    const atmosphere = content.environment.atmosphere(),
+      currentGravity = content.environment.gravity(),
+      maxVelocity = content.environment.maxGravitationalVelocity(),
+      velocity = engine.position.getVelocity()
+
+    const magnitude = velocity.distance()
+
+    const deceleration = engine.utility.scale(magnitude, 0, maxVelocity, 0, currentGravity) * atmosphere
+
+    engine.position.setVelocity(
+      content.utility.accelerate.vector(
+        velocity,
+        engine.utility.vector3d.create(),
+        deceleration
+      )
+    )
+
+    // Reduce tracked gravity by proportional amount for this frame
+    if (gravity < 0) {
+      gravity += deceleration * (gravity / magnitude) * engine.loop.delta()
+      gravity = Math.min(gravity, 0)
+    }
+  }
+
   function applyGravity() {
     // TODO: apply slippage on steep slopes when wheeled
 
@@ -587,6 +612,7 @@ content.movement = (() => {
         glueZ()
       }
 
+      applyDrag()
       applyVerticalThrust(controls)
 
       isGroundedEnough = z <= terrain + groundLeeway && !isJetActive && !isJumpCooldown

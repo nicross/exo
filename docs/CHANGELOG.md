@@ -24,6 +24,7 @@
   - Added gravitation toward player when attractors are online
   - Reweighted spawn chances based on cost demands
 - Movement
+  - Applied atmospheric drag proportional to pressure and speed
   - Reduced recharge of jump jets at lower atmospheric pressures
 - Simulation
   - Simulate atmospheric pressure and gravity as functions of altitude

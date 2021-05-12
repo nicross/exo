@@ -1,7 +1,5 @@
 # TODO
 ## Wishlist features
-- Physics
-  - Add slight drag to flight based on atmosphere
 - Terrain generation
   - Crater generation
     - Chunked
@@ -25,5 +23,6 @@
   - Time spent broken down by activity
 - Upgrades
   - Downgrade upgrades, recycle their materials
+  - Fuel, refills jets
   - Shop screen to buy materials from recycler
   - Shocks, reduce collision bounce
