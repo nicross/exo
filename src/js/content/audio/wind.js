@@ -8,7 +8,7 @@ content.audio.wind = (() => {
   let synth
 
   binaural.to(bus)
-  bus.gain.value = engine.utility.fromDb(-12)
+  bus.gain.value = engine.utility.fromDb(-9)
 
   function createSynth() {
     synth = engine.audio.synth.createBuffer({
@@ -44,9 +44,11 @@ content.audio.wind = (() => {
     const strength = engine.utility.clamp(vector.distance() / content.environment.maxGravitationalVelocity() * content.environment.atmosphere(), 0, 1)
 
     const frequency = engine.utility.lerpExp(minFrequency, maxFrequency, strength, 2),
-      gain = engine.utility.fromDb(engine.utility.lerp(0, -6, strength)) * (strength ** 0.25)
+      gain = engine.utility.fromDb(engine.utility.lerp(0, -6, strength)) * (strength ** 0.125),
+      q = engine.utility.lerp(1, 0.001, strength)
 
     engine.audio.ramp.set(synth.filter.frequency, frequency)
+    engine.audio.ramp.set(synth.filter.Q, q)
     engine.audio.ramp.set(synth.param.gain, gain)
 
     binaural.update(vector.normalize())

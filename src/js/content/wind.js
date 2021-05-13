@@ -1,5 +1,5 @@
 content.wind = (() => {
-  const amplitude = 10,
+  const amplitude = 1,
     field = engine.utility.createPerlinWithOctaves(engine.utility.perlin1d, 'wind', 4),
     timeScale = 1/2
 
