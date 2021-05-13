@@ -1,5 +1,6 @@
 content.prop.material.base = engine.prop.base.invent({
-  radius: 4,
+  collectRadius: 4,
+  radius: 0,
   reverb: false,
   onConstruct: function (options = {}, ...args) {
     const context = engine.audio.context()
@@ -28,7 +29,7 @@ content.prop.material.base = engine.prop.base.invent({
 
     const canCollect = this.canCollect()
 
-    if (engine.utility.round(this.distance, 3) <= 0) {
+    if (engine.utility.round(this.distance, 3) <= this.collectRadius) {
       if (canCollect) {
         this.collect()
       } else {
@@ -121,7 +122,7 @@ content.prop.material.base = engine.prop.base.invent({
     return frequency
   },
   updateCompensator: function () {
-    const gain = engine.utility.fromDb(engine.utility.lerp(0, 6, engine.utility.clamp(this.distance / 10, 0, 1)))
+    const gain = engine.utility.fromDb(engine.utility.lerpExp(0, 7.5, engine.utility.clamp(this.distance / 25, 0, 1), 2))
     engine.audio.ramp.set(this.synth.compensator.gain, 1 + gain)
     return this
   },

@@ -26,7 +26,7 @@ app.canvas.materials = (() => {
     const drawDistance = Math.max(app.settings.computed.drawDistance, engine.streamer.getRadius()),
       hfov = main.hfov(),
       position = engine.position.getVector(),
-      propRadius = content.prop.material.base.radius,
+      propRadius = content.prop.material.base.collectRadius,
       time = content.time.value(),
       vfov = main.vfov()
 

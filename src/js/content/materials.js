@@ -102,7 +102,7 @@ content.materials = (() => {
         type,
         x: location.x,
         y: location.y,
-        z: content.terrain.value(location.x, location.y) + (content.prop.material.base.radius / 2),
+        z: content.terrain.value(location.x, location.y) + (content.prop.material.base.collectRadius / 2),
       })
     },
     update: function () {

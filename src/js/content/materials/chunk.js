@@ -90,7 +90,7 @@ content.materials.chunk.prototype = {
       type,
       x,
       y,
-      z: content.terrain.value(x, y) + (content.prop.material.base.radius / 2),
+      z: content.terrain.value(x, y) + (content.prop.material.base.collectRadius / 2),
     }
 
     const token = engine.streamer.registerProp(type.prototype, options)
