@@ -21,8 +21,10 @@
   - Added procedurally generated stars
   - Added total eclipse of main star behind parent planet
   - Faded out background to black on high altitudes
+  - Increased default draw distance to 35
 - Materials
   - Added gravitation toward player when attractors are online
+  - Fixed materials sometimes spawning abruptly
   - Reweighted spawn chances based on cost demands
 - Movement
   - Applied atmospheric drag proportional to pressure and speed
