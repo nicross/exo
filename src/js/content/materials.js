@@ -3,7 +3,7 @@ content.materials = (() => {
     chunkSize = 100,
     chunkTree = engine.utility.quadtree.create(),
     pubsub = engine.utility.pubsub.create(),
-    radius = 2
+    radius = 3
 
   // TODO: place breadcrumbs at collected materials? possibly another module
 
@@ -51,8 +51,8 @@ content.materials = (() => {
     const xi = Math.floor(position.x / chunkSize),
       yi = Math.floor(position.y / chunkSize)
 
-    for (let x = xi - radius; x <= xi + radius; x += radius) {
-      for (let y = yi - radius; y <= yi + radius; y += radius) {
+    for (let x = xi - radius; x <= xi + radius; x += 1) {
+      for (let y = yi - radius; y <= yi + radius; y += 1) {
         if (!getChunk(x, y)) {
           instantiateChunk({x, y})
         }
