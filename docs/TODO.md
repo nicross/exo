@@ -1,4 +1,12 @@
 # TODO
+## v1.2.0
+- Upgrade to latest version of syngen
+- Expand draw distance slider values
+- Increase strength of attractors
+- Fix coordinates formatting on status screen
+- Add stabilizers and shocks upgrades
+- Better haptics
+
 ## Wishlist features
 - Terrain generation
   - Crater generation
@@ -22,7 +30,7 @@
   - Materials collected and recycled by type
   - Time spent broken down by activity
 - Upgrades
-  - Downgrade upgrades, recycle their materials
   - Fuel, refills jets
   - Shop screen to buy materials from recycler
   - Shocks, reduce collision bounce
+  - Stabilizers, angular deceleration in-air when not using RCS
