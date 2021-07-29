@@ -20,9 +20,7 @@ content.terrain = (() => {
     {x: 1, y: 0.5, name: 'highlands', command: highlands},
   ]
 
-  const cache = engine.utility.quadtree.create({
-    maxItems: 100,
-  })
+  const cache = new Map()
 
   let current
 
@@ -94,6 +92,16 @@ content.terrain = (() => {
     return generateBiome(x, y)
   }
 
+  function getCache(x, y) {
+    const xMap = cache.get(x)
+
+    if (!xMap) {
+      return
+    }
+
+    return xMap.get(y)
+  }
+
   function getExponent(x, y) {
     return exponentField.value(x / exponentScale, y / exponentScale)
   }
@@ -102,24 +110,20 @@ content.terrain = (() => {
     const shouldCache = x % 1 == 0 && y % 1 == 0
 
     let result = shouldCache
-      ? cache.find({x, y}, engine.const.zero)
+      ? getCache(x, y)
       : undefined
 
-    if (result && 'value' in result) {
-      return result.value
+    if (result) {
+      return result
     }
 
-    result = {
-      value: generateValue(x, y),
-      x,
-      y,
-    }
+    result = generateValue(x, y)
 
     if (shouldCache) {
-      cache.insert(result)
+      setCache(x, y, result)
     }
 
-    return result.value
+    return result
   }
 
   function getWeightedBiomes(x, y) {
@@ -240,6 +244,17 @@ content.terrain = (() => {
       noise = sauceField.value(x / 2, y / 2)
 
     return amplitude * noise
+  }
+
+  function setCache(x, y, value) {
+    let xMap = cache.get(x)
+
+    if (!xMap) {
+      xMap = new Map()
+      cache.set(x, xMap)
+    }
+
+    xMap.set(y, value)
   }
 
   function smooth(value) {
