@@ -33,7 +33,6 @@ app.canvas.stars = (() => {
   function drawStars() {
     const height = main.height(),
         hfov = main.hfov(),
-        radius = 0.5,
         vfov = main.vfov(),
         width = main.width()
 
@@ -75,6 +74,8 @@ app.canvas.stars = (() => {
         alpha *= engine.utility.scale(screen.y, horizon - horizonCutoff, horizon, 1, 0)
       }
 
+      const radius = star.radius
+
       context.fillStyle = `rgba(255, 255, 255, ${alpha})`
       context.fillRect(screen.x - radius, screen.y - radius, radius * 2, radius * 2)
     }
@@ -91,6 +92,7 @@ app.canvas.stars = (() => {
         delta: Math.PI / 2 * engine.utility.sign(delta) * (delta ** 2),
         phase: 2 * Math.PI * srand(),
         theta: 2 * Math.PI * srand(),
+        radius: engine.utility.lerpExp(0.5, 1, srand(), 8),
       }
 
       star.vector = engine.utility.vector3d.unitX()
