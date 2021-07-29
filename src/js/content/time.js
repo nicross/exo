@@ -1,5 +1,5 @@
 content.time = (() => {
-  const yearDuration = 30 * 60
+  const yearDuration = 22 * 60
 
   let relative = 0,
     time = 0
