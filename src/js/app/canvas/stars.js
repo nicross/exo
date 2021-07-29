@@ -4,6 +4,7 @@ app.canvas.stars = (() => {
     count = 1000,
     firmament = 10000,
     main = app.canvas,
+    orbit = firmament / 3,
     stars = []
 
   main.on('resize', () => {
@@ -42,10 +43,15 @@ app.canvas.stars = (() => {
 
     const horizonCutoff = horizon - (Math.max(1, (width / 1920) * 8))
 
+    const position = engine.utility.vector3d.create({
+      x: Math.cos(rotation),
+      z: Math.sin(rotation),
+    }).scale(orbit)
+
     for (const star of stars) {
       const relative = star.vector.rotateEuler({
         pitch: rotation,
-      }).rotateQuaternion(conjugate)
+      }).subtract(position).rotateQuaternion(conjugate)
 
       const hangle = Math.atan2(relative.y, relative.x)
 
@@ -96,7 +102,7 @@ app.canvas.stars = (() => {
       }
 
       star.vector = engine.utility.vector3d.unitX()
-        .scale(firmament)
+        .scale(firmament * srand(1, 2))
         .rotateEuler({
           pitch: star.theta,
           yaw: star.delta,
