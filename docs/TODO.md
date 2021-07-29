@@ -1,11 +1,7 @@
 # TODO
-## v1.2.0
-- Upgrade to latest version of syngen
-- Expand draw distance slider values
-- Increase strength of attractors
-- Fix coordinates formatting on status screen
-- Add stabilizers and shocks upgrades
-- Better haptics
+## v1.x.x
+- Apply atmospheric drag to rotation
+- Improve attractor effectiveness
 
 ## Wishlist features
 - Terrain generation

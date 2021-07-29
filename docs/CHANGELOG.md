@@ -1,4 +1,19 @@
 # E.X.O. Changelog
+## v1.x.x
+- Graphics
+  - Added variable radius to stars
+  - Improved performance of terrain rendering
+  - Increased default and maximum draw distance values
+  - Fixed star projection
+- Simulation
+  - Added stellar parallax to stars
+  - Reduced year duration from 30 to 22 minutes
+- User interface
+  - Fixed formatting of coordinates on Status screen
+- Miscellaneous
+  - Upgraded to latest version of syngen
+  - Upgraded desktop builds to Electron 13
+
 ## v1.1.0
 - Accessibility
   - Added access hotkeys for height and velocity
