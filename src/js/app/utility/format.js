@@ -77,7 +77,9 @@ app.utility.format.coordinates = function ({
     label += 'Origin'
   }
 
-  label += `, ${this.number(z)} meters`
+  if (z) {
+    label += `, ${this.number(z)} meters`
+  }
 
   return label
 }
