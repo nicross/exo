@@ -71,10 +71,10 @@ app.canvas.terrain = (() => {
 
         // Convert to screen space and draw
         const screen = main.toScreenFromRelative(relative)
-        const distanceRatio = engine.utility.scale(distance, 0, drawDistance, 1, 0)
 
-        const alpha = distanceRatio,
-          radius = engine.utility.lerpExp(0.5, nodeRadius, distanceRatio, 4)
+        const alpha = engine.utility.scale(distance, 0, drawDistance, 1, 0),
+          radiusRatio = engine.utility.scale(distance, 0, 100, 1, 0), // max drawDistance
+          radius = engine.utility.lerpExp(0.5, nodeRadius, radiusRatio, 8)
 
         context.globalAlpha = alpha
         context.fillRect(screen.x - radius, screen.y - radius, radius * 2, radius * 2)
