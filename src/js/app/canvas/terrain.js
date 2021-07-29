@@ -5,6 +5,8 @@ app.canvas.terrain = (() => {
 
   let nodeRadius
 
+  context.fillStyle = '#000000'
+
   main.on('resize', () => {
     const height = main.height(),
       width = main.width()
@@ -74,7 +76,7 @@ app.canvas.terrain = (() => {
         const alpha = distanceRatio,
           radius = engine.utility.lerpExp(0.5, nodeRadius, distanceRatio, 4)
 
-        context.fillStyle = `rgba(0, 0, 0, ${alpha})`
+        context.globalAlpha = alpha
         context.fillRect(screen.x - radius, screen.y - radius, radius * 2, radius * 2)
       }
     }
