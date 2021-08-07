@@ -25,25 +25,35 @@ app.canvas.terrain = (() => {
 
   function drawNodes() {
     const drawDistance = app.settings.computed.drawDistance,
+      heading = engine.utility.vector3d.unitX().rotateQuaternion(engine.position.getQuaternion().conjugate()),
       hfov = main.hfov(),
-      position = engine.position.getVector(),
+      position = main.cameraVector(),
+      positionGrid = position.clone(),
+      rotateYaw = Math.atan2(heading.y, heading.x),
       vfov = main.vfov()
 
-    position.x = Math.round(position.x)
-    position.y = Math.round(position.y)
+    positionGrid.x = Math.round(positionGrid.x)
+    positionGrid.y = Math.round(positionGrid.y)
 
     // TODO: Optimize as cone ahead
     for (let x = -drawDistance; x < drawDistance; x += 1) {
       for (let y = -drawDistance; y < drawDistance; y += 1) {
-        const grid = position.add({x, y})
+        // Convert to relative space
+        const global = positionGrid.add({x, y})
 
         // Optimization: only draw within draw distance
-        if (engine.utility.distance(position, grid) > drawDistance) {
+        if (engine.utility.distance(position, global) > drawDistance) {
           continue
         }
 
+        const relative = engine.utility.vector3d.create(
+          engine.utility.vector2d.create({
+            x: global.x - position.x,
+            y: global.y - position.y,
+          }).rotate(rotateYaw)
+        )
+
         // Optimization: only draw if visible horizontally
-        let relative = main.toRelative(grid)
         const hangle = Math.atan2(relative.y, relative.x)
 
         if (Math.abs(hangle) > hfov / 2) {
@@ -51,8 +61,8 @@ app.canvas.terrain = (() => {
         }
 
         // Calculate true position
-        grid.z = content.terrain.value(grid.x, grid.y)
-        relative = main.toRelative(grid)
+        global.z = content.terrain.value(global.x, global.y)
+        relative.z = global.z - position.z
 
         // Optimization: only draw if visible vertically
         const vangle = Math.atan2(relative.z, relative.x)
