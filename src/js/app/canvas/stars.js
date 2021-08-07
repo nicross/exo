@@ -48,6 +48,8 @@ app.canvas.stars = (() => {
       z: Math.sin(rotation),
     }).scale(orbit)
 
+    context.fillStyle = '#FFFFFF'
+
     for (const star of stars) {
       const relative = star.vector.rotateEuler({
         pitch: rotation,
@@ -65,8 +67,6 @@ app.canvas.stars = (() => {
         continue
       }
 
-      let alpha = star.alpha
-
       const screen = engine.utility.vector2d.create({
         x: (width / 2) - (width * hangle / hfov),
         y: (height / 2) - (height * vangle / vfov),
@@ -76,13 +76,15 @@ app.canvas.stars = (() => {
         continue
       }
 
+      let alpha = star.alpha
+
       if (screen.y > horizon - horizonCutoff) {
         alpha *= engine.utility.scale(screen.y, horizon - horizonCutoff, horizon, 1, 0)
       }
 
       const radius = star.radius
 
-      context.fillStyle = `rgba(255, 255, 255, ${alpha})`
+      context.globalAlpha = alpha
       context.fillRect(screen.x - radius, screen.y - radius, radius * 2, radius * 2)
     }
   }
