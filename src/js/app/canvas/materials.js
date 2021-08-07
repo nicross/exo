@@ -39,6 +39,14 @@ app.canvas.materials = (() => {
       z: position.z - drawDistance,
     })
 
+    // Sort back-to-front
+    for (const material of materials) {
+      material.distance = engine.utility.distance(position, material)
+    }
+
+    materials.sort((a, b) => b.distance - a.distance)
+
+    // Draw
     for (const material of materials) {
       // Offset coordinates by a slight vertical bouncing effect
       const phase = getPhase(material.token)
