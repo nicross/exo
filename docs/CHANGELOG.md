@@ -1,5 +1,6 @@
 # E.X.O. Changelog
-## v1.x.x
+
+## v1.2.0
 - Graphics
   - Added variable radius to stars
   - Improved performance of terrain rendering
