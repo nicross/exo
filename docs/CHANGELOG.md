@@ -11,6 +11,7 @@
   - Reduced year duration from 30 to 22 minutes
 - User interface
   - Fixed formatting of coordinates on Status screen
+  - Improved accessibility of tables in manual
 - Miscellaneous
   - Upgraded to latest version of syngen
   - Upgraded desktop builds to Electron 13
