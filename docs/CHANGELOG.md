@@ -14,7 +14,7 @@
   - Improved accessibility of tables in manual
 - Miscellaneous
   - Upgraded to latest version of syngen
-  - Upgraded desktop builds to Electron 13
+  - Upgraded desktop builds to Electron 27
 
 ## v1.1.0
 - Accessibility
