@@ -2,6 +2,12 @@
 Exoskeletal exomoon explorer submitted to [No Video Jam 2](https://itch.io/jam/no-video-jam-2).
 Developed with [syngen](https://github.com/nicross/syngen).
 
+## Now Available
+This game has been remade as part of [Periphery Synthetic EP](https://periphery-synthetic-ep.shiftbacktick.io).
+
+Survey a planetary system in an upgradable exosuit and uncover its mysterious past.
+This interactive EP offers a chill and non-violent metroidvania experience across otherworldly musical playgrounds.
+
 ## Getting started
 To get started, please  use [npm](https://nodejs.org) to install the required dependencies:
 ```sh

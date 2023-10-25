@@ -2,9 +2,11 @@
   background-color: rgba(0, 0, 0, 0);
   border: 1px solid #000000;
   color: #000000;
+  display: inline-block;
   letter-spacing: inherit;
   line-height: inherit;
   padding: 0.5em 0.75em;
+  text-decoration: none;
   transition: all 0.25s ease;
   transition-property: background-color, color;
 }
@@ -13,6 +15,7 @@
 .c-menuButton:hover {
   background-color: rgba(0, 0, 0, 1);
   color: #FFFFFF;
+  cursor: pointer;
 }
 .c-menuButton[aria-disabled="true"],
 .c-menuButton[disabled] {
@@ -26,3 +29,17 @@
    font-family: RobotoRegular;
    font-weight: 400;
  }
+
+.c-menuButton-secondary {
+  border: none;
+  padding: 0;
+}
+  .c-menuButton-secondary:active,
+  .c-menuButton-secondary:focus,
+  .c-menuButton-secondary:hover {
+    background-color: transparent;
+    color: #000000;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-style: dashed;
+  }

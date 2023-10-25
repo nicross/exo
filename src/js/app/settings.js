@@ -1,5 +1,9 @@
 app.settings = (() => {
   const settings = {
+    acknowledgePeripherySynthetic: {
+      compute: (rawValue) => Boolean(rawValue),
+      default: false,
+    },
     drawDistance: {
       compute: (rawValue) => Math.round(engine.utility.lerp(25, 100, rawValue)),
       default: 1,

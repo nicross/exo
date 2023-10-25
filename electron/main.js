@@ -1,4 +1,4 @@
-const {app, BrowserWindow, ipcMain} = require('electron')
+const {app, BrowserWindow, ipcMain, shell} = require('electron')
 
 const os = require('os'),
   package = require('../package.json'),
@@ -28,6 +28,7 @@ function createWindow() {
     }
   })
 
+  // Handle permission requests
   mainWindow.webContents.session.setPermissionRequestHandler((webContents, permission, callback) => {
     switch (permission) {
       case 'midi':
@@ -38,11 +39,26 @@ function createWindow() {
     callback(false)
   })
 
-  mainWindow.loadFile('public/index.html')
+  // Handle new windows
+  mainWindow.webContents.setWindowOpenHandler(({url}) => {
+    if (url.startsWith('https:')) {
+      shell.openExternal(url)
+    }
 
+    return {
+      action: 'deny',
+    }
+  })
+
+  // Prevent shortcuts like Ctrl+W (close) or Ctrl+R (refresh)
+  mainWindow.removeMenu()
+
+  // Garbage collect when window closes
   mainWindow.on('closed', function () {
     mainWindow = null
   })
+
+  mainWindow.loadFile('public/index.html')
 }
 
 app.on('ready', () => {
