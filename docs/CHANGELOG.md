@@ -12,6 +12,7 @@
 - User interface
   - Fixed formatting of coordinates on Status screen
   - Improved accessibility of tables in manual
+  - Redesigned application icon
   - Added dismissible ad for Periphery Synthetic EP
 - Miscellaneous
   - Upgraded to latest version of syngen
